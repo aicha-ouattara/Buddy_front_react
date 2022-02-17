@@ -2,9 +2,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 // import { GlobalContext } from '../context/Provider';
 import BucketForm from '../components/BucketForm';
-import { API_URL, BUDDY_URL } from "@env" ;
 import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
+import {API_URL} from '@env';
 
 const Experience = ({route, navigation}) => {
 

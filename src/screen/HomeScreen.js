@@ -36,7 +36,7 @@ function HomeScreen({ navigation }) {
               navigation.navigate("Login");
             }}
           />
-          <SliderHome />
+          {/* <SliderHome /> */}
         </View>
       </ImageBackground>
     </View>

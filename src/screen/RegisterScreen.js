@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
-import { API_URL } from "@env";
+import {API_URL} from '@env';
 
 //import { genericFetchUsers } from '../api/fetchApi';
 

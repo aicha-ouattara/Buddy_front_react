@@ -41,7 +41,8 @@ function ProtectedScreen() {
       }} />
 
 
-      <Tab.Screen name="Search" component={SearchScreen} options= {{
+      <Tab.Screen name="Search" component={SearchScreen} 
+      options= {{
 
         tabBarIcon: ({focused}) => (
 

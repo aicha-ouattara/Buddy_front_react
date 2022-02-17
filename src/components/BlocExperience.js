@@ -1,34 +1,40 @@
-import React, {useState} from 'react';
-import { View, Text, Image, SafeAreaView, ScrollView, TextInput, Title, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 
 
 const BlocExperience = ({experience, user, navigation}) => {
-  experience&&console.log(experience);
+  // experience&&console.log(experience);
 
   
     return (
       <View  style={styles.box}>
         <Image style={styles.tinyLogo} source={require('../../assets/exemple_ville.jpeg')}/>
-         <Text>id = {experience.id}</Text>
-         <Text onPress={() => {navigation.navigate('Experience', {id:experience.id})}}>title = {experience.title}</Text>
-         <Text onPress={() => {navigation.navigate('User', {id : user.id})}} >by = {user.login}</Text>
+        <View style={styles.blocText}>
+          <Text onPress={() => {navigation.navigate('Experience', {id : experience.id})}}>id : {experience.id} | {experience.title}</Text>
+          <Text onPress={() => {navigation.navigate('User', {id : user.id})}} >Local Buddy : {user.login}</Text>
+          <Text >Description : {experience.content}</Text>
+        </View>
        </View>
   );
 }
   
-
+const styles = StyleSheet.create({
   tinyLogo: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
+    borderRadius: 10,
   },
 
   box: {
+    flexDirection: "row",
+    marginTop: 20
+  },
 
-   borderColor: "black",
-
-    borderWidth: 1,
-
+  blocText: {
+    marginLeft: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
 
 });
