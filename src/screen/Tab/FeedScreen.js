@@ -50,6 +50,7 @@ function FeedScreen({ navigation }) {
       flex: 1,
       justifyContent: 'center',
       alignContent: 'center',
+      margin: 10,
     }}>
       {/* {console.log(experiences)} */}
       {isLoading ? <Text style={{textAlign: "center"}}> Loading ... </Text> :
