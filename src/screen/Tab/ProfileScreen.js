@@ -5,9 +5,11 @@ import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-pape
 import BlocExperience from '../../components/BlocExperience';
 import FormModal from '../../components/FormModal';
 import Experience from '../Experience';
-import { API_URL } from "@env" ;
+import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import Interaction from '../../components/BlocInterest';
+
 
 function ProfileScreen({navigation}) 
 {
@@ -75,7 +77,7 @@ function AllMyExperiences({navigation}) {
 
   
   return (
-    <View style={{ flex:1, backgroundColor: 'white' }}>
+    <View >
       
       <ScrollView>
         
@@ -85,10 +87,17 @@ function AllMyExperiences({navigation}) {
              
               user.experiences && user.experiences.map(experience => 
 
-                <View >
-                  <BlocExperience navigation={navigation} key={experience.id} experience={experience} user= {user}/>
-               
-          </View>
+                <View style={styles.containerExperiences}>
+                  <View style={styles.containerExperience}>
+                    <Image  style={{ width: 50, height: 50, borderRadius:10, marginRight:30}} source={require('../../../assets/exemple_ville.jpeg')}/>
+                    <BlocExperience navigation={navigation} key={experience.id} experience={experience} user= {user}/>
+                  </View>
+                  <View style={styles.containerImages}>
+                    <Image  style={{ width: 25, height: 25}} source={require('../../../assets/visible.png')}/>
+                    <Image  style={{ width: 25, height: 25}} source={require('../../../assets/trashcan.png')}/>
+                    <Image  style={{ width: 25, height: 25}} source={require('../../../assets/update.png')}/>
+                  </View>
+                </View>
             )
           
            
@@ -106,7 +115,7 @@ function AllMyExperiences({navigation}) {
 
 
 
-/*toutes mes intéractions */
+/*toutes mes interractions */
 
 function AllMyInteractions({navigation}) {
 
@@ -145,14 +154,24 @@ function AllMyInteractions({navigation}) {
 
 
   return (
-    <View style={{ flex:1, backgroundColor: 'white' }}>
+    <View>
           {isLoading ? <Text> Loading ... </Text> : 
             (
              
             user.experiences && user.experiences.map(experience => 
-       
-                <BlocExperience navigation={navigation} key={experience.id} experience={experience} user= {user}/>
-           
+              experience.interests.length >= 1 &&
+             
+          <View style={styles.containerExperiences}>
+            <View style={styles.containerExperience}>
+              <Image  style={{ width: 50, height: 50, borderRadius:10, marginRight:30}} source={require('../../../assets/exemple_ville.jpeg')}/>
+              <BlocExperience navigation={navigation} key={experience.id} experience={experience} user= {user} />
+              <Interaction/>
+            </View>
+            <View style={styles.containerImages}>
+         
+
+            </View>
+           </View>
             
             )
           
@@ -254,13 +273,37 @@ function MyProfileInfos() {
 
 
 const styles = StyleSheet.create({
-  container: {
+
+
+
+  containerExperiences: {
     flex: 1,
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    backgroundColor: "#a3def8",
     padding: 20,
     margin: 10,
+    borderRadius: 20,
   },
+
+  containerExperience:{
+    flex: 0.6,
+    flexDirection: "row",
+    justifyContent: 'space-between',
+  },
+
+  containerImages: {
+    flex: 0.4,
+    flexDirection: "row",
+    justifyContent: 'space-between',
+  },
+  // containerInterractions:{
+  //   flex: 1,
+  //   justifyContent: "space-between",
+  //   backgroundColor: "#a3def8",
+  //   padding: 20,
+  //   margin: 10,
+  // },
 
      
     profil: {

@@ -5,7 +5,7 @@ import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-pape
 import BlocExperience from '../../components/BlocExperience';
 import FormModal from '../../components/FormModal';
 import Experience from '../Experience';
-import { API_URL } from "@env" ;
+import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 
@@ -73,7 +73,7 @@ function MyBucketlist({navigation}) {
     console.log(user);
 
 
-function DeleteInterest(id){
+
     
   useEffect(() => {
     setIsLoading(true)
@@ -86,7 +86,7 @@ function DeleteInterest(id){
   console.log(user);
 
     //alert(id);
-}
+
   return (
     <View style={{ flex:1, backgroundColor: 'white' }}>
 

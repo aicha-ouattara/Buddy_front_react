@@ -18,7 +18,7 @@ const getHeaders = async () => {
 export const post = async (destination, body) => {
   const headers = await getHeaders();
 
-  const result = await fetch('http://10.0.0.33:8000/api/experiences', {
+  const result = await fetch('http://10.0.1.238:8000/api/experiences', {
     method: 'POST',
     headers,
     body: JSON.stringify(body),
@@ -35,7 +35,7 @@ export const post = async (destination, body) => {
 export const get = async (destination) => {
   const headers = await getHeaders();
 
-  const result = await fetch('http://10.0.0.33:8000/api/login', {
+  const result = await fetch('http://10.0.1.238:8000/api/login', {
     method: 'GET',
     headers,
   });

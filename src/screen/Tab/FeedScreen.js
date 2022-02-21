@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, FlatList, StatusBar, Text, Button, TextInput } from 'react-native';
 // import { GlobalContext } from '../context/Provider';
-import { API_URL } from "@env" ;
+import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import BlocExperience from '../../components/BlocExperience';
@@ -14,8 +14,8 @@ function FeedScreen({navigation})
 {
 /*récupère token automatiquement */
   const body = JSON.stringify({
-    "login": "test",
-    "password": "test"
+    "login": "kevin",
+    "password": "kevin"
 })
   const [isLoading, setIsLoading] = useState(true);
   const [experiences, setExperiences] = useState([]);

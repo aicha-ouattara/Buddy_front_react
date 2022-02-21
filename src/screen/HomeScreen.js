@@ -9,7 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { GlobalContext } from "../context/Provider";
-import SliderHome from "../components/SliderHome";
+//import SliderHome from "../components/SliderHome";
 
 function HomeScreen({ navigation }) {
   const state = useContext(GlobalContext);
@@ -36,7 +36,7 @@ function HomeScreen({ navigation }) {
               navigation.navigate("Login");
             }}
           />
-          <SliderHome />
+          {/* <SliderHome /> */}
         </View>
       </ImageBackground>
     </View>

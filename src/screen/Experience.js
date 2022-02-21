@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 // import { GlobalContext } from '../context/Provider';
 import BucketForm from '../components/BucketForm';
-import { API_URL, BUDDY_URL } from "@env" ;
+import {API_URL} from '@env';
 import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
 
@@ -11,8 +11,8 @@ const Experience = ({route, navigation}) => {
     // const state = useContext(GlobalContext);
 
     const body = JSON.stringify({
-      "login": "test",
-      "password": "test"
+      "login": "kevin",
+      "password": "kevin"
   })
     const [isLoading, setIsLoading] = useState(true);
     const [experience, setExperience] = useState([]);
@@ -86,6 +86,7 @@ const Experience = ({route, navigation}) => {
           source={require('../../assets/doubleheart.png')}
           />  
           {experience.interests.length} intéréssés
+          
           </Text>
 
             <Text>

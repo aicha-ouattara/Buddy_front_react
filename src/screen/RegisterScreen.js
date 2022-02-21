@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
-import { API_URL } from "@env";
+import {API_URL} from '@env';
 
 //import { genericFetchUsers } from '../api/fetchApi';
 
@@ -70,7 +70,7 @@ function RegisterScreen({ navigation }) {
         email: userEmail,
         telephone: parseInt(userPhone),
       });
-      genericFetch("http://10.0.4.187:8000/api/users", "POST", body)
+      genericFetch("http://10.0.1.238:8000/api/users", "POST", body)
         .then((json) => {
           console.log(json);
           navigation.navigate("Login");

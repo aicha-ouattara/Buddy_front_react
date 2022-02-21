@@ -3,7 +3,7 @@ import {ActivityIndicator, StyleSheet, TouchableOpacity, ScrollView, Text, TextI
 // import { GlobalContext } from '../context/Provider';
 import NumberPlease from "react-native-number-please";
 import SelectDropdown from 'react-native-select-dropdown'
-import { API_URL } from "@env" ;
+import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithTokenBody } from '../../api/fetchApiWithTokenBody';
 
