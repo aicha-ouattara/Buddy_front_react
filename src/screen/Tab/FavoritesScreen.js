@@ -12,8 +12,40 @@ import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 
 function FavoritesScreen({navigation}) 
 {
+ /*récupère token automatiquement */
+ const body = JSON.stringify({
+  "login": "kevin",
+  "password": "kevin"
+})
+
+const [isLoading, setIsLoading] = useState(true);
+const [user, setUser] = useState([]);
+const [token, setToken] = useState("");
+
+useEffect(() => {
+  genericFetch(`${API_URL}/login`, 'POST', body) 
+  .then(json => json.json())
+  .then(data => setToken(data.token))
+  .catch(error => console.error(error))
+}, [])
+
+
+useEffect(() => {
+  setIsLoading(true)
+  genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
+  .then(json => json.json())
+  .then(data => setUser(data))
+  .catch(error => console.error(error))
+  .finally(() => setIsLoading(false))
+}, [token])
+
 
   
+const deleteId = (id) => {
+  genericFetchWithToken(`${API_URL}/interests/${id}`, 'DELETE', token)
+  console.log('intérêt supprimé !')
+}
+
 
   return (
 /*création de la 3 colonnes du profil */
@@ -44,47 +76,6 @@ function MyBucketlist({navigation}) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
-    /*récupère token automatiquement */
-    const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
-  })
-    const [isLoading, setIsLoading] = useState(true);
-    const [user, setUser] = useState([]);
-    const [token, setToken] = useState("");
-    //const [plan, setPlan] = useState({ id: "plan", value: 1 });
-  
-    useEffect(() => {
-      genericFetch(`${API_URL}/login`, 'POST', body) 
-      .then(json => json.json())
-      .then(data => setToken(data.token))
-      .catch(error => console.error(error))
-    }, [])
-
-  
-    useEffect(() => {
-      setIsLoading(true)
-      genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
-      .then(json => json.json())
-      .then(data => setUser(data))
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false))
-    }, [token])
-    console.log(user);
-
-
-
-
-
-
-    // const deleteId = (id) => {
-    //   genericFetchWithToken(`${API_URL}/interests/${id}`, 'DELETE', token)
-    //   console.log('intérêt supprimé !')
-    // }
-   
-   
-
-    //alert(id);
 
   return (
     <View style={{ flex:1, backgroundColor: 'white' }}>
@@ -100,12 +91,10 @@ function MyBucketlist({navigation}) {
                   interest.plan == 0 && 
                   <>
               <BlocExperience navigation={navigation} key={interest.id} experience={interest.experience} user= {user} />
-              {/* <Text onClick={() => deleteId(interest.id)} key={interest.id}>
-                  <Image style={{ width: 25, height: 25}}
-                  source={require('../../../assets/heart.png')}    /> 
-            </Text> */}
-               
+         
                 </>
+                /*<><Text onClick={() => deleteId(interest.id)} key={interest.id}>
+                   </> */
             )
         
            
@@ -129,34 +118,7 @@ function MyToDoNow({navigation}) {
 
   const goTo = useTabNavigation();
   const index = useTabIndex();
-    /*récupère token automatiquement */
-    const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
-  })
-
-    const [isLoading, setIsLoading] = useState(true);
-    const [user, setUser] = useState([]);
-    const [token, setToken] = useState("");
-    
-    useEffect(() => {
-      genericFetch(`${API_URL}/login`, 'POST', body) 
-      .then(json => json.json())
-      .then(data => setToken(data.token))
-      .catch(error => console.error(error))
-    }, [])
-  
-  
-    useEffect(() => {
-      setIsLoading(true)
-      genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
-      .then(json => json.json())
-      .then(data => setUser(data))
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false))
-    }, [token])
-
-
+   
   return (
     <View>
     {isLoading ? <Text> Loading ... </Text> : 
