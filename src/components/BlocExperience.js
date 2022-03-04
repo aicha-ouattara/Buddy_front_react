@@ -13,7 +13,9 @@ const BlocExperience = ({experience, user, navigation}) => {
          <Text>id = {experience.id}</Text>
          <Text onPress={() => {navigation.navigate('Experience', {id:experience.id})}}>title = {experience.title}</Text>
          <Text onPress={() => {navigation.navigate('User', {id : user.id})}} >by = {user.login}</Text>
+         
        </View>
+      
   );
 }
   

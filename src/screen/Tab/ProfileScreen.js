@@ -8,7 +8,7 @@ import Experience from '../Experience';
 import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import Interaction from '../../components/BlocInterest';
+
 
 
 function ProfileScreen({navigation}) 
@@ -150,37 +150,31 @@ function AllMyInteractions({navigation}) {
 
   
      
-   
+    return (
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+  
+        <Title style={{ textAlign: 'center', paddingTop: 10 }}>ALL USER REVIEWS</Title>
+  
+        <ScrollView>
+  
+          <View >
+            {
+              user.experiences && user.experiences.map(experience =>
+                experience.interests.map(
+                  // experience.interests.length >= 1 &&
+                  interest => <BlocInterest navigation={navigation} key={interest.id} review={interest} />
+                )
+              )}
+          </View>
+  
+        </ScrollView>
+  
+      </View>
+    );
 
 
-  return (
-    <View>
-          {isLoading ? <Text> Loading ... </Text> : 
-            (
-             
-            user.experiences && user.experiences.map(experience => 
-              experience.interests.length >= 1 &&
-             
-          <View style={styles.containerExperiences}>
-            <View style={styles.containerExperience}>
-              <Image  style={{ width: 50, height: 50, borderRadius:10, marginRight:30}} source={require('../../../assets/exemple_ville.jpeg')}/>
-              <BlocExperience navigation={navigation} key={experience.id} experience={experience} user= {user} />
-              <Interaction/>
-            </View>
-            <View style={styles.containerImages}>
-         
+ 
 
-            </View>
-           </View>
-            
-            )
-          
-           
-            )}
-
-
-  </View>
-  );
 }
 
 /*mon profil persod + possibilité de modif de ce dernier */
