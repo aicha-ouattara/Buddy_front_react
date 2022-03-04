@@ -74,16 +74,15 @@ function MyBucketlist({navigation}) {
 
 
 
-    
-  useEffect(() => {
-    setIsLoading(true)
-    genericFetchWithToken(`${API_URL}/interests/{$id}`, 'DELETE', token) 
-    .then(json => json.json())
-    .then(data => setUser(data))
-    .catch(error => console.error(error))
-    .finally(() => setIsLoading(false))
-  }, [token])
-  console.log(user);
+
+
+
+    // const deleteId = (id) => {
+    //   genericFetchWithToken(`${API_URL}/interests/${id}`, 'DELETE', token)
+    //   console.log('intérêt supprimé !')
+    // }
+   
+   
 
     //alert(id);
 
@@ -98,15 +97,14 @@ function MyBucketlist({navigation}) {
             (
              
               user.interests && user.interests.map(interest => 
-             interest.plan == 0 && 
+                  interest.plan == 0 && 
                   <>
               <BlocExperience navigation={navigation} key={interest.id} experience={interest.experience} user= {user} />
-             
-               <Button onClick={()=>DeleteInterest(interest.id)}>
+              {/* <Text onClick={() => deleteId(interest.id)} key={interest.id}>
                   <Image style={{ width: 25, height: 25}}
                   source={require('../../../assets/heart.png')}    /> 
-              </Button>
-
+            </Text> */}
+               
                 </>
             )
         

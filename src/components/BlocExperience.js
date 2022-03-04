@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import { View, Text, Image, SafeAreaView, ScrollView, TextInput, Title, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 
 
 const BlocExperience = ({experience, user, navigation}) => {
-  experience&&console.log(experience);
+  // experience&&console.log(experience);
 
   
     return (
@@ -19,19 +19,24 @@ const BlocExperience = ({experience, user, navigation}) => {
   );
 }
   
-
 const styles = StyleSheet.create({
-
-  containerBlocExperience:{
-    flex: 0.6,
-    flexDirection: "column",
-    justifyContent: 'space-between',
+  tinyLogo: {
+    width: 70,
+    height: 70,
+    borderRadius: 10,
   },
 
-  
+  box: {
+    flexDirection: "row",
+    marginTop: 20
+  },
 
+  blocText: {
+    marginLeft: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
 
 });
-
     
 export default BlocExperience;

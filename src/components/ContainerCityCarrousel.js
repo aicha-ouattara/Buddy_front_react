@@ -1,62 +1,86 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
+import { SafeAreaView, TouchableOpacity, View, FlatList, StyleSheet, Text, ImageBackground } from 'react-native';
 
-    const DATA = [
-        {
-          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          title: 'First Item',
-        },
-        {
-          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-          title: 'Second Item',
-        },
-        {
-          id: '58694a0f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Item',
-        },
-      ];
 
-      const Item = ({ title }) => (
-        <View style={styles.item}>
-          <Text style={styles.title}>{title}</Text>
-        </View>
-      );
-      
 
-    function ContainerCityCarrousel () {
+function ContainerCityCarrousel({ experiences, navigation }) {
 
-        const renderItem = ({ item }) => (
-            <Item title={item.title} />
-          );
+  function groupBy(objectArray, property) {
+    return Object.entries(objectArray.reduce(function (acc, obj) {
+      let key = obj[property]
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key].push(obj)
+      return acc
+    }, {}))
+  }
 
-        return ( 
-        
-        <SafeAreaView style={styles.container}>
-            <FlatList
-            horizontal={true}
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-            />
-          </SafeAreaView>)
-       
-    }
 
-    
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      marginTop: StatusBar.currentHeight || 0,
-    },
-    item: {
-      backgroundColor: '#f9c2ff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
-    title: {
-      fontSize: 32,
-    },
+  const locationsTemporary = groupBy(experiences, 'location')
+  const locations = locationsTemporary.sort(function (a, b) {
+    return b[1].length - a[1].length;
   });
 
-    export default ContainerCityCarrousel;
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.item} onPress={() => {navigation.navigate('Search',  {screen: 'Protected',
+    location: item[0]})}}>
+      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 20}} source={require('../../assets/exemple_ville.jpeg')} resizeMode="cover" >
+      <View style={styles.blocText}>
+        <View style={styles.text}>
+        <Text style={styles.title}>{item[0]}</Text>
+        <Text>{item[1].length} expérience.s</Text>
+        </View>
+      </View>
+      </ImageBackground>
+    </TouchableOpacity>
+  );
+
+
+  return (
+
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        horizontal={true}
+        data={locations}
+        renderItem={renderItem}
+        keyExtractor={item => item[0]}
+      />
+    </SafeAreaView>)
+
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  item: {
+    borderRadius: 50,
+    width: 150,
+    height: 150,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  blocText: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 20,
+  },
+  text: {
+    backgroundColor: '#fde2e1',
+    padding: 10,
+    textAlign: 'center'
+  }
+});
+
+export default ContainerCityCarrousel;

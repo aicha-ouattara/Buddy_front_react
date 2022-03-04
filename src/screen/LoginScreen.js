@@ -1,7 +1,6 @@
 import React, { useContext, useState, createRef, useEffect } from "react";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
-import {API_URL} from '@env';
 import {
   StyleSheet,
   TextInput,
@@ -16,7 +15,7 @@ import {
 } from "react-native";
 
 import * as SecureStore from "expo-secure-store";
-
+import {API_URL} from '@env';
 //import Loader from './Components/Loader';
 
 function LoginScreen({ navigation }) {
@@ -47,19 +46,19 @@ function LoginScreen({ navigation }) {
       login: userLogin,
       password: userPassword,
     });
-    genericFetch("http://10.0.1.238:8000/api/login", "POST", body)
-         .then((json) => {
-           setToken(json.token);
-           console.log(json);
-           navigation.navigate("Protected");
-       })
+    genericFetch(`${API_URL}/login`, "POST", body)
+        .then((json) => {
+          setToken(json.token);
+          console.log(json);
+          navigation.navigate("Protected");
+        })
       // .then((response) => response.json())
       // .then((retour) => {
       //   console.log(retour);
       //   //let storeToken = retour.token;
       //   //let key = "token";
       //   save("token", retour.token);
-      //})
+      // })
       .catch((error) => {
         console.error("error", error);
         setToken("");
@@ -112,13 +111,12 @@ function LoginScreen({ navigation }) {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={
-                (handleSubmitPress
-                // async () => {
-                //   let result = await SecureStore.getItemAsync("token");
-                //   await console.log("result", result);
-                //   navigation.navigate("Protected", { setToken });
-                // }
-                )
+                (handleSubmitPress,
+                async () => {
+                  // let result = await SecureStore.getItemAsync("token");
+                  // await console.log("result", result);
+                  navigation.navigate("Protected", { setToken });
+                })
               }
             >
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
