@@ -123,13 +123,13 @@ function UserProfileInfos({navigation, user}) {
       
       <Title style={{textAlign: 'center', paddingTop: 10}}>PROFILE INFOS</Title>
 
-      <View style={styles.container}>
-        <View style={styles.profil}> 
+      <View >
+        <View > 
         <Image style={{ width: 50, height: 50}}
         source={require('../../../assets/profil.png')}
         />  
 
-          <View style={styles.profiltop}>
+          <View >
           <Text>id {user.id} </Text>
              <Text>Login {user.login} </Text>
              <Text>Date d'inscription {user.created_at} </Text>
