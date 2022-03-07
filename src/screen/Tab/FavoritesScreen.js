@@ -3,148 +3,126 @@ import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button, To
 import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
 import BlocExperience from '../../components/BlocExperience';
-import FormModal from '../../components/FormModal';
-import Experience from '../Experience';
+import BlocInterest from '../../components/BlocInterest';
 import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 
-
-function FavoritesScreen({navigation}) 
+function FavoritesScreen({navigation, route}) 
 {
- /*récupère token automatiquement */
- const body = JSON.stringify({
-  "login": "kevin",
-  "password": "kevin"
+
+  const body = JSON.stringify({
+    "login": "kevin",
+    "password": "kevin"
 })
-
-const [isLoading, setIsLoading] = useState(true);
-const [user, setUser] = useState([]);
-const [token, setToken] = useState("");
-
-useEffect(() => {
-  genericFetch(`${API_URL}/login`, 'POST', body) 
-  .then(json => json.json())
-  .then(data => setToken(data.token))
-  .catch(error => console.error(error))
-}, [])
-
-
-useEffect(() => {
-  setIsLoading(true)
-  genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
-  .then(json => json.json())
-  .then(data => setUser(data))
-  .catch(error => console.error(error))
-  .finally(() => setIsLoading(false))
-}, [token])
-
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState([]);
+  const [token, setToken] = useState("");
   
-const deleteId = (id) => {
-  genericFetchWithToken(`${API_URL}/interests/${id}`, 'DELETE', token)
-  console.log('intérêt supprimé !')
-}
+  useEffect(() => {
+    genericFetch(`${API_URL}/login`, 'POST', body) 
+    .then(json => json.json())
+    .then(data => setToken(data.token))
+    .catch(error => console.error(error))
+  }, [])
 
+
+  useEffect(() => {
+    setIsLoading(true)
+    genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
+    .then(json => json.json())
+    .then(data => setUser(data))
+    .catch(error => console.error(error))
+    .finally(() => setIsLoading(false))
+  }, [token])
+  
+  console.log(user)
 
   return (
-/*création de la 3 colonnes du profil */
     
+    isLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Text> Loading ... </Text>  </View> : 
+      (
     <Tabs style={{backgroundColor: 'white'}}>
 
-
       <TabScreen label="BucketList"  >
-          <MyBucketlist navigation = {navigation} />
+          <BucketList user={user} navigation={navigation} />
       </TabScreen >
 
+
       <TabScreen label="ToDoNow">
-      <MyToDoNow navigation = {navigation} />
+          <ToDoNow user={user} navigation={navigation} />
       </TabScreen>
 
- 
-
     </Tabs>
-
+    ) 
+  
   )
 }
  
-
-
-/* La partie toutes mes expériences créées*/
-function MyBucketlist({navigation}) {
+function BucketList({navigation, user}) {
 
   const goTo = useTabNavigation();
   const index = useTabIndex();
-
 
   return (
     <View style={{ flex:1, backgroundColor: 'white' }}>
 
+      <Title style={{textAlign: 'center', paddingTop: 10}}>BUCKETLIST</Title>
+      
       <ScrollView>
         
-        <View>
-          
-        {isLoading ? <Text> Loading ... </Text> : 
-            (
-             
-              user.interests && user.interests.map(interest => 
-                  interest.plan == 0 && 
-                  <>
-              <BlocExperience navigation={navigation} key={interest.id} experience={interest.experience} user= {user} />
+          <View>
+          {(
          
-                </>
-                /*<><Text onClick={() => deleteId(interest.id)} key={interest.id}>
-                   </> */
-            )
-        
-           
-            )}
+          user.experiences && user.experiences.map(experience => 
+            experience.interests.map(
 
-
-            
-        </View>
-
-      </ScrollView>
-      
-      </View>
-  );
-}
-
-
-
-/*toutes mes intéractions */
-
-function MyToDoNow({navigation}) {
-
-  const goTo = useTabNavigation();
-  const index = useTabIndex();
-   
-  return (
-    <View>
-    {isLoading ? <Text> Loading ... </Text> : 
-        (
-         // &&  équivalent d'un if une fois uqe la condition est vérifiée !
-          user.interests && user.interests.map(interest => 
-
-            interest.plan == 1 && 
-            <>
-          <BlocExperience navigation={navigation} key={interest.id} experience={interest.experience} user= {user}/>
-          <Image style={{ width: 25, height: 25}}
-              source={require('../../../assets/doubleheart.png')}
-              /> 
-              
-              </>
+              interest =>
+              interest.plan == 0 && 
+              <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+              )
         )
+          )}
       
-       
-        )}
-
-
-        
+        </View>
+      
+      </ScrollView>
+    
     </View>
   );
 }
 
+function ToDoNow({navigation, user}) {
+  
+  const goTo = useTabNavigation();
+  const index = useTabIndex();
+
+  return (
+    <View style={{ flex:1, backgroundColor: 'white' }}>
+      
+    <Title style={{textAlign: 'center', paddingTop: 10}}>TO DO NOW</Title>
+
+    <ScrollView>
+
+      <View >
+      {(
+         
+         user.experiences && user.experiences.map(experience => 
+           experience.interests.map(
+
+             interest =>
+             interest.plan == 1 && 
+             <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+             )
+       )
+         )}
+      </View>
+
+    </ScrollView>
+
+  </View>
+  );
+}
 
 
 

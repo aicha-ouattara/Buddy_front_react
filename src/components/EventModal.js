@@ -19,7 +19,7 @@ const FormModal = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>UPDATE INFOS</Text>
-            <UpdateProfile/>
+            <UpdateEvent/>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}

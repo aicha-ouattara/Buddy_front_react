@@ -1,12 +1,15 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button } from 'react-native';
 import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
 import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
+import FormModal from '../../components/FormModal';
 import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import SwitchStatus from '../../components/SwitchStatus';
+// import EventModal from '../../components/EventModal';
 
 
 function Profile({navigation, route}) 
@@ -37,6 +40,12 @@ function Profile({navigation, route})
     .finally(() => setIsLoading(false))
   }, [token])
 
+
+
+
+
+ 
+
 console.log(user)
   return (
     
@@ -64,6 +73,8 @@ console.log(user)
  
 function AllExperiences({navigation, user}) {
 
+ 
+
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -76,7 +87,12 @@ function AllExperiences({navigation, user}) {
         
           <View>
           {user.experiences && user.experiences.map(experience => 
-          <BlocExperience navigation={navigation} key={experience.id} experience={experience} user={user}/>
+          <>
+           <BlocExperience navigation={navigation} key={experience.id} experience={experience} user={user}/>
+           {/* <Button onClick={() => deleteId(experience.id)} key={experience.id}>Supprimer</Button> */}
+            {/* <EventModal/> */}
+           {/* <SwitchStatus/> */}
+          </>
          )}
         </View>
       
@@ -87,7 +103,7 @@ function AllExperiences({navigation, user}) {
 }
 
 function AllInteractions({navigation, user}) {
-  
+
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -102,7 +118,14 @@ function AllInteractions({navigation, user}) {
         { 
          user.experiences && user.experiences.map(experience => 
             experience.interests.map(
-              interest => <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+                interest => 
+              <>      
+                <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+                  <Text>id = {interest.id}</Text>
+                  <Text>message = {interest.message}</Text>
+                  <Text>date = {interest.date}</Text>
+              </>
+    
               )
         )}
       </View>
@@ -139,6 +162,10 @@ function UserProfileInfos({navigation, user}) {
     
         <View>
            <Text> <Image source={require('../../../assets/ok.png')} />  Vérifications gmail, facebook, téléphone</Text>
+        </View>
+
+        <View>
+          <FormModal/>
         </View>
        
       </View>

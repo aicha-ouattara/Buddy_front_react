@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
-import { GlobalContext } from '../context/Provider';
+import { GlobalContext } from '../../context/Provider';
 import { API_URL } from "@env" ;
-import { genericFetch } from '../api/fetchApi';
-import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import {genericFetchWithTokenBody} from '../api/fetchApiWithTokenBody';
+import { genericFetch } from '../../api/fetchApi';
+import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import {genericFetchWithTokenBody} from '../../api/fetchApiWithTokenBody';
+
 
 //import { genericFetchUsers } from '../api/fetchApi';
 
