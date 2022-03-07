@@ -11,6 +11,7 @@ import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 function FavoritesScreen({navigation, route}) 
 {
 
+
   const body = JSON.stringify({
     "login": "kevin",
     "password": "kevin"
@@ -18,7 +19,7 @@ function FavoritesScreen({navigation, route})
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
-  
+
   useEffect(() => {
     genericFetch(`${API_URL}/login`, 'POST', body) 
     .then(json => json.json())
@@ -37,6 +38,7 @@ function FavoritesScreen({navigation, route})
   }, [token])
   
   console.log(user)
+
 
   return (
     
@@ -73,6 +75,7 @@ function BucketList({navigation, user}) {
         
           <View>
           {(
+
          
           user.experiences && user.experiences.map(experience => 
             experience.interests.map(
@@ -84,6 +87,7 @@ function BucketList({navigation, user}) {
         )
           )}
       
+
         </View>
       
       </ScrollView>
@@ -102,6 +106,7 @@ function ToDoNow({navigation, user}) {
       
     <Title style={{textAlign: 'center', paddingTop: 10}}>TO DO NOW</Title>
 
+
     <ScrollView>
 
       <View >
@@ -119,6 +124,7 @@ function ToDoNow({navigation, user}) {
       </View>
 
     </ScrollView>
+
 
   </View>
   );

@@ -12,7 +12,6 @@ const BlocExperience = ({experience, user, navigation}) => {
         <Image source={require('../../assets/exemple_ville.jpeg')}/>
          <Text onPress={() => {navigation.navigate('Experience', {id:experience.id})}}>title = {experience.title}</Text>
          <Text onPress={() => {navigation.navigate('User', {id : user.id})}} >by = {user.login}</Text>
-         
        </View>
       
   );

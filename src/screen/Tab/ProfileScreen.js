@@ -72,6 +72,11 @@ console.log(user)
 }
  
 function AllExperiences({navigation, user}) {
+  const deleteId = (id) => {
+    genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
+    console.log('expérience supprimée !')
+  }
+  
 
  
 
@@ -87,12 +92,14 @@ function AllExperiences({navigation, user}) {
         
           <View>
           {user.experiences && user.experiences.map(experience => 
+
           <>
            <BlocExperience navigation={navigation} key={experience.id} experience={experience} user={user}/>
            {/* <Button onClick={() => deleteId(experience.id)} key={experience.id}>Supprimer</Button> */}
             {/* <EventModal/> */}
            {/* <SwitchStatus/> */}
           </>
+
          )}
         </View>
       
@@ -118,6 +125,7 @@ function AllInteractions({navigation, user}) {
         { 
          user.experiences && user.experiences.map(experience => 
             experience.interests.map(
+
                 interest => 
               <>      
                 <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
@@ -125,10 +133,11 @@ function AllInteractions({navigation, user}) {
                   <Text>message = {interest.message}</Text>
                   <Text>date = {interest.date}</Text>
               </>
-    
+
               )
         )}
       </View>
+
 
     </ScrollView>
 
