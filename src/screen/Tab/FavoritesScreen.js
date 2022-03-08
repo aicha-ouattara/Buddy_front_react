@@ -98,7 +98,7 @@ function BucketList({navigation, user}) {
              
               <>   
                 <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
-                <Text onClick={() => deleteId(interest.id)} key={interest.id}>Delete  </Text>
+                {/* <Text onClick={() => deleteId(interest.id)} key={interest.id}>Delete  </Text> */}
              
        
               </>

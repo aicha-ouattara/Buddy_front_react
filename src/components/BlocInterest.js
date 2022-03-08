@@ -9,6 +9,7 @@ const BlocExperience = ({ interest, navigation, experience, user}) => {
       
        {(
          interest &&(
+           interest.plan == 1 &&
           interest.accepted == 0 && 
              <Text>Accepté</Text>
            )
@@ -17,6 +18,7 @@ const BlocExperience = ({ interest, navigation, experience, user}) => {
 
       {(
          interest &&(
+          interest.plan == 1 &&
           interest.accepted == 1 && 
           <Text>Refusé</Text>
          )
@@ -24,6 +26,7 @@ const BlocExperience = ({ interest, navigation, experience, user}) => {
 
        {(
         interest &&(
+          interest.plan == 1 &&
           interest.accepted == null && 
              <Text>En attente</Text>
          )
