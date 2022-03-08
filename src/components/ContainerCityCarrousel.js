@@ -44,7 +44,9 @@ function ContainerCityCarrousel({ experiences, navigation }) {
         horizontal={true}
         data={locations}
         renderItem={renderItem}
-        keyExtractor={item => item[0]}
+        keyExtractor={(item, index) => {
+          return item.id;
+        }}
       />
     </SafeAreaView>)
 
@@ -53,7 +55,6 @@ function ContainerCityCarrousel({ experiences, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     marginTop: 10,
     marginBottom: 10,
   },

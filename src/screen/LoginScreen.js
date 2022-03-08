@@ -77,17 +77,20 @@ function LoginScreen({ navigation }) {
       >
         <View>
           <KeyboardAvoidingView enabled>
-            <View style={{ alignItems: "center" }}></View>
+            <View style={{ alignItems: "center" }}>
+              <Text style={styles.titleStyle} >BUDDY UP</Text>
+            </View>
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={(UserLogin) => setUserLogin(UserLogin)}
                 placeholder="Enter login"
-                placeholderTextColor="#8b9cb5"
+                placeholderTextColor="#F5F5F5"
                 autoCapitalize="none"
                 keyboardType="default"
+                maxLength={50}
                 returnKeyType="next"
-                underlineColorAndroid="#f000"
+                underlineColorAndroid="white"
                 blurOnSubmit={false}
               />
             </View>
@@ -96,12 +99,13 @@ function LoginScreen({ navigation }) {
                 style={styles.inputStyle}
                 onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                 placeholder="Enter Password"
-                placeholderTextColor="#8b9cb5"
+                placeholderTextColor="#F5F5F5"
                 keyboardType="default"
                 blurOnSubmit={false}
                 secureTextEntry={true}
                 underlineColorAndroid="#f000"
                 returnKeyType="next"
+                maxLength={20}
               />
             </View>
             {errortext != "" && (
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#307ecc",
+    backgroundColor: "#f14d53",
     alignContent: "center",
   },
   SectionStyle: {
@@ -184,11 +188,10 @@ const styles = StyleSheet.create({
   inputStyle: {
     flex: 1,
     color: "white",
-    paddingLeft: 15,
-    paddingRight: 15,
+    padding: 15,
     borderWidth: 1,
     borderRadius: 30,
-    borderColor: "#dadae8",
+    borderColor: "#F5F5F5",
   },
   registerTextStyle: {
     color: "#FFFFFF",
@@ -199,8 +202,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   errorTextStyle: {
-    color: "red",
+    color: "white",
     textAlign: "center",
     fontSize: 14,
+  },
+  titleStyle: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });

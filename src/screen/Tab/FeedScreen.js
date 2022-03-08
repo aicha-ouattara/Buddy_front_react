@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, FlatList, StatusBar, Text, Button, TextInput } from 'react-native';
-// import { GlobalContext } from '../context/Provider';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import ContainerCityCarrousel from '../../components/ContainerCityCarrousel';
 import ContainerFeedExperience from '../../components/ContainerFeedExperience';
+import Loading from '../../components/Loading';
 import { API_URL } from '@env';
 
 function FeedScreen({ navigation }) {
@@ -43,22 +43,18 @@ function FeedScreen({ navigation }) {
     console.log('expérience supprimée !')
   }
 
-  // const state = useContext(GlobalContext);
 
   return (
-    <ScrollView contentContainerStyle={{
-      flex: 1,
-      justifyContent: 'center',
-      alignContent: 'center',
-      margin: 10,
-    }}>
+    <View style={styles.mainBody}>
+     
       {/* {console.log(experiences)} */}
-      {isLoading ? <Text style={{textAlign: "center"}}> Loading ... </Text> :
+      {isLoading ? <Loading/> : 
+
         experiences.length > 0 &&
-          <>
+           <ScrollView>
             <ContainerCityCarrousel experiences={experiences} navigation={navigation} />
             <ContainerFeedExperience experiences={experiences} navigation={navigation} />
-          </>
+            </ScrollView>
           /*<><Text onClick={() => deleteId(experience.id)} key={experience.id}>
             Title : { experience.title}</Text>
             Input new Title : 
@@ -70,10 +66,17 @@ function FeedScreen({ navigation }) {
             keyboardType="numeric"
           /> </> */
         }
-
-    </ScrollView>
+     
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  mainBody: {
+    flex: 1,
+    padding: 10
+  }
+});
 
 
 export default FeedScreen

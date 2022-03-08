@@ -22,10 +22,10 @@ export default function Nav() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Login" component={LoginScreen} />  
+                <Stack.Screen  options={{ headerShown: false}} name="Home" component={HomeScreen} />
+                <Stack.Screen  options={{ headerShown: false}} name="Login" component={LoginScreen} />  
                 <Stack.Screen name="Register" component={RegisterScreen} />  
-                <Stack.Screen name="Protected" component={ProtectedScreen} />  
+                <Stack.Screen  options={{ headerShown: false}} name="Protected" component={ProtectedScreen} />  
                 <Stack.Screen name="Experience" component={Experience} />
                 <Stack.Screen name="User" component={UserScreen} />
             </Stack.Navigator>
