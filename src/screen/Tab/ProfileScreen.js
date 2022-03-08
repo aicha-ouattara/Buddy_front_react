@@ -8,7 +8,7 @@ import FormModal from '../../components/FormModal';
 import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import SwitchStatus from '../../components/SwitchStatus';
+
 // import EventModal from '../../components/EventModal';
 
 
@@ -96,8 +96,7 @@ function AllExperiences({navigation, user}) {
           <>
            <BlocExperience navigation={navigation} key={experience.id} experience={experience} user={user}/>
            {/* <Button onClick={() => deleteId(experience.id)} key={experience.id}>Supprimer</Button> */}
-            {/* <EventModal/> */}
-           {/* <SwitchStatus/> */}
+      
           </>
 
          )}
