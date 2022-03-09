@@ -72,7 +72,7 @@ function FavoritesScreen({navigation, route})
   )
 }
  
-function BucketList({navigation, user}) {
+function BucketList({navigation, user, interest,}) {
 
   const goTo = useTabNavigation();
   const index = useTabIndex();
@@ -98,9 +98,6 @@ function BucketList({navigation, user}) {
              
               <>   
                 <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
-                {/* <Text onClick={() => deleteId(interest.id)} key={interest.id}>Delete  </Text> */}
-             
-       
               </>
               
  
@@ -139,6 +136,7 @@ function ToDoNow({navigation, user}) {
              interest =>
              interest.plan == 1 && 
              <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+             
              )
        )
          )}

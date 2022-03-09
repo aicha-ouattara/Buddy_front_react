@@ -8,6 +8,7 @@ import FormModal from '../../components/FormModal';
 import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import UpdateEventModal from '../../components/UpdateEventModal';
 
 // import EventModal from '../../components/EventModal';
 
@@ -22,6 +23,7 @@ function Profile({navigation, route})
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
+  const [experiences, setExperiences] = useState([]);
   
   useEffect(() => {
     genericFetch(`${API_URL}/login`, 'POST', body) 
@@ -30,19 +32,33 @@ function Profile({navigation, route})
     .catch(error => console.error(error))
   }, [])
 
-
-  useEffect(() => {
-    setIsLoading(true)
+  const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
     .then(json => json.json())
     .then(data => setUser(data))
     .catch(error => console.error(error))
     .finally(() => setIsLoading(false))
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    fetchUser()
   }, [token])
 
+  const deleteId = (id, interestLength) => {
+    interestLength != 0 && 
+    console.log("interactions existantes")
+    //archivé et invisible
 
-
-
+    if(interestLength == 0 ){
+        genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
+         fetchUser()
+         console.log('expérience supprimée !')
+    } 
+       
+    
+ 
+  }
 
  
 
@@ -54,8 +70,9 @@ console.log(user)
     <Tabs style={{backgroundColor: 'white'}}>
 
       <TabScreen label="Experiences"  >
-          <AllExperiences user={user} navigation={navigation} />
+          <AllExperiences user={user} navigation={navigation} deleteId={(id, interestLength) => {deleteId(id, interestLength); fetchUser()}}/>
       </TabScreen >
+      
 
       <TabScreen label="Interactions">
       <AllInteractions user={user} navigation={navigation} />
@@ -71,17 +88,17 @@ console.log(user)
   )
 }
  
-function AllExperiences({navigation, user}) {
-  const deleteId = (id) => {
-    genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
-    console.log('expérience supprimée !')
-  }
-  
-
- 
+function AllExperiences({navigation, user, deleteId}) {
 
   const goTo = useTabNavigation();
   const index = useTabIndex();
+
+
+  // const deleteId = (id) => {
+  //   genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
+  //   console.log('expérience supprimée !')
+  // }
+
 
   return (
     <View style={{ flex:1, backgroundColor: 'white' }}>
@@ -94,9 +111,12 @@ function AllExperiences({navigation, user}) {
           {user.experiences && user.experiences.map(experience => 
 
           <>
-           <BlocExperience navigation={navigation} key={experience.id} experience={experience} user={user}/>
-           {/* <Button onClick={() => deleteId(experience.id)} key={experience.id}>Supprimer</Button> */}
-      
+        {  console.log(deleteId)}
+           <BlocExperience navigation={navigation} experience={experience} user={user}/>
+           <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
+{/* <Text>{experience.id}</Text> */}
+              <Image style={{ width: 25, height: 25}} source={require('../../../assets/trashcan.png')} />
+            </Text>
           </>
 
          )}

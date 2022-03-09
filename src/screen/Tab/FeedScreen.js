@@ -38,10 +38,10 @@ function FeedScreen({ navigation }) {
 
 
 
-  const deleteId = (id) => {
-    genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
-    console.log('expérience supprimée !')
-  }
+  // const deleteId = (id) => {
+  //   genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
+  //   console.log('expérience supprimée !')
+  // }
 
   // const state = useContext(GlobalContext);
 

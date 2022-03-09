@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
-import UpdateProfile from "../screen/Tab/UpdateProfile";
+import UpdateEvent from "../screen/Tab/UpdateEvent";
 
 
-const FormModal = () => {
+const UpdateEventModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FormModal;
+export default UpdateEventModal;

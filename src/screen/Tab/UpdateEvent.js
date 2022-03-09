@@ -58,6 +58,8 @@ function UpdateEvent({navigation})
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            experience && ( 
+            <Text key={experience.id}></Text>
           <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
@@ -65,7 +67,7 @@ function UpdateEvent({navigation})
             justifyContent: 'center',
             alignContent: 'center',
           }}>
-            <Text>UPDATE EVENT</Text>
+            <Text>ADD</Text>
             <View>
             <TextInput
                   placeholder={experience.title} 
@@ -81,7 +83,7 @@ function UpdateEvent({navigation})
                 />
 
             <TextInput
-                  placeholder={experience.content} 
+                  placeholder={experience.content}
                   onChangeText={(content) =>
                     setContent(content)
                   }
@@ -100,7 +102,7 @@ function UpdateEvent({navigation})
       />
 
             <TextInput
-                  placeholder={experience.location} 
+                  placeholder={experience.location}
                   onChangeText={(location) =>
                     setLocation(location)
                   }
@@ -114,6 +116,7 @@ function UpdateEvent({navigation})
 
 <SelectDropdown
 	data={["< 1 hour", "1-2 hours", "half day", "whole day"]}
+  placeholder={experience.duration}
 	onSelect={(selectedItem) => {
 		setDuration(selectedItem)
 	}}
@@ -133,7 +136,7 @@ function UpdateEvent({navigation})
               </TouchableOpacity>
             </View>
             </ScrollView>
-
+            )
          </View>
     );
   }
