@@ -47,8 +47,7 @@ function Profile({navigation, route})
 
   const deleteId = (id, interestLength) => {
     interestLength != 0 && 
-    console.log("interactions existantes")
-    //archivé et invisible
+    console.log(interestLength)
 
     if(interestLength == 0 ){
         genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)

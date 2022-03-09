@@ -29,23 +29,30 @@ function FavoritesScreen({navigation, route})
   }, [])
 
 
-  useEffect(() => {
-    setIsLoading(true)
+ 
+  const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
     .then(json => json.json())
     .then(data => setUser(data))
     .catch(error => console.error(error))
     .finally(() => setIsLoading(false))
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    fetchUser()
   }, [token])
 
   const deleteId = (id) => {
-    genericFetchWithToken(`${API_URL}/interests/${id}`, 'DELETE', token)
-    .then(json => json.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error))
-    console.log('intérêt supprimé !')
-  }
+        genericFetchWithToken(`${API_URL}/interests/${id}`, 'DELETE', token)
+         fetchUser()
+         console.log('intéret supprimé !')
+
+       
+    
  
+  }
+
   
   
   console.log(user)
@@ -58,12 +65,12 @@ function FavoritesScreen({navigation, route})
     <Tabs style={{backgroundColor: 'white'}}>
 
       <TabScreen label="BucketList"  >
-          <BucketList user={user} navigation={navigation} />
+          <BucketList user={user} navigation={navigation} deleteId={(id) => {deleteId(id); fetchUser()}}/>
       </TabScreen >
 
 
       <TabScreen label="ToDoNow">
-          <ToDoNow user={user} navigation={navigation} />
+          <ToDoNow user={user} navigation={navigation} deleteId={(id) => {deleteId(id); fetchUser()}}/>
       </TabScreen>
 
     </Tabs>
@@ -72,7 +79,7 @@ function FavoritesScreen({navigation, route})
   )
 }
  
-function BucketList({navigation, user, interest,}) {
+function BucketList({navigation, user, deleteId,}) {
 
   const goTo = useTabNavigation();
   const index = useTabIndex();
@@ -97,7 +104,8 @@ function BucketList({navigation, user, interest,}) {
               interest.plan == 0 && 
              
               <>   
-                <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+                <BlocInterest navigation={navigation} interest={interest} experience={experience} user={user}/>
+                <Text onClick={() => deleteId(interest.id)} key={interest.id} >Delete</Text>
               </>
               
  
@@ -114,7 +122,7 @@ function BucketList({navigation, user, interest,}) {
   );
 }
 
-function ToDoNow({navigation, user}) {
+function ToDoNow({navigation, user, deleteId}) {
   
   const goTo = useTabNavigation();
   const index = useTabIndex();
@@ -135,7 +143,11 @@ function ToDoNow({navigation, user}) {
 
              interest =>
              interest.plan == 1 && 
-             <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+             <>
+              <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+              <Text onClick={() => deleteId(interest.id)} key={interest.id} >Delete</Text>
+             </>
+            
              
              )
        )
