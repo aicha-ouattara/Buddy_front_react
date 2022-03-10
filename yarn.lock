@@ -4562,10 +4562,17 @@
     "lodash.find" "^4.6.0"
     "lodash.findindex" "^4.6.0"
 
+<<<<<<< Updated upstream
 "react-native-pager-view@*", "react-native-pager-view@^5.4.11":
   "integrity" "sha512-4QlBL5W8yVjeYwrw89oCdABI7sDxIGapFQvIbukfB5mAj1Zn1IQPkBqROLblNFtQ8PbAeexXRgDT1ENWygiJ7A=="
   "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.11.tgz"
   "version" "5.4.11"
+=======
+"react-native-pager-view@*", "react-native-pager-view@^5.4.9":
+  "integrity" "sha512-D6tzxpwMGdl6CXgtskGWhKRc5cJakCazESRGt7PkqnpyiH3N35ft1KmR82pCSQetAFlytFiToeu3a/dG5CELvA=="
+  "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.9.tgz"
+  "version" "5.4.9"
+>>>>>>> Stashed changes
 
 "react-native-paper-tabs@^0.7.0":
   "integrity" "sha512-TXz1G1hLJNvykJ57VhjKFVRgRDC2bxzb/bwPJ59POK9nGO0yD+Rx7+W5D0i5/ZQF1uKSV92IMv+eowd/BRM46Q=="
@@ -4594,10 +4601,17 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
+<<<<<<< Updated upstream
 "react-native-select-dropdown@^1.8.0":
   "integrity" "sha512-Sb2ETrh/cAVPncT0Lq9S+hDmilQ3CfMDo0jgkymPQJ5yBY0TMBfvgNTbiI3/Z/W8CLX/wV81BWOEQb5x2ogJfw=="
   "resolved" "https://registry.npmjs.org/react-native-select-dropdown/-/react-native-select-dropdown-1.8.0.tgz"
   "version" "1.8.0"
+=======
+"react-native-select-dropdown@^1.7.0":
+  "integrity" "sha512-zdHOHzrmWdNYLXuC+F1abbJhzUpBMgptWWOKN4gi3ge1gV3uPep/hpBznAUo7jHzObXQh6JHZP/AMmbg/1rWFA=="
+  "resolved" "https://registry.npmjs.org/react-native-select-dropdown/-/react-native-select-dropdown-1.7.0.tgz"
+  "version" "1.7.0"
+>>>>>>> Stashed changes
 
 "react-native-vector-icons@*":
   "integrity" "sha512-qKX5d5/TafHmI4B7UOSZCL3BAGh7ZfF30iLwRgxBkKfZl2lKSuHp8Ottj9OyWh9b5fFtlg+LtyvZrns3g2kh+w=="
