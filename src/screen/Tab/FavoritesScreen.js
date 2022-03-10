@@ -8,6 +8,11 @@ import {API_URL} from '@env';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function FavoritesScreen({navigation, route}) 
+import FormModal from '../../components/FormModal';
+import Experience from '../Experience';
+import {API_URL} from '@env';
+
+function FavoritesScreen({navigation}) 
 {
 
 

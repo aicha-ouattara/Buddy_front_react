@@ -8,6 +8,10 @@ import FormModal from '../../components/FormModal';
 import {API_URL} from '@env';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import UpdateEvent from '../../components/UpdateEvent';
+import Experience from '../Experience';
+import { genericFetch } from '../../api/fetchApi';
+import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import {API_URL} from '@env';
 
 function Profile({navigation, route}) 
 {

@@ -1,7 +1,6 @@
 import React, { useContext, useState, createRef, useEffect } from "react";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
-// import { API_URL } from "@env";
 import {API_URL} from "@env";
 
 import {
@@ -19,6 +18,8 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import * as SecureStore from "expo-secure-store";
+import {API_URL} from '@env';
 //import Loader from './Components/Loader';
 
 function LoginScreen({ navigation }) {
@@ -44,12 +45,23 @@ function LoginScreen({ navigation }) {
       login: userLogin,
       password: userPassword,
     });
-
     genericFetch(`${API_URL}/login`, "POST", body)
-      .then((json) => json.json())
-      .then((data) => setData(data.token));
-
-
+        .then((json) => {
+          setToken(json.token);
+          console.log(json);
+          navigation.navigate("Protected");
+        })
+      // .then((response) => response.json())
+      // .then((retour) => {
+      //   console.log(retour);
+      //   //let storeToken = retour.token;
+      //   //let key = "token";
+      //   save("token", retour.token);
+      // })
+      .catch((error) => {
+        console.error("error", error);
+        setToken("");
+      });
   };
 
 
@@ -79,17 +91,20 @@ function LoginScreen({ navigation }) {
         <View>
           <Text>{token}</Text>
           <KeyboardAvoidingView enabled>
-            <View style={{ alignItems: "center" }}></View>
+            <View style={{ alignItems: "center" }}>
+              <Text style={styles.titleStyle} >BUDDY UP</Text>
+            </View>
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={(UserLogin) => setUserLogin(UserLogin)}
                 placeholder="Enter login"
-                placeholderTextColor="#8b9cb5"
+                placeholderTextColor="#F5F5F5"
                 autoCapitalize="none"
                 keyboardType="default"
+                maxLength={50}
                 returnKeyType="next"
-                underlineColorAndroid="#f000"
+                underlineColorAndroid="white"
                 blurOnSubmit={false}
               />
             </View>
@@ -98,12 +113,13 @@ function LoginScreen({ navigation }) {
                 style={styles.inputStyle}
                 onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                 placeholder="Enter Password"
-                placeholderTextColor="#8b9cb5"
+                placeholderTextColor="#F5F5F5"
                 keyboardType="default"
                 blurOnSubmit={false}
                 secureTextEntry={true}
                 underlineColorAndroid="#f000"
                 returnKeyType="next"
+                maxLength={20}
               />
             </View>
             {errortext != "" && (
@@ -138,7 +154,7 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#307ecc",
+    backgroundColor: "#f14d53",
     alignContent: "center",
   },
   SectionStyle: {
@@ -170,11 +186,10 @@ const styles = StyleSheet.create({
   inputStyle: {
     flex: 1,
     color: "white",
-    paddingLeft: 15,
-    paddingRight: 15,
+    padding: 15,
     borderWidth: 1,
     borderRadius: 30,
-    borderColor: "#dadae8",
+    borderColor: "#F5F5F5",
   },
   registerTextStyle: {
     color: "#FFFFFF",
@@ -185,8 +200,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   errorTextStyle: {
-    color: "red",
+    color: "white",
     textAlign: "center",
     fontSize: 14,
+  },
+  titleStyle: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });

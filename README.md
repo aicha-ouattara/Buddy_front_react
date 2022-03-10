@@ -24,7 +24,7 @@ You need to download the Buddy API and launch it:
     http://127.0.0.1:8000/api
 
 
-## Launching
+## Launching the front 
 
 ### Install all packages 
     
