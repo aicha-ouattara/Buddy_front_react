@@ -1,11 +1,15 @@
-import React  from 'react';
-import { SafeAreaView, FlatList, StyleSheet, View} from 'react-native';
+import React from 'react';
+import { SafeAreaView, FlatList, StyleSheet, View } from 'react-native';
 import BlocExperience from './BlocExperience'
 
-function ContainerFeedExperience({ experiences, navigation }) {
+function ContainerFeedExperience({ experiences, navigation, userId}) {
 
   const renderItem = ({ item }) => (
-    <BlocExperience navigation={navigation} key={item.id} experience={item} user= {item.user} hasActions={true} />
+  
+      <BlocExperience navigation={navigation} key={item.id} 
+      experience={item} user={item.user} 
+      hasActions={true} userId={userId} />
+
   );
 
 
@@ -29,13 +33,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  box: {
-    flexDirection: "row",
-    marginTop: 20,
-    borderRadius: 10,
-    backgroundColor: "white",
-    padding: 10
-  },
+
 });
 
 export default ContainerFeedExperience;

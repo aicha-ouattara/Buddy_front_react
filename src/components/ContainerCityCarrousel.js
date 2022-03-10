@@ -1,10 +1,9 @@
 import React from 'react';
 import { SafeAreaView, TouchableOpacity, View, FlatList, StyleSheet, Text, ImageBackground } from 'react-native';
 
-
-
 function ContainerCityCarrousel({ experiences, navigation }) {
 
+  //group experiences by locations
   function groupBy(objectArray, property) {
     return Object.entries(objectArray.reduce(function (acc, obj) {
       let key = obj[property]
@@ -15,41 +14,41 @@ function ContainerCityCarrousel({ experiences, navigation }) {
       return acc
     }, {}))
   }
-
-
   const locationsTemporary = groupBy(experiences, 'location')
   const locations = locationsTemporary.sort(function (a, b) {
     return b[1].length - a[1].length;
   });
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item} onPress={() => {navigation.navigate('Search',  {screen: 'Protected',
-    location: item[0]})}}>
-      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 20}} source={require('../../assets/exemple_ville.jpeg')} resizeMode="cover" >
-      <View style={styles.blocText}>
-        <View style={styles.text}>
-        <Text style={styles.title}>{item[0]}</Text>
-        <Text>{item[1].length} expérience.s</Text>
+    <TouchableOpacity style={styles.item} onPress={() => {
+      navigation.navigate('Search', {
+        screen: 'Protected',
+        location: item[0]
+      })
+    }}>
+      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 20 }} source={require('../../assets/exemple_ville.jpeg')} resizeMode="cover" >
+        <View style={styles.blocText}>
+          <View style={styles.text}>
+            <Text style={styles.title}>{item[0]}</Text>
+            <Text>{item[1].length} expérience.s</Text>
+          </View>
         </View>
-      </View>
       </ImageBackground>
     </TouchableOpacity>
   );
 
 
   return (
-
     <SafeAreaView style={styles.container}>
       <FlatList
         horizontal={true}
         data={locations}
         renderItem={renderItem}
         keyExtractor={(item, index) => {
-          return item.id;
+          return index.toString();
         }}
       />
     </SafeAreaView>)
-
 }
 
 
