@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import ContainerFeedExperience from '../../components/ContainerFeedExperience';
 // import { GlobalContext } from '../context/Provider';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import { API_URL } from '@env';
 import { TextInput } from 'react-native-paper';
-
-
+import Loading from '../../components/Loading';
+import { useDebounce } from 'use-debounce/lib';
 const entryPoint = new URL(`${API_URL}/experiences`)
 const searchParams = new URLSearchParams(entryPoint.search)
 
@@ -17,14 +17,13 @@ function SearchScreen({ navigation, route }) {
 
 
   const [token, setToken] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
+  const [debouncedTitle] = useDebounce(title, 1000);
   const [location, setLocation] = useState('');
-
+  const [debouncedLocation] = useDebounce(location, 1000);
   const [searchParamsToString, setSearchParamsToString] = useState("")
   const [experiences, setExperiences] = useState([]);
-
-  //A FAIRE : debounce les inputs. changer la valeur de la ville.
 
   /*récupère token automatiquement */
   const body = JSON.stringify({
@@ -47,63 +46,77 @@ function SearchScreen({ navigation, route }) {
 
   //set les paramètres de query
   useEffect(() => {
-    if (title.length > 0) {
-      searchParams.set('title', title)
+    if (debouncedTitle.length > 0) {
+      searchParams.set('title', debouncedTitle)
       setSearchParamsToString(searchParams.toString())
     } else {
       searchParams.delete('title')
       setSearchParamsToString(searchParams.toString())
     }
-  }, [title])
+  }, [debouncedTitle])
 
   useEffect(() => {
-    if (location.length > 0) {
-      searchParams.set('location', location)
+    if (debouncedLocation.length > 0) {
+      searchParams.set('location', debouncedLocation)
       setSearchParamsToString(searchParams.toString())
     } else {
       searchParams.delete('location')
       setSearchParamsToString(searchParams.toString())
     }
-  }, [location])
+  }, [debouncedLocation])
 
+  
 
   //requête de résultats
   useEffect(() => {
     setIsLoading(true)
     if (searchParamsToString.length > 0) {
+      console.log("fetch results")
       genericFetchWithToken(`${entryPoint}?${searchParamsToString}`, 'GET', token)
         .then(json => json.json())
         .then(data => setExperiences(data))
         .catch(error => console.error(error))
         .finally(() => setIsLoading(false))
     } else {
+      console.log("fetch results fail")
       setExperiences([])
+      setIsLoading(false)
     }
-  }, [searchParamsToString, token])
+  }, [searchParamsToString])
 
 
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.container}>
+      <View style={styles.SectionStyle}>
          <TextInput
           value={title}
           placeholder="Expérience"
           onChangeText={(title) => setTitle(title)}
           style={styles.input}
+          underlineColorAndroid="#f000"
         />
+        </View>
 
-        {/* <TextInput
-          value={textLocation}
+        <View style={styles.SectionStyle}>
+        <TextInput
+          value={location}
           placeholder="Ville"
-          onChangeText={(location) => setTextLocation(location)}
-        />  */}
-
-
+          underlineColorAndroid="#f000"
+          style={styles.input}
+          onChangeText={(location) => setLocation(location)}
+        /> 
+        </View>
+      <Text style={styles.title}>Résultat.s de recherche : {experiences.length}</Text>
       </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Résultat.s de recherche</Text>
-        <ContainerFeedExperience experiences={experiences} navigation={navigation} />
-      </View>
+      {isLoading ? 
+      <View style={styles.centered}>
+        <Loading  />
+      </View> :
+      <ScrollView>
+          <ContainerFeedExperience experiences={experiences} navigation={navigation} />
+      </ScrollView>
+    }
     </View>
   );
 }
@@ -116,10 +129,17 @@ const styles = StyleSheet.create({
   container: {
     margin: 10
   },
-  input : {
-    borderRadius: 25,
-  padding: 20,
-  marginBottom: 10,
+  input: {
+    flex: 1,
+  },
+  SectionStyle: {
+    margin: 10,
+    flexDirection: "row",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center"
   }
 });
 
