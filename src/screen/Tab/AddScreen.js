@@ -18,19 +18,9 @@ function AddScreen({navigation})
 
     // const state = useContext(GlobalContext);
 
-    const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
-  })
+  
     const [token, setToken] = useState("");
     
-    useEffect(() => {
-      genericFetch(`${API_URL}/login`, 'POST', body) 
-      .then(json => json.json())
-      .then(data => setToken(data.token))
-      .catch(error => console.error(error))
-    }, [])
-  
 
 
     const handleSubmitPress = () => {

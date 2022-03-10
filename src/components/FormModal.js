@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
-import UpdateProfile from "../screen/Tab/UpdateProfile";
+import UpdateProfile from './UpdateProfile.js';
 
 
 const FormModal = () => {

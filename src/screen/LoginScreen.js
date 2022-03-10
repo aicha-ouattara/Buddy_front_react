@@ -1,6 +1,9 @@
 import React, { useContext, useState, createRef, useEffect } from "react";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
+// import { API_URL } from "@env";
+import {API_URL} from "@env";
+
 import {
   StyleSheet,
   TextInput,
@@ -14,8 +17,8 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
-import * as SecureStore from "expo-secure-store";
-import {API_URL} from '@env';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 //import Loader from './Components/Loader';
 
 function LoginScreen({ navigation }) {
@@ -27,11 +30,6 @@ function LoginScreen({ navigation }) {
   const [errortext, setErrortext] = useState("");
   const [token, setToken] = useState("");
 
-  //   async function save(key, storeToken) {
-  //     await SecureStore.setItemAsync(key, storeToken);
-  //   }
-
-  //console.log('token',token)
   const handleSubmitPress = () => {
     setErrortext("");
     if (!userLogin) {
@@ -46,24 +44,27 @@ function LoginScreen({ navigation }) {
       login: userLogin,
       password: userPassword,
     });
+
     genericFetch(`${API_URL}/login`, "POST", body)
-        .then((json) => {
-          setToken(json.token);
-          console.log(json);
-          navigation.navigate("Protected");
-        })
-      // .then((response) => response.json())
-      // .then((retour) => {
-      //   console.log(retour);
-      //   //let storeToken = retour.token;
-      //   //let key = "token";
-      //   save("token", retour.token);
-      // })
-      .catch((error) => {
-        console.error("error", error);
-        setToken("");
-      });
+      .then((json) => json.json())
+      .then((data) => setData(data.token));
+
+
   };
+
+
+
+  const setData = async (token) => {
+    try {
+      await AsyncStorage.setItem("token", JSON.stringify(token));
+      console.log("storage set data :", token);
+      navigation.navigate("Protected");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   return (
     <View style={styles.mainBody}>
@@ -76,6 +77,7 @@ function LoginScreen({ navigation }) {
         }}
       >
         <View>
+          <Text>{token}</Text>
           <KeyboardAvoidingView enabled>
             <View style={{ alignItems: "center" }}></View>
             <View style={styles.SectionStyle}>
@@ -111,12 +113,7 @@ function LoginScreen({ navigation }) {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={
-                (handleSubmitPress,
-                async () => {
-                  // let result = await SecureStore.getItemAsync("token");
-                  // await console.log("result", result);
-                  navigation.navigate("Protected", { setToken });
-                })
+                handleSubmitPress
               }
             >
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
@@ -126,20 +123,9 @@ function LoginScreen({ navigation }) {
               onPress={() => navigation.navigate("Register")}
             >
               New Here ? Register
-              {token}
             </Text>
 
-            {/* <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={async () => {
-                let result = await SecureStore.getItemAsync("token");
-                await console.log(result);
-                navigation.navigate("Register");
-              }}
-            >
-              <Text style={styles.buttonTextStyle}>token</Text>
-            </TouchableOpacity> */}
+     
           </KeyboardAvoidingView>
         </View>
       </ScrollView>

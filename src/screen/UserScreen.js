@@ -13,8 +13,8 @@ function UserScreen({navigation, route})
 {
 
   const body = JSON.stringify({
-    "login": "kevin",
-    "password": "kevin"
+    "login": "mioumiou",
+    "password": "mioumiou"
 })
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);

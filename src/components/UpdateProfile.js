@@ -1,42 +1,31 @@
 import React, {useContext, useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
-import { GlobalContext } from '../../context/Provider';
+import { GlobalContext } from '../context/Provider';
 import { API_URL } from "@env" ;
-import { genericFetch } from '../../api/fetchApi';
-import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import {genericFetchWithTokenBody} from '../../api/fetchApiWithTokenBody';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //import { genericFetchUsers } from '../api/fetchApi';
 
 function UpdateProfile({navigation}) {
 
-    const bodyLogin = JSON.stringify({
-        "login": "kevin",
-        "password": "kevin"
-    })
       const [isLoading, setIsLoading] = useState(true);
       const [user, setUser] = useState([]);
-    
       const [token, setToken] = useState("");
       
      
-    useEffect(() => {
-        genericFetch(`${API_URL}/login`, 'POST', bodyLogin) 
-        .then(json => json.json())
-        .then(data => setToken(data.token))
-        .catch(error => console.error(error))
-      }, [])
-  
-    
-      useEffect(() => {
-        setIsLoading(true)
-        genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
-        .then(json => json.json())
-        .then(data => setUser(data))
-        .catch(error => console.error(error))
-        .finally(() => setIsLoading(false))
-      }, [token])
+      const getData = () => {
+        try {
+          AsyncStorage.getItem("token").then((value) => {
+            if (value != null) {
+              setToken(value);
+              console.log("valeur feed screen:", value);
+              // navigation.navigate("Protected");
+            }
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
     const state = useContext(GlobalContext);
 
@@ -56,40 +45,40 @@ function UpdateProfile({navigation}) {
     const handleSubmitButton = () => {
         //console.log(typeof userPhone);
         setErrortext('');
-            if (!userFirstName) {
-                setErrortext('Please fill Name');
-                return;
-                }
+            // if (!userFirstName ) {
+            //     setErrortext('Please fill Name');
+            //     return;
+            //     }
 
-            if (!userLastName) {
-                setErrortext('Please fill Name');
-                return;
-            }
+            // if (!userLastName) {
+            //     setErrortext('Please fill Name');
+            //     return;
+            // }
 
-            if (!userEmail) {
-                setErrortext('Please fill Email');
-                return;
-            }
+            // if (!userEmail) {
+            //     setErrortext('Please fill Email');
+            //     return;
+            // }
 
-            if (!userPhone) {
-                setErrortext('Please fill Age');
-                return;
-            }
+            // if (!userPhone) {
+            //     setErrortext('Please fill Age');
+            //     return;
+            // }
 
-            if (!userLogin) {
-                setErrortext('Please fill Address');
-                return;
-            }
+            // if (!userLogin) {
+            //     setErrortext('Please fill Address');
+            //     return;
+            // }
 
-            if (!userPassword) {
-                setErrortext('Please fill Password');
-                return;
-            }
+            // if (!userPassword) {
+            //     setErrortext('Please fill Password');
+            //     return;
+            // }
 
         // don't remember from where i copied this code, but this works.
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
-    if ( re.test(userEmail) ) {
+    // if ( re.test(userEmail) ) {
         const body = JSON.stringify({
         "login": userLogin,
         "password": userPassword,
@@ -97,7 +86,7 @@ function UpdateProfile({navigation}) {
         "lastname": userLastName,
         "email": userEmail,
         "telephone": parseInt(userPhone),
-    })    
+     })    
       
     
         genericFetchWithTokenBody(`${API_URL}/users/4`, 'PUT', token, body) 
@@ -112,12 +101,12 @@ function UpdateProfile({navigation}) {
       
         });
         console.log('ok')
-        }
+        // }
 
-    else {
+    // else {
 // invalid email, maybe show an error to the user.
-setErrortext('Password syntax is not correct');
-}
+// setErrortext('Password syntax is not correct');
+// }
 }
 
 return (
@@ -144,7 +133,7 @@ return (
         <TextInput
             style={styles.inputStyle}
             onChangeText={(UserLogin) => setUserLogin(UserLogin)}
-            //value={user.login}
+            keepDefaultValues={user.login}
             underlineColorAndroid="#f000"
             placeholder={user.login}
             placeholderTextColor="#8b9cb5"
@@ -159,7 +148,7 @@ return (
         <TextInput
             style={styles.inputStyle}
             onChangeText={(UserFirstName) => setUserFirstName(UserFirstName)}
-            //value={user.firstname}
+            keepDefaultValues={user.firstname}
             underlineColorAndroid="#f000"
             placeholder={user.firstname}
             placeholderTextColor="#8b9cb5"
@@ -173,7 +162,7 @@ return (
             <TextInput
                 style={styles.inputStyle}
                 onChangeText={(UserLastName) => setUserLastName(UserLastName)}
-                //value={user.lastname}
+                keepDefaultValues={user.lastname}
                 underlineColorAndroid="#f000"
                 placeholder={user.lastname}
                 placeholderTextColor="#8b9cb5"
@@ -189,7 +178,7 @@ return (
                 style={styles.inputStyle}
                 onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                 underlineColorAndroid="#f000"
-                //defaultValue={user.email}
+                keepDefaultValues={user.email}
                 placeholder={user.email}
                 placeholderTextColor="#8b9cb5"
                 keyboardType="email-address"
@@ -219,7 +208,7 @@ return (
                 style={styles.inputStyle}
                 onChangeText={(UserPhone) => setUserPhone(UserPhone)}
                 underlineColorAndroid="#f000"
-                //defaultValue={user.telephone}
+                keepDefaultValues={user.telephone}
                 placeholder={user.telephone}
                 placeholderTextColor="#8b9cb5"
                 keyboardType="numeric"

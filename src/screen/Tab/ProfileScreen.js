@@ -6,39 +6,33 @@ import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
 import FormModal from '../../components/FormModal';
 import {API_URL} from '@env';
-import { genericFetch } from '../../api/fetchApi';
-import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import UpdateEventModal from '../../components/UpdateEventModal';
-
-// import EventModal from '../../components/EventModal';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// import UpdateEvent from '../../components/UpdateEvent';
 
 function Profile({navigation, route}) 
 {
 
-  const body = JSON.stringify({
-    "login": "kevin",
-    "password": "kevin"
-})
+
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
   const [experiences, setExperiences] = useState([]);
-  
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, 'POST', body) 
-    .then(json => json.json())
-    .then(data => setToken(data.token))
-    .catch(error => console.error(error))
-  }, [])
 
-  const fetchUser = () => {
-    genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
-    .then(json => json.json())
-    .then(data => setUser(data))
-    .catch(error => console.error(error))
-    .finally(() => setIsLoading(false))
-  }
+
+
+  const getData = () => {
+    try {
+      AsyncStorage.getItem("token").then((value) => {
+        if (value != null) {
+          setToken(value);
+          console.log("valeur feed screen:", value);
+          // navigation.navigate("Protected");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     setIsLoading(true)
@@ -46,17 +40,18 @@ function Profile({navigation, route})
   }, [token])
 
   const deleteId = (id, interestLength) => {
-    interestLength != 0 && 
-    console.log(interestLength)
+    if(interestLength != 0) {
+      genericFetchWithToken(`${API_URL}/experiences/${id}`, 'PUT', token)
+      fetchUser()
+      console.log('expérience archivée !')
+    } 
+ 
 
     if(interestLength == 0 ){
         genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
          fetchUser()
          console.log('expérience supprimée !')
     } 
-       
-    
- 
   }
 
  
@@ -93,12 +88,6 @@ function AllExperiences({navigation, user, deleteId}) {
   const index = useTabIndex();
 
 
-  // const deleteId = (id) => {
-  //   genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
-  //   console.log('expérience supprimée !')
-  // }
-
-
   return (
     <View style={{ flex:1, backgroundColor: 'white' }}>
 
@@ -110,10 +99,11 @@ function AllExperiences({navigation, user, deleteId}) {
           {user.experiences && user.experiences.map(experience => 
 
           <>
-        {  console.log(deleteId)}
+   
            <BlocExperience navigation={navigation} experience={experience} user={user}/>
+            {/* <UpdateEvent/> */}
            <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
-{/* <Text>{experience.id}</Text> */}
+
               <Image style={{ width: 25, height: 25}} source={require('../../../assets/trashcan.png')} />
             </Text>
           </>

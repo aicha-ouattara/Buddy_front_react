@@ -11,8 +11,8 @@ const Experience = ({route, navigation}) => {
     // const state = useContext(GlobalContext);
 
     const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
+      "login": "mioumiou",
+      "password": "mioumiou"
   })
     const [isLoading, setIsLoading] = useState(true);
     const [experience, setExperience] = useState([]);
