@@ -1,136 +1,237 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, ScrollView, Text, View, Button, Modal, Image, TouchableOpacity, TextInput } from 'react-native';
+import { Divider, Avatar } from 'react-native-paper';
+
 // import { GlobalContext } from '../context/Provider';
-import BucketForm from '../components/BucketForm';
 import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import {API_URL} from '@env';
+import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
+import { API_URL } from '@env';
+import Loading from '../components/Loading';
+import Bucket from '../components/Bucket';
+import ModalMessage from '../components/ModalMessage';
+import jwt_decode from "jwt-decode";
 
-const Experience = ({route, navigation}) => {
+const Experience = ({ route, navigation }) => {
 
-    // const state = useContext(GlobalContext);
+  // const state = useContext(GlobalContext);
 
-    const body = JSON.stringify({
-      "login": "test",
-      "password": "test"
+  const body = JSON.stringify({
+    "login": "test",
+    "password": "test"
   })
-    const [isLoading, setIsLoading] = useState(true);
-    const [experience, setExperience] = useState([]);
-
-    const [token, setToken] = useState("");
-
-    useEffect(() => {
-      genericFetch(`${API_URL}/login`, 'POST', body) 
+  const [userId, setUserId] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [experience, setExperience] = useState([]);
+  const [liked, setLiked] = useState(false);
+  const [superLiked, setSuperLiked] = useState(false);
+  const [interestId, setInterestId] = useState(0)
+  const [token, setToken] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [content, setContent] = useState("");
+  
+  useEffect(() => {
+    genericFetch(`${API_URL}/login`, 'POST', body)
       .then(json => json.json())
       .then(data => setToken(data.token))
       .catch(error => console.error(error))
-    }, [])
-  
+      
+  }, [])
 
-    useEffect(() => {
-      setIsLoading(true)
-      genericFetchWithToken(`${API_URL}/experiences/${route.params.id}`, 'GET', token) 
+
+  useEffect(() => {
+    setIsLoading(true)
+    genericFetchWithToken(`${API_URL}/experiences/${route.params.id}`, 'GET', token)
       .then(json => json.json())
       .then(data => setExperience(data))
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
-    }, [token])
+      token.length > 0 && setUserId(jwt_decode(token).id); //get user Id from Token
+  }, [token])
 
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        
-        {isLoading ? <Text> Loading ... </Text> : 
-            (experience.user && ( 
-          <View key={experience.id}>
-          <Text>{ experience.title}</Text>
-          <Image style={{ width: 200, height: 200, alignSelf: 'center'}}
-            source={require('../../assets/exemple_ville.jpeg')}
-            /> 
 
-        <View style={styles.firstpart}>
-            <Image style={{ width: 25, height: 25}}
-            source={require('../../assets/profil.png')}
-            /> 
-            <Text onPress={() => {navigation.navigate('User', {id : experience.user.id})}} >{experience.user.login}</Text>
-        </View>
+  useEffect(() => {
+experience && experience?.interests &&    experience.interests.map(function (interest) { //set interest id and liked if it exists
+      if (interest.user == `/api/users/${userId}`) {
+        setLiked(true)
+        setInterestId(interest.id)
+      } else {console.log(interest.user, userId)}
+    })
+  }, [experience])
 
-        <View>
-            <Text  style={{fontSize: 12, textAlign:'justify', paddingBottom: 10}}>{experience.description}</Text>
-            <Text style={{paddingBottom: 10}}>date création : {experience.created_at}</Text>
-            <Text style={{paddingBottom: 10}}>date modification : {experience.updated_at}</Text>
-        </View>
-        
-        <View style={styles.secondpart}>
-            <Text>
-            <Image style={{ width: 25, height: 25}}
-          source={require('../../assets/localisation.png')}
-          /> {experience.location}
-          </Text>
+  const handleLike = (experience) => {
+    if (liked === false) {
+      if (experience.user.id != userId) { //if not your own experience
+        const bodyInterest = JSON.stringify({
+          "plan": false,
+          "experience": `api/experiences/${experience.id}`
+        })
+        genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
+          .then(json => json.json())
+          .then(data => { setInterestId(data.id), console.log(`liked ${experience.id} - interest ${data.id} created - by user ${userId}`) })
+          .catch(error => console.error(error))
 
-          <Text>
-            <Image style={{ width: 25, height: 25}}
-          source={require('../../assets/time.png')}
-          /> {experience.duration}
-          </Text>
-           
-          <Text>  
-             <Image style={{ width: 25, height: 25}}
-            source={require('../../assets/foule.png')}
-            />{experience.spots}</Text>
+        setLiked(true)
+      } else {
+        console.log('Cannot like your own experiences')
+        setModalVisible(true)
+        setTimeout(() => {
+          setModalVisible(false)
+        }, 4000)
+      }
+    } else {
+      genericFetchWithToken(`${API_URL}/interests/${interestId}`, 'DELETE', token)
+      console.log(`unliked ${experience.id} - interest ${interestId} deleted - by user ${userId}`)
+      setLiked(false)
+    }
+  }
 
-        </View>
-        
-        <View style={styles.thirdpart}>
-        <Text>
-            <Image style={{ width: 25, height: 25}}
-          source={require('../../assets/doubleheart.png')}
-          />  
-          {experience.interests.length} intéréssés
-          </Text>
+  const handleSuperLike = (experience) => {
+    if (superLiked === false) {
+      if (experience.user.id != userId) { //if not your own experience
+        setFormOpen(true)
+      } else {
+        console.log('Cannot like your own experiences')
+        setModalVisible(true)
+        setTimeout(() => {
+          setModalVisible(false)
+        }, 4000)
+      }
+    } else {
+      console.log(`To Do Now can't be deleted so easily`)
+    }
+  }
 
-            <Text>
-            <Image style={{ width: 25, height: 25}}
-            source={require('../../assets/doubleheart.png')}
-            />  To do now
-            </Text>
 
-          <BucketForm/>
-        
-        </View> 
+  const submitSuperLike = (message) => {
+    if (superLiked === false) {
+      if (experience.user.id != userId) { //if not your own experience
+        const bodyInterest = JSON.stringify({
+          "plan": true,
+          "experience": `api/experiences/${experience.id}`,
+          "message" : message
+        })
+        // genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
+        //   .then(json => json.json())
+        //   .then(data => { setInterestId(data.id), console.log(`superliked ${experience.id} - interest ${data.id} created - by user ${userId}`) })
+        //   .catch(error => console.error(error))
 
-  
-       </View>))}
-  
+        setSuperLiked(true)
+      } else {
+        console.log('Cannot like your own experiences')
+        setModalVisible(true)
+        setTimeout(() => {
+          setModalVisible(false)
+        }, 4000)
+      }
+    } else {
+      // genericFetchWithToken(`${API_URL}/interests/${interestId}`, 'DELETE', token)
+      // console.log(`unliked ${experience.id} - interest ${interestId} deleted - by user ${userId}`)
+      setSuperLiked(false)
+    }
+  }
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+      {isLoading ? <Loading /> :
+        (experience.user && (
+
+          <ScrollView>
+            <View style={styles.views}>
+              <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
+            </View>
+
+            <View style={styles.views}>
+              <View style={{flex: 0.25, alignItems: 'center', justifyContent: "space-between", flexDirection: 'row'}}>
+                <Text style={styles.title}>{experience.title}</Text>
+                <View style={styles.blocActions}>
+                  <TouchableOpacity onPress={() => { handleLike(experience) }}>
+                    <Bucket liked={liked} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleSuperLike(experience)} >
+                    <Bucket liked={superLiked} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View>
+              <Text>{experience.location}</Text>
+              <Text>{experience.created_at}</Text>
+              </View>
+            </View>
+
+            <Divider />
+            <View style={styles.views}>
+              <TouchableOpacity onPress={() => { navigation.navigate('User', { id: experience.user.id }) }}>
+                <View  style={{flew: 1, flexDirection: 'row'}}>
+                <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../assets/profil.png')} />
+                <Text>{experience.user.login}</Text>
+                </View>
+              </TouchableOpacity>
+              <Text>{experience.reviews.length} commentaires</Text>
+              <Text>durée : {experience.duration} · {experience.spots} places</Text>
+            </View>
+            <Divider />
+            <View style={styles.views}>
+              <Text style={{ fontSize: 12, textAlign: 'justify', paddingBottom: 10 }}>{experience.content}</Text>
+              <Divider />
+            </View>
+
+                <Modal visible={formOpen}>
+                <View>
+                  <TextInput 
+                  value={content}
+                  onChange={(content) => setContent(content)}
+                  multiline editable />
+                  <TouchableOpacity onPress={() => setFormOpen(false)} ><Text>Revenir</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => submitSuperLike(content)} ><Text>Envoyer</Text></TouchableOpacity>
+                  </View>
+                  </Modal>
+            
+              <ModalMessage modalVisible={modalVisible} message="Tu essayes d'ajouter une de tes propres expériences à ta bucket list :')" />
+            
+          </ScrollView>
+
+        ))}
+
 
     </View>
-    );
-  }
+  );
+}
 
 
 
 const styles = StyleSheet.create({
-    firstpart: {
-        flex: 0.4,
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        paddingLeft: 40,
-        paddingRight: 40,
-        paddingTop: 10
-    },
+  experiencePicture: {
+    flex: 1,
+    height: 300,
+    width: 300,
+    resizeMode: "cover"
+  },
+  title: {
+    flex: 1,
+    flexWrap: "wrap",
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  avatar: {
+    backgroundColor: "white"
+  },
+  blocActions: {
+    marginLeft: 10,
+    paddingLeft: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: "#f14d53",
+    flexDirection: 'row',
+    alignItems: "center"
+  },
+  views: {
+    padding: 10,
+    flex: 0.5,
+    justifyContent: "space-around"
+  },
 
-    secondpart: {
-        flex: 0.4,
-        flexDirection: "row",
-        justifyContent: 'space-between',
-    },
+});
 
-    thirdpart: {
-        flex: 0.4,
-        flexDirection: "row",
-        justifyContent: 'space-between',
-    }
-  
-  });
-  
 
 export default Experience

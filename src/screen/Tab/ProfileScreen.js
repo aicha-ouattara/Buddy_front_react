@@ -47,8 +47,8 @@ function AllMyExperiences({navigation}) {
 
     /*récupère token automatiquement */
     const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
+      "login": "test",
+      "password": "test"
   })
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState([]);
@@ -65,7 +65,7 @@ function AllMyExperiences({navigation}) {
   
     useEffect(() => {
       setIsLoading(true)
-      genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
+      genericFetchWithToken(`${API_URL}/users/5`, 'GET', token) 
       .then(json => json.json())
       .then(data => setUser(data))
       .catch(error => console.error(error))
@@ -114,8 +114,8 @@ function AllMyInteractions({navigation}) {
   const index = useTabIndex();
     /*récupère token automatiquement */
     const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
+      "login": "test",
+      "password": "test"
   })
 
     const [isLoading, setIsLoading] = useState(true);
@@ -173,8 +173,8 @@ function MyProfileInfos() {
 
     /*récupère token automatiquement */
     const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
+      "login": "test",
+      "password": "test"
   })
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState([]);

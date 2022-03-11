@@ -19,8 +19,8 @@ function AddScreen({navigation})
     // const state = useContext(GlobalContext);
 
     const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
+      "login": "test",
+      "password": "test"
   })
     const [token, setToken] = useState("");
     
@@ -129,7 +129,7 @@ function AddScreen({navigation})
 
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={handleSubmitPress}>Add
+                onPress={handleSubmitPress}><Text>Add</Text>
               </TouchableOpacity>
             </View>
             </ScrollView>

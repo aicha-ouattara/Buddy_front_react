@@ -45,8 +45,8 @@ function MyBucketlist({navigation}) {
 
     /*récupère token automatiquement */
     const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
+      "login": "test",
+      "password": "test"
   })
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState([]);
@@ -63,7 +63,7 @@ function MyBucketlist({navigation}) {
   
     useEffect(() => {
       setIsLoading(true)
-      genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
+      genericFetchWithToken(`${API_URL}/users/5`, 'GET', token) 
       .then(json => json.json())
       .then(data => setUser(data))
       .catch(error => console.error(error))
@@ -132,8 +132,8 @@ function MyToDoNow({navigation}) {
   const index = useTabIndex();
     /*récupère token automatiquement */
     const body = JSON.stringify({
-      "login": "kevin",
-      "password": "kevin"
+      "login": "test",
+      "password": "test"
   })
 
     const [isLoading, setIsLoading] = useState(true);
@@ -150,7 +150,7 @@ function MyToDoNow({navigation}) {
   
     useEffect(() => {
       setIsLoading(true)
-      genericFetchWithToken(`${API_URL}/users/4`, 'GET', token) 
+      genericFetchWithToken(`${API_URL}/users/5`, 'GET', token) 
       .then(json => json.json())
       .then(data => setUser(data))
       .catch(error => console.error(error))

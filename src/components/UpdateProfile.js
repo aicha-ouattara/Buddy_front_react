@@ -11,8 +11,8 @@ import {genericFetchWithTokenBody} from '../api/fetchApiWithTokenBody';
 function UpdateProfile({navigation}) {
 
     const bodyLogin = JSON.stringify({
-        "login": "kevin",
-        "password": "kevin"
+        "login": "test",
+        "password": "test"
     })
       const [isLoading, setIsLoading] = useState(true);
       const [user, setUser] = useState([]);
