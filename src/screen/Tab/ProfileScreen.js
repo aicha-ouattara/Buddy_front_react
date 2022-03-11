@@ -13,10 +13,8 @@ import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 
 
-function Profile({navigation, route}) 
-{
 
-
+function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
@@ -60,165 +58,166 @@ function Profile({navigation, route})
   }
 
   useEffect(() => {
-    setIsLoading(true)
-    fetchUser()
-  }, [token])
+    setIsLoading(true);
+    fetchUser();
+  }, [token]);
 
   const deleteId = (id, interestLength) => {
-    if(interestLength != 0) {
-      genericFetchWithToken(`${API_URL}/experiences/${id}`, 'PUT', token)
-      fetchUser()
-      console.log('expérience archivée !')
-    } 
- 
+    if (interestLength != 0) {
+      genericFetchWithToken(`${API_URL}/experiences/${id}`, "PUT", token);
+      fetchUser();
+      console.log("expérience archivée !");
+    }
 
-    if(interestLength == 0 ){
-        genericFetchWithToken(`${API_URL}/experiences/${id}`, 'DELETE', token)
-         fetchUser()
-         console.log('expérience supprimée !')
-    } 
-  }
+    if (interestLength == 0) {
+      genericFetchWithToken(`${API_URL}/experiences/${id}`, "DELETE", token);
+      fetchUser();
+      console.log("expérience supprimée !");
+    }
+  };
 
- 
-
-console.log(user)
-  return (
-    
-    isLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Text> Loading ... </Text>  </View> : 
-      (
-    <Tabs style={{backgroundColor: 'white'}}>
-
-      <TabScreen label="Experiences"  >
-          <AllExperiences user={user} navigation={navigation} deleteId={(id, interestLength) => {deleteId(id, interestLength); fetchUser()}}/>
-      </TabScreen >
-      
+  console.log(user);
+  return isLoading ? (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text> Loading ... </Text>{" "}
+    </View>
+  ) : (
+    <Tabs style={{ backgroundColor: "white" }}>
+      <TabScreen label="Experiences">
+        <AllExperiences
+          user={user}
+          navigation={navigation}
+          deleteId={(id, interestLength) => {
+            deleteId(id, interestLength);
+            fetchUser();
+          }}
+        />
+      </TabScreen>
 
       <TabScreen label="Interactions">
-      <AllInteractions user={user} navigation={navigation} />
+        <AllInteractions user={user} navigation={navigation} />
       </TabScreen>
 
       <TabScreen label="Profil">
-          <UserProfileInfos user={user} navigation={navigation} />
+        <UserProfileInfos user={user} navigation={navigation} />
       </TabScreen>
-
     </Tabs>
-    ) 
-  
-  )
+  );
 }
- 
-function AllExperiences({navigation, user, deleteId}) {
 
+function AllExperiences({ navigation, user, deleteId }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
-
   return (
-    <View style={{ flex:1, backgroundColor: 'white' }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Title style={{ textAlign: "center", paddingTop: 10 }}>
+        ALL EXPERIENCES
+      </Title>
 
-      <Title style={{textAlign: 'center', paddingTop: 10}}>ALL EXPERIENCES</Title>
-      
       <ScrollView>
-        
-          <View>
-          {user.experiences && user.experiences.map(experience => 
-
-          <>
-   
-           <BlocExperience navigation={navigation} experience={experience} user={user}/>
-            {/* <UpdateEvent/> */}
-           <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
-
-              <Image style={{ width: 25, height: 25}} source={require('../../../assets/trashcan.png')} />
-            </Text>
-          </>
-
-         )}
+        <View>
+          {user.experiences &&
+            user.experiences.map((experience) => (
+              <>
+                <BlocExperience
+                  navigation={navigation}
+                  experience={experience}
+                  user={user}
+                />
+                {/* <UpdateEvent/> */}
+                <Text
+                  onClick={() =>
+                    deleteId(experience.id, experience.interests.length)
+                  }
+                  key={experience.id}
+                >
+                  <Image
+                    style={{ width: 25, height: 25 }}
+                    source={require("../../../assets/trashcan.png")}
+                  />
+                </Text>
+              </>
+            ))}
         </View>
-      
       </ScrollView>
-    
     </View>
   );
 }
 
-function AllInteractions({navigation, user}) {
-
+function AllInteractions({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
   return (
-    <View style={{ flex:1, backgroundColor: 'white' }}>
-      
-    <Title style={{textAlign: 'center', paddingTop: 10}}>ALL INTERACTIONS</Title>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Title style={{ textAlign: "center", paddingTop: 10 }}>
+        ALL INTERACTIONS
+      </Title>
 
-    <ScrollView>
-
-      <View >
-        { 
-         user.experiences && user.experiences.map(experience => 
-            experience.interests.map(
-
-                interest => 
-              <>      
-                <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+      <ScrollView>
+        <View>
+          {user.experiences &&
+            user.experiences.map((experience) =>
+              experience.interests.map((interest) => (
+                <>
+                  <BlocInterest
+                    navigation={navigation}
+                    key={interest.id}
+                    interest={interest}
+                    experience={experience}
+                    user={user}
+                  />
                   <Text>id = {interest.id}</Text>
                   <Text>message = {interest.message}</Text>
                   <Text>date = {interest.date}</Text>
-              </>
-
-              )
-        )}
-      </View>
-
-
-    </ScrollView>
-
-  </View>
+                </>
+              ))
+            )}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
-function UserProfileInfos({navigation, user}) {
-
+function UserProfileInfos({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
   return (
-    <View style={{ flex:1, backgroundColor: 'white' }}>
-      
-      <Title style={{textAlign: 'center', paddingTop: 10}}>PROFILE INFOS</Title>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Title style={{ textAlign: "center", paddingTop: 10 }}>
+        PROFILE INFOS
+      </Title>
 
-      <View >
-        <View > 
-        <Image style={{ width: 50, height: 50}}
-        source={require('../../../assets/profil.png')}
-        />  
+      <View>
+        <View>
+          <Image
+            style={{ width: 50, height: 50 }}
+            source={require("../../../assets/profil.png")}
+          />
 
-          <View >
-          <Text>id {user.id} </Text>
-             <Text>Login {user.login} </Text>
-             <Text>Date d'inscription {user.created_at} </Text>
+          <View>
+            <Text>id {user.id} </Text>
+            <Text>Login {user.login} </Text>
+            <Text>Date d'inscription {user.created_at} </Text>
           </View>
-         
-        </View>
-    
-        <View>
-           <Text> <Image source={require('../../../assets/ok.png')} />  Vérifications gmail, facebook, téléphone</Text>
         </View>
 
         <View>
-          <FormModal/>
+          <Text>
+            {" "}
+            <Image source={require("../../../assets/ok.png")} /> Vérifications
+            gmail, facebook, téléphone
+          </Text>
         </View>
-       
+
+        <View>
+          <FormModal />
+        </View>
       </View>
-
     </View>
-
-  
   );
 }
 
-
-
-export default Profile
-
+export default Profile;
