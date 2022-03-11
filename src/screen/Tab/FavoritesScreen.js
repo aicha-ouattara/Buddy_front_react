@@ -5,14 +5,11 @@ import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-pape
 import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
 import {API_URL} from '@env';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+import { genericFetch } from '../../api/fetchApi';
+import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 
 function FavoritesScreen({navigation, route}) 
-import FormModal from '../../components/FormModal';
-import Experience from '../Experience';
-import {API_URL} from '@env';
-
-function FavoritesScreen({navigation}) 
 {
 
 
@@ -20,24 +17,36 @@ function FavoritesScreen({navigation})
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
 
-  useEffect(() => {
-    getData();
-    // removeData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  //   // removeData();
+  // }, []);
 
-  const getData = () => {
-    try {
-      AsyncStorage.getItem("token").then((value) => {
-        if (value != null) {
-          setToken(value);
-          console.log("valeur feed screen:", value);
-          // navigation.navigate("Protected");
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getData = () => {
+  //   try {
+  //     AsyncStorage.getItem("token").then((value) => {
+  //       if (value != null) {
+  //         setToken(value);
+  //         console.log("valeur feed screen:", value);
+  //         // navigation.navigate("Protected");
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const body = JSON.stringify({
+    "login": "mioumiou",
+    "password": "mioumiou"
+})
+  useEffect(() => {
+    genericFetch(`${API_URL}/login`, 'POST', body) 
+    .then(json => json.json())
+    .then(data => setToken(data.token))
+    .catch(error => console.error(error))
+  }, [])
+
 
  
   const fetchUser = () => {

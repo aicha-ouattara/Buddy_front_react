@@ -8,7 +8,7 @@ import FormModal from '../components/FormModal';
 import {API_URL} from '@env';
 import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import { API_URL } from "@env";
+
 
 function UserScreen({ navigation, route }) {
 

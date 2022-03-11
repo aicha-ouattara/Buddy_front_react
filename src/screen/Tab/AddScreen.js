@@ -6,7 +6,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithTokenBody } from '../../api/fetchApiWithTokenBody';
-import {API_URL} from '@env';
+
 
 function AddScreen({navigation}) 
 {

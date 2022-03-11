@@ -6,12 +6,12 @@ import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
 import FormModal from '../../components/FormModal';
 import {API_URL} from '@env';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 // import UpdateEvent from '../../components/UpdateEvent';
 import Experience from '../Experience';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import {API_URL} from '@env';
+
 
 function Profile({navigation, route}) 
 {
@@ -21,22 +21,43 @@ function Profile({navigation, route})
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
   const [experiences, setExperiences] = useState([]);
+  const body = JSON.stringify({
+    "login": "mioumiou",
+    "password": "mioumiou"
+})
+
+
+  useEffect(() => {
+    genericFetch(`${API_URL}/login`, 'POST', body) 
+    .then(json => json.json())
+    .then(data => setToken(data.token))
+    .catch(error => console.error(error))
+  }, [])
 
 
 
-  const getData = () => {
-    try {
-      AsyncStorage.getItem("token").then((value) => {
-        if (value != null) {
-          setToken(value);
-          console.log("valeur feed screen:", value);
-          // navigation.navigate("Protected");
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  // const getData = () => {
+  //   try {
+  //     AsyncStorage.getItem("token").then((value) => {
+  //       if (value != null) {
+  //         setToken(value);
+  //         console.log("valeur feed screen:", value);
+  //         // navigation.navigate("Protected");
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/7`, 'GET', token) 
+    .then(json => json.json())
+    .then(data => setUser(data))
+    .catch(error => console.error(error))
+    .finally(() => setIsLoading(false))
+  }
 
   useEffect(() => {
     setIsLoading(true)
