@@ -11,7 +11,8 @@ const BlocExperience = ({ interest, navigation, experience, user}) => {
          interest &&(
            interest.plan == 1 &&
           interest.accepted == 0 && 
-             <Text>Accepté</Text>
+          <Image 
+          style={{ width: 25, height: 25 }} source={require('../../assets/refused.png')}  />
            )
 
        )}
@@ -20,7 +21,8 @@ const BlocExperience = ({ interest, navigation, experience, user}) => {
          interest &&(
           interest.plan == 1 &&
           interest.accepted == 1 && 
-          <Text>Refusé</Text>
+          <Image 
+          style={{ width: 25, height: 25 }} source={require('../../assets/accepted.png')}  />
          )
        )}
 
@@ -28,7 +30,8 @@ const BlocExperience = ({ interest, navigation, experience, user}) => {
         interest &&(
           interest.plan == 1 &&
           interest.accepted == null && 
-             <Text>En attente</Text>
+          <Image 
+          style={{ width: 25, height: 25 }} source={require('../../assets/attente.png')}  />
          )
 
       )}

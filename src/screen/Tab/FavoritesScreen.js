@@ -120,7 +120,8 @@ function BucketList({navigation, user, deleteId,}) {
            
               <>    { console.log(experience)}
                 <BlocInterest navigation={navigation} interest={interest} experience={experience} user={user}/>
-                <Text onClick={() => deleteId(interest.id)} key={interest.id} >Delete</Text>
+                <Text onClick={() => deleteId(interest.id)} key={interest.id} ><Image 
+            style={{ width: 25, height: 25 }} source={require('../../../assets/bucket-red.png')}  /></Text>
               </>
               
  
@@ -160,7 +161,8 @@ function ToDoNow({navigation, user, deleteId}) {
              interest.plan == 1 && 
              <>
               <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
-              <Text onClick={() => deleteId(interest.id)} key={interest.id} >Delete</Text>
+              <Text onClick={() => deleteId(interest.id)} key={interest.id} ><Image 
+            style={{ width: 25, height: 25 }} source={require('../../../assets/heart-red.png')}  /></Text>
              </>
             
              

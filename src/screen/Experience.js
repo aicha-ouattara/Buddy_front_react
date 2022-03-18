@@ -24,7 +24,6 @@ const Experience = ({route, navigation}) => {
   })
     const [isLoading, setIsLoading] = useState(true);
     const [experience, setExperience] = useState([]);
-
     const [token, setToken] = useState("");
 
     useEffect(() => {

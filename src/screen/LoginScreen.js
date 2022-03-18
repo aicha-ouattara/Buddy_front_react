@@ -1,7 +1,7 @@
 import React, { useContext, useState, createRef, useEffect } from "react";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
-
+import {API_URL} from '@env';
 import {
   StyleSheet,
   TextInput,

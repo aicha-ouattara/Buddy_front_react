@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button } from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
 import BlocExperience from '../../components/BlocExperience';
@@ -11,6 +11,7 @@ import {API_URL} from '@env';
 import Experience from '../Experience';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import Visible from '../../components/Visible';
 
 
 
@@ -18,7 +19,7 @@ function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
-  const [experiences, setExperiences] = useState([]);
+  const [visible, setVisible] = useState(false);
   const body = JSON.stringify({
     "login": "mioumiou",
     "password": "mioumiou"
@@ -32,22 +33,6 @@ function Profile({ navigation, route }) {
     .catch(error => console.error(error))
   }, [])
 
-
-
-
-  // const getData = () => {
-  //   try {
-  //     AsyncStorage.getItem("token").then((value) => {
-  //       if (value != null) {
-  //         setToken(value);
-  //         console.log("valeur feed screen:", value);
-  //         // navigation.navigate("Protected");
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/7`, 'GET', token) 
@@ -77,6 +62,39 @@ function Profile({ navigation, route }) {
   };
 
   console.log(user);
+
+
+
+
+
+  const handleVisible = (experience) => {
+    if (visible === false) {
+        const bodyExperience = JSON.stringify({
+          "visible": false,
+          "experience": `api/experiences/${experience.id}`
+        })
+        genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
+          .then(json => json.json())
+          .then(data => setUser(data))
+          .catch(error => console.error(error))
+          console.log("expérience visible !");
+        setVisible(true)
+     
+
+    } if (visible === true)  {
+      const bodyExperience = JSON.stringify({
+        "visible": true,
+        "experience": `api/experiences/${experience.id}`
+      })
+      genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
+        .then(json => json.json())
+        .then(data => setUser(data))
+        .catch(error => console.error(error))
+        console.log("expérience invisible !");
+      setVisible(true)
+   
+    }
+  }
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text> Loading ... </Text>{" "}
@@ -87,9 +105,11 @@ function Profile({ navigation, route }) {
         <AllExperiences
           user={user}
           navigation={navigation}
+          handleVisible={(experience)}
           deleteId={(id, interestLength) => {
             deleteId(id, interestLength);
             fetchUser();
+
           }}
         />
       </TabScreen>
@@ -105,7 +125,7 @@ function Profile({ navigation, route }) {
   );
 }
 
-function AllExperiences({ navigation, user, deleteId }) {
+function AllExperiences({ navigation, user, deleteId, handleVisible }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -137,6 +157,9 @@ function AllExperiences({ navigation, user, deleteId }) {
                     source={require("../../../assets/trashcan.png")}
                   />
                 </Text>
+                <TouchableOpacity onPress={() => { handleVisible(experience.id) }} >
+            <Visible visible={visible} />
+          </TouchableOpacity>
               </>
             ))}
         </View>
