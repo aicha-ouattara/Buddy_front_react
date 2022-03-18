@@ -67,34 +67,34 @@ function Profile({ navigation, route }) {
 
 
 
-  const handleVisible = (experience) => {
-    if (visible === false) {
-        const bodyExperience = JSON.stringify({
-          "visible": false,
-          "experience": `api/experiences/${experience.id}`
-        })
-        genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
-          .then(json => json.json())
-          .then(data => setUser(data))
-          .catch(error => console.error(error))
-          console.log("expérience visible !");
-        setVisible(true)
+  // const handleVisible = (experience) => {
+  //   if (visible === false) {
+  //       const bodyExperience = JSON.stringify({
+  //         "visible": false,
+  //         "experience": `api/experiences/${experience.id}`
+  //       })
+  //       genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
+  //         .then(json => json.json())
+  //         .then(data => setUser(data))
+  //         .catch(error => console.error(error))
+  //         console.log("expérience visible !");
+  //       setVisible(true)
      
 
-    } if (visible === true)  {
-      const bodyExperience = JSON.stringify({
-        "visible": true,
-        "experience": `api/experiences/${experience.id}`
-      })
-      genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
-        .then(json => json.json())
-        .then(data => setUser(data))
-        .catch(error => console.error(error))
-        console.log("expérience invisible !");
-      setVisible(true)
+  //   } if (visible === true)  {
+  //     const bodyExperience = JSON.stringify({
+  //       "visible": true,
+  //       "experience": `api/experiences/${experience.id}`
+  //     })
+  //     genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
+  //       .then(json => json.json())
+  //       .then(data => setUser(data))
+  //       .catch(error => console.error(error))
+  //       console.log("expérience invisible !");
+  //     setVisible(true)
    
-    }
-  }
+  //   }
+  // }
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text> Loading ... </Text>{" "}
@@ -105,7 +105,7 @@ function Profile({ navigation, route }) {
         <AllExperiences
           user={user}
           navigation={navigation}
-          handleVisible={(experience)}
+      
           deleteId={(id, interestLength) => {
             deleteId(id, interestLength);
             fetchUser();
@@ -125,16 +125,16 @@ function Profile({ navigation, route }) {
   );
 }
 
-function AllExperiences({ navigation, user, deleteId, handleVisible }) {
+function AllExperiences({ navigation, user, deleteId }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
   return (
+    
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <Title style={{ textAlign: "center", paddingTop: 10 }}>
         ALL EXPERIENCES
       </Title>
-
       <ScrollView>
         <View>
           {user.experiences &&
@@ -145,7 +145,23 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
                   experience={experience}
                   user={user}
                 />
-                {/* <UpdateEvent/> */}
+            {(
+         experience &&(
+           experience.visible == 1 &&
+          <Image 
+          style={{ width: 25, height: 25 }} source={require('../../../assets/visible.png')}  />
+           )
+
+       )}
+
+      {(
+         experience &&(
+          experience.visible == 0 && 
+          <Image 
+          style={{ width: 25, height: 25 }} source={require('../../../assets/invisible.png')}  />
+         )
+       )}
+
                 <Text
                   onClick={() =>
                     deleteId(experience.id, experience.interests.length)
@@ -157,9 +173,9 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
                     source={require("../../../assets/trashcan.png")}
                   />
                 </Text>
-                <TouchableOpacity onPress={() => { handleVisible(experience.id) }} >
+                {/* <TouchableOpacity onPress={() => { handleVisible(experience.id) }} >
             <Visible visible={visible} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
               </>
             ))}
         </View>
