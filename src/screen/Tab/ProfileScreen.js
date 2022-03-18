@@ -50,7 +50,15 @@ function Profile({ navigation, route }) {
 
   const deleteId = (id, interestLength) => {
     if (interestLength != 0) {
-      genericFetchWithToken(`${API_URL}/experiences/${id}`, "PUT", token);
+      const bodyExperience = JSON.stringify({
+        "visible": 0,
+        "archive": 1
+        // "spots": 9
+        // "experience": `api/experiences/${experience.id}`
+      })
+      genericFetchWithTokenBody(`${API_URL}/experiences/${id}`, "PUT", token, bodyExperience)
+      .then(json => json.json())
+      .catch(error => console.error(error)) 
       fetchUser();
       console.log("expérience archivée !");
     }
@@ -148,6 +156,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
         <View>
           {user.experiences &&
             user.experiences.map((experience) => (
+              experience.archive == 0 &&
               <>
                 <BlocExperience navigation={navigation} experience={experience} user={user} />
                       {(
