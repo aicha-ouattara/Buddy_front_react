@@ -16,11 +16,12 @@ import {genericFetchWithTokenBody} from '../../api/fetchApiWithTokenBody'
 
 
 
+
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
-  const [visible, setVisible] = useState(false);
+
   const body = JSON.stringify({
     "login": "mioumiou",
     "password": "mioumiou"
@@ -102,12 +103,6 @@ function Profile({ navigation, route }) {
   };
 
   console.log(user);
-  
-
-
-
-
-
 
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -159,6 +154,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
               experience.archive == 0 &&
               <>
                 <BlocExperience navigation={navigation} experience={experience} user={user} />
+                <View style={styles.blocActions}>
                       {(
                   experience &&(
                     experience.visible == 1 &&
@@ -180,7 +176,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
                 <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
                   <Image style={{ width: 25, height: 25 }} source={require("../../../assets/trashcan.png")}/>
                 </Text>
-        
+        </View>
               </>
             ))}
         </View>
@@ -200,22 +196,18 @@ function AllInteractions({ navigation, user }) {
       </Title>
 
       <ScrollView>
-        <View>
+        <View style={styles.box}>
           {user.experiences &&
             user.experiences.map((experience) =>
               experience.interests.map((interest) => (
-                <>
-                  <BlocInterest
-                    navigation={navigation}
-                    key={interest.id}
-                    interest={interest}
-                    experience={experience}
-                    user={user}
-                  />
-                  <Text>id = {interest.id}</Text>
-                  <Text>message = {interest.message}</Text>
-                  <Text>date = {interest.date}</Text>
-                </>
+                <View>
+                  <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}  />
+                 
+                  <View style={styles.blocText}>
+                    <Text>{interest.message}</Text>
+                    <Text>{interest.date}</Text>
+                  </View>
+                </View>
               ))
             )}
         </View>
@@ -263,5 +255,63 @@ function UserProfileInfos({ navigation, user }) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  experiencePicture: {
+    width: 72,
+    height: 72,
+    borderRadius: 10,
+  },
+
+  avatar: {
+    backgroundColor: "white"
+  },
+
+  blocExperience: {
+    flex: 1,
+    flexDirection: "row",
+  },
+
+  box: {
+    flexDirection: "row",
+    borderRadius: 10,
+    backgroundColor: "white",
+    padding: 10,
+    margin: 10,
+    shadowColor: "grey",
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5
+  },
+
+  blocText: {
+    flex: 1,
+    width: "100%",
+    marginLeft: 10,
+    marginRight: 10,
+    flexDirection: 'column',
+  },
+
+  blocActions: {
+    paddingLeft: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: "#f14d53",
+    justifyContent: "space-between"
+  },
+
+  modalView: {
+    flex: 1,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+});
+
 
 export default Profile;
