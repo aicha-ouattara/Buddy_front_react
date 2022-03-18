@@ -11,7 +11,8 @@ import {API_URL} from '@env';
 import Experience from '../Experience';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import Visible from '../../components/Visible';
+import {genericFetchWithTokenBody} from '../../api/fetchApiWithTokenBody'
+
 
 
 
@@ -61,40 +62,45 @@ function Profile({ navigation, route }) {
     }
   };
 
+  const handleVisible = (experience) => {
+    // if (visible === false) {
+    if (experience.visible == 0) {
+      const bodyExperience = JSON.stringify({
+        "visible": 1,
+        // "spots": 5
+        // "experience": `api/experiences/${experience.id}`
+      })
+      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PUT', token, bodyExperience)
+      .then(json => json.json())
+      .catch(error => console.error(error)) 
+      fetchUser();
+      console.log("expérience visible !");
+      // setVisible(true)
+    }
+    // if (visible === true) {
+    if (experience.visible== 1) {
+      const bodyExperience = JSON.stringify({
+        "visible": 0,
+        // "spots": 9
+        // "experience": `api/experiences/${experience.id}`
+      })
+      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PUT', token, bodyExperience)
+      .then(json => json.json())
+      .catch(error => console.error(error))
+      fetchUser();
+      console.log("expérience visible !");
+      // setVisible(false)
+    }
+  };
+
   console.log(user);
+  
 
 
 
 
 
-  // const handleVisible = (experience) => {
-  //   if (visible === false) {
-  //       const bodyExperience = JSON.stringify({
-  //         "visible": false,
-  //         "experience": `api/experiences/${experience.id}`
-  //       })
-  //       genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
-  //         .then(json => json.json())
-  //         .then(data => setUser(data))
-  //         .catch(error => console.error(error))
-  //         console.log("expérience visible !");
-  //       setVisible(true)
-     
 
-  //   } if (visible === true)  {
-  //     const bodyExperience = JSON.stringify({
-  //       "visible": true,
-  //       "experience": `api/experiences/${experience.id}`
-  //     })
-  //     genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience)
-  //       .then(json => json.json())
-  //       .then(data => setUser(data))
-  //       .catch(error => console.error(error))
-  //       console.log("expérience invisible !");
-  //     setVisible(true)
-   
-  //   }
-  // }
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text> Loading ... </Text>{" "}
@@ -105,7 +111,10 @@ function Profile({ navigation, route }) {
         <AllExperiences
           user={user}
           navigation={navigation}
-      
+          handleVisible={(experience) => {
+            handleVisible(experience);
+            fetchUser();
+          }}
           deleteId={(id, interestLength) => {
             deleteId(id, interestLength);
             fetchUser();
@@ -125,7 +134,7 @@ function Profile({ navigation, route }) {
   );
 }
 
-function AllExperiences({ navigation, user, deleteId }) {
+function AllExperiences({ navigation, user, deleteId, handleVisible }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -140,42 +149,29 @@ function AllExperiences({ navigation, user, deleteId }) {
           {user.experiences &&
             user.experiences.map((experience) => (
               <>
-                <BlocExperience
-                  navigation={navigation}
-                  experience={experience}
-                  user={user}
-                />
-            {(
-         experience &&(
-           experience.visible == 1 &&
-          <Image 
-          style={{ width: 25, height: 25 }} source={require('../../../assets/visible.png')}  />
-           )
+                <BlocExperience navigation={navigation} experience={experience} user={user} />
+                      {(
+                  experience &&(
+                    experience.visible == 1 &&
+                    <TouchableOpacity onPress={() => handleVisible(experience)}>
+                      <Image style={{ width: 25, height: 25 }} source={require('../../../assets/visible.png')}  />
+                    </TouchableOpacity>
+                    )
+                )}
 
-       )}
+                {(
+                  experience &&(
+                    experience.visible == 0 && 
+                    <TouchableOpacity onPress={() => handleVisible(experience.id)}  >
+                     <Image style={{ width: 25, height: 25 }} source={require('../../../assets/invisible.png')}  />
+                    </TouchableOpacity>
+                  )
+                )}
 
-      {(
-         experience &&(
-          experience.visible == 0 && 
-          <Image 
-          style={{ width: 25, height: 25 }} source={require('../../../assets/invisible.png')}  />
-         )
-       )}
-
-                <Text
-                  onClick={() =>
-                    deleteId(experience.id, experience.interests.length)
-                  }
-                  key={experience.id}
-                >
-                  <Image
-                    style={{ width: 25, height: 25 }}
-                    source={require("../../../assets/trashcan.png")}
-                  />
+                <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
+                  <Image style={{ width: 25, height: 25 }} source={require("../../../assets/trashcan.png")}/>
                 </Text>
-                {/* <TouchableOpacity onPress={() => { handleVisible(experience.id) }} >
-            <Visible visible={visible} />
-          </TouchableOpacity> */}
+        
               </>
             ))}
         </View>
