@@ -1,4 +1,5 @@
 import React, { useContext, useState, createRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   StyleSheet,
@@ -13,8 +14,12 @@ import {
 } from "react-native";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
-import {API_URL} from '@env';
+import { API_URL } from "@env";
+//import Loader from './Components/Loader';
+import { authState } from "../store/auth/selectors";
+import { onSignUp } from "../store/auth/slice";
 
+// import { API_URL } from "@env";
 //import { genericFetchUsers } from '../api/fetchApi';
 
 function RegisterScreen({ navigation }) {
@@ -29,8 +34,8 @@ function RegisterScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState("");
   const [message, setMessage] = useState("");
-
-  const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
+  const dispatch = useDispatch(); //on est entrain d'envoyer l'action du login  au reducers "auth"
+  const { token, isLoggedIn } = useSelector(authState);
 
   const handleSubmitButton = () => {
     setErrortext("");
@@ -61,7 +66,7 @@ function RegisterScreen({ navigation }) {
 
     // don't remember from where i copied this code, but this works.
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.mioumiou(userEmail)) {
+    if (re.test(userEmail)) {
       const body = JSON.stringify({
         login: userLogin,
         password: userPassword,
@@ -70,15 +75,9 @@ function RegisterScreen({ navigation }) {
         email: userEmail,
         telephone: parseInt(userPhone),
       });
-      genericFetch("http://10.0.1.238:8000/api/users", "POST", body)
-        .then((json) => {
-          console.log(json);
-          navigation.navigate("Login");
-        })
-        .catch((error) => {
-          console.error("error", error);
-        });
-      console.log("ok");
+      // `${API_URL}/lusers`
+      void dispatch(onSignUp(body));
+      navigation.navigate("Login");
     } else {
       // invalid email, maybe show an error to the user.
       setErrortext("Email syntax is not correct");

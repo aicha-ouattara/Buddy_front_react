@@ -1,39 +1,50 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button } from 'react-native';
-import { Title } from 'react-native-paper';
-import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
-import BlocExperience from '../../components/BlocExperience';
-import BlocInterest from '../../components/BlocInterest';
-import FormModal from '../../components/FormModal';
-import {API_URL} from '@env';
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import UpdateEvent from '../../components/UpdateEvent';
-import Experience from '../Experience';
-import { genericFetch } from '../../api/fetchApi';
-import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-
-
+import React, { useContext, useState, useEffect } from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Button,
+} from "react-native";
+import { Title } from "react-native-paper";
+import {
+  Tabs,
+  TabScreen,
+  useTabIndex,
+  useTabNavigation,
+} from "react-native-paper-tabs";
+import BlocExperience from "../../components/BlocExperience";
+import BlocInterest from "../../components/BlocInterest";
+import FormModal from "../../components/FormModal";
+import { API_URL } from "@env";
+import Experience from "../Experience";
+import { genericFetch } from "../../api/fetchApi";
+import { genericFetchWithToken } from "../../api/fetchApiWithToken";
+import { authState } from "../../store/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../store/auth/slice";
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const [experiences, setExperiences] = useState([]);
-  const body = JSON.stringify({
-    "login": "mioumiou",
-    "password": "mioumiou"
-})
+  const { token } = useSelector(authState);
 
+  console.log(token);
+  // const body = JSON.stringify({
+  //   login: "mioumiou",
+  //   password: "mioumiou",
+  // });
 
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, 'POST', body) 
-    .then(json => json.json())
-    .then(data => setToken(data.token))
-    .catch(error => console.error(error))
-  }, [])
-
-
-
+  // useEffect(() => {
+  //   genericFetch(`${API_URL}/login`, "POST", body)
+  //     .then((json) => json.json())
+  //     .then((data) => setToken(data.token))
+  //     .catch((error) => console.error(error));
+  // }, []);
 
   // const getData = () => {
   //   try {
@@ -50,12 +61,12 @@ function Profile({ navigation, route }) {
   // };
 
   const fetchUser = () => {
-    genericFetchWithToken(`${API_URL}/users/7`, 'GET', token) 
-    .then(json => json.json())
-    .then(data => setUser(data))
-    .catch(error => console.error(error))
-    .finally(() => setIsLoading(false))
-  }
+    genericFetchWithToken(`${API_URL}/users/2`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -183,6 +194,10 @@ function AllInteractions({ navigation, user }) {
 function UserProfileInfos({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  const dispatch = useDispatch();
+  const onLogOut = () => {
+    dispatch(logOut());
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -191,6 +206,8 @@ function UserProfileInfos({ navigation, user }) {
       </Title>
 
       <View>
+        <Button onPress={onLogOut}>deconnexion</Button>
+
         <View>
           <Image
             style={{ width: 50, height: 50 }}
