@@ -3,6 +3,7 @@ import { initialState, sliceName } from "./constants";
 import { API_URL } from "@env";
 import { genericFetch } from "../../api/fetchApi";
 
+//Fetch de l'api pour le login
 export const logIn = createAsyncThunk("auth/logIn", async (body, thunkAPI) => {
   const response = await genericFetch(
     `${API_URL}/login`,
@@ -12,6 +13,7 @@ export const logIn = createAsyncThunk("auth/logIn", async (body, thunkAPI) => {
   return response;
 });
 
+//Fetch de l'api pour le register
 export const onSignUp = createAsyncThunk(
   "auth/Register",
   async (body, thunkAPI) => {
@@ -20,6 +22,7 @@ export const onSignUp = createAsyncThunk(
   }
 );
 
+//Deconnxion
 export const authSlice = createSlice({
   name: sliceName,
   initialState,

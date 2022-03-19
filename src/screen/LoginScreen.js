@@ -1,6 +1,7 @@
 import React, { useContext, useState, createRef, useEffect } from "react";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
+//import redux
 import { useDispatch, useSelector } from "react-redux";
 import {
   StyleSheet,
@@ -18,6 +19,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "@env";
 //import Loader from './Components/Loader';
+
+// selector import pour token
 import { authState } from "../store/auth/selectors";
 import { logIn } from "../store/auth/slice";
 
@@ -45,6 +48,7 @@ function LoginScreen({ navigation }) {
       login: userLogin,
       password: userPassword,
     });
+    //On peut l'écrire sans le void mais c'est pour les bonnes pratiques
     void dispatch(logIn(body));
   };
 
