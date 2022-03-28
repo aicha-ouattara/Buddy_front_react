@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
 import ContainerFeedExperience from '../../components/ContainerFeedExperience';
 // import { GlobalContext } from '../context/Provider';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import { API_URL } from '@env';
-import { TextInput } from 'react-native-paper';
 import Loading from '../../components/Loading';
 import { useDebounce } from 'use-debounce/lib';
+import jwt_decode from "jwt-decode";
+
+
 const entryPoint = new URL(`${API_URL}/experiences`)
 const searchParams = new URLSearchParams(entryPoint.search)
 
@@ -17,6 +19,7 @@ function SearchScreen({ navigation, route }) {
 
 
   const [token, setToken] = useState("");
+  const [userId, setUserId] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [debouncedTitle] = useDebounce(title, 1000);
@@ -36,7 +39,8 @@ function SearchScreen({ navigation, route }) {
       .then(json => json.json())
       .then(data => setToken(data.token))
       .catch(error => console.error(error))
-  }, [])
+
+  },[])
 
   //récupère ville sélectionnée dans le feed
   useEffect(() => {
@@ -70,9 +74,10 @@ function SearchScreen({ navigation, route }) {
   //requête de résultats
   useEffect(() => {
     setIsLoading(true)
+    token.length > 0 && setUserId(jwt_decode(token).id); //get user Id from Token
     if (searchParamsToString.length > 0) {
       console.log("fetch results")
-      genericFetchWithToken(`${entryPoint}?${searchParamsToString}`, 'GET', token)
+      genericFetchWithToken(`${entryPoint}?visible=true&${searchParamsToString}`, 'GET', token)
         .then(json => json.json())
         .then(data => setExperiences(data))
         .catch(error => console.error(error))
@@ -82,7 +87,7 @@ function SearchScreen({ navigation, route }) {
       setExperiences([])
       setIsLoading(false)
     }
-  }, [searchParamsToString])
+  }, [searchParamsToString, token])
 
 
   return (
@@ -114,7 +119,7 @@ function SearchScreen({ navigation, route }) {
         <Loading  />
       </View> :
       <ScrollView>
-          <ContainerFeedExperience experiences={experiences} navigation={navigation} />
+          <ContainerFeedExperience experiences={experiences} navigation={navigation} userId={userId} />
       </ScrollView>
     }
     </View>
@@ -131,6 +136,11 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "white",
+    color: "#f14d53",
+    fontWeight: "bold"
   },
   SectionStyle: {
     margin: 10,

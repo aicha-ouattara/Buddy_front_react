@@ -8,6 +8,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function UpdateProfile({navigation}) {
 
+    const bodyLogin = JSON.stringify({
+        "login": "test",
+        "password": "test"
+    })
+
       const [isLoading, setIsLoading] = useState(true);
       const [user, setUser] = useState([]);
       const [token, setToken] = useState("");

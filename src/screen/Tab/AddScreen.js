@@ -26,106 +26,126 @@ function AddScreen({navigation})
   const [location, setLocation] = useState("");
   const [duration, setDuration] = useState(0);
 
-  // const state = useContext(GlobalContext);
+    // const state = useContext(GlobalContext);
 
-  const [token, setToken] = useState("");
+    const body = JSON.stringify({
+      "login": "test",
+      "password": "test"
+  })
+    const [token, setToken] = useState("");
+    
+    useEffect(() => {
+      genericFetch(`${API_URL}/login`, 'POST', body) 
+      .then(json => json.json())
+      .then(data => setToken(data.token))
+      .catch(error => console.error(error))
+    }, [])
+  
 
-  const handleSubmitPress = () => {
-    const bodyExperience = JSON.stringify({
-      title: title,
-      content: content,
-      image: "imageexample",
-      spots: spots.value,
-      location: location,
-      duration: 15,
-    });
 
-    console.log(bodyExperience);
+    const handleSubmitPress = () => {
+     
+      const bodyExperience = JSON.stringify({
+        "title": title,
+        "content": content,
+        "image": "imageexample",
+        "spots" : spots.value,
+        "location" : location,
+        "duration" : 15
+      })
 
-    genericFetchWithTokenBody(
-      `${API_URL}/experiences`,
-      "POST",
-      token,
-      bodyExperience
-    )
-      .then((json) => json.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };
+        console.log(bodyExperience)
 
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: "center",
-          alignContent: "center",
-        }}
-      >
-        <Text>ADD</Text>
-        <View>
-          <TextInput
-            placeholder="Enter title"
-            onChangeText={(title) => setTitle(title)}
-            placeholderTextColor="#8b9cb5"
-            autoCapitalize="none"
-            keyboardType="default"
-            returnKeyType="next"
-            underlineColorAndroid="#f000"
-            blurOnSubmit={false}
-          />
+        genericFetchWithTokenBody(`${API_URL}/experiences`, 'POST', token, bodyExperience) 
+      .then(json => json.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error))
 
-          <TextInput
-            placeholder="Enter content"
-            onChangeText={(content) => setContent(content)}
-            placeholderTextColor="#8b9cb5"
-            autoCapitalize="none"
-            keyboardType="default"
-            returnKeyType="next"
-            underlineColorAndroid="#f000"
-            blurOnSubmit={false}
-          />
+        
+    }
 
-          <NumberPlease
-            digits={[{ id: "spots", label: "spots", min: 0, max: 15 }]}
-            values={spots}
-            onChange={(values) => setSpots(values)}
-          />
 
-          <TextInput
-            placeholder="Enter location"
-            onChangeText={(location) => setLocation(location)}
-            placeholderTextColor="#8b9cb5"
-            autoCapitalize="none"
-            keyboardType="default"
-            returnKeyType="next"
-            underlineColorAndroid="#f000"
-            blurOnSubmit={false}
-          />
 
-          <SelectDropdown
-            data={["< 1 hour", "1-2 hours", "half day", "whole day"]}
-            onSelect={(selectedItem) => {
-              setDuration(selectedItem);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              // text represented for each item in dropdown
-              // if data array is an array of objects then return item.property to represent item in dropdown
-              return item;
-            }}
-          />
+    return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            flex: 1,
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}>
+            <Text>ADD</Text>
+            <View>
+            <TextInput
+                  placeholder="Enter title" 
+                  onChangeText={(title) =>
+                    setTitle(title)
+                  }
+                  placeholderTextColor="#8b9cb5"
+                  autoCapitalize="none"
+                  keyboardType="default"
+                  returnKeyType="next"
+                  underlineColorAndroid="#f000"
+                  blurOnSubmit={false}
+                />
 
-          <TouchableOpacity activeOpacity={0.5} onPress={handleSubmitPress}>
-            Add
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
+            <TextInput
+                  placeholder="Enter content" 
+                  onChangeText={(content) =>
+                    setContent(content)
+                  }
+                  placeholderTextColor="#8b9cb5"
+                  autoCapitalize="none"
+                  keyboardType="default"
+                  returnKeyType="next"
+                  underlineColorAndroid="#f000"
+                  blurOnSubmit={false}
+                />
 
-export default AddScreen;
+      <NumberPlease
+        digits={[{ id: "spots", label: "spots", min: 0, max: 15 }]}
+        values={spots}
+        onChange={(values) => setSpots(values)}
+      />
+
+            <TextInput
+                  placeholder="Enter location" 
+                  onChangeText={(location) =>
+                    setLocation(location)
+                  }
+                  placeholderTextColor="#8b9cb5"
+                  autoCapitalize="none"
+                  keyboardType="default"
+                  returnKeyType="next"
+                  underlineColorAndroid="#f000"
+                  blurOnSubmit={false}
+                />
+
+<SelectDropdown
+	data={["< 1 hour", "1-2 hours", "half day", "whole day"]}
+	onSelect={(selectedItem) => {
+		setDuration(selectedItem)
+	}}
+	buttonTextAfterSelection={(selectedItem, index) => {
+		return selectedItem
+	}}
+	rowTextForSelection={(item, index) => {
+		// text represented for each item in dropdown
+		// if data array is an array of objects then return item.property to represent item in dropdown
+		return item
+	}}
+/>
+
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={handleSubmitPress}><Text>Add</Text>
+              </TouchableOpacity>
+            </View>
+            </ScrollView>
+
+         </View>
+    );
+  }
+
+export default AddScreen

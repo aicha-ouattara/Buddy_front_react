@@ -3,11 +3,12 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, Modal, Pressable } fro
 import { Avatar } from 'react-native-paper';
 import { API_URL } from '@env';
 import Bucket from './Bucket';
+import ModalMessage from './ModalMessage';
 import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
 import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
 
-const BlocExperience = ({ experience, user, userId, navigation, hasActions = false }) => {
+const BlocExperience = ({ experience, user, userId = 0, navigation, hasActions = false }) => {
 
   const [token, setToken] = useState("");
   const [liked, setLiked] = useState(false);
@@ -24,11 +25,11 @@ const BlocExperience = ({ experience, user, userId, navigation, hasActions = fal
       .then(data => setToken(data.token))
       .catch(error => console.error(error))
 
-    experience.interests.map(function (interest) { //set interest id and liked if it exists
-      if (interest.user.id == userId) {
+    experience?.interests && experience.interests.map(function (interest) { //set interest id and liked if it exists
+      if (interest.user == `/api/users/${userId}`) {
         setLiked(true)
         setInterestId(interest.id)
-      }
+      } else {console.log(interest.user, userId)}
     })
   }, [])
 
@@ -42,9 +43,9 @@ const BlocExperience = ({ experience, user, userId, navigation, hasActions = fal
         })
         genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
           .then(json => json.json())
-          .then(data => setInterestId(data.id))
+          .then(data => {setInterestId(data.id), console.log(`liked ${experience.id} - interest ${data.id} created - by user ${userId}`)})
           .catch(error => console.error(error))
-        console.log(`liked ${experience.id} - interest ${interestId} created - by user ${userId}`)
+        
         setLiked(true)
       } else {
         console.log('Cannot like your own experiences')
@@ -68,9 +69,9 @@ const BlocExperience = ({ experience, user, userId, navigation, hasActions = fal
     <View style={styles.box}>
 
       <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
-        <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
+        {/* <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} /> */}
         <View style={styles.blocText}>
-          <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text> | <Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
+          <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
           <Text numberOfLines={3} >{experience.content}</Text>
         </View>
       </TouchableOpacity>
@@ -86,19 +87,9 @@ const BlocExperience = ({ experience, user, userId, navigation, hasActions = fal
           </TouchableOpacity>
         </View>
       }
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-      >
-          <Pressable onPress={() => setModalVisible(!modalVisible)}>
-            <View style={styles.modalView}>
-              <Text>Tu essayes d'ajouter une de tes propres expériences à ta bucket list :')</Text>
-            </View>
-          </Pressable>
-      </Modal>
-
+    {modalVisible && 
+      <ModalMessage message="Tu essayes d'ajouter une de tes propres expériences à ta bucket list :')" />
+    }
     </View>
 
   );
@@ -147,19 +138,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
 
-  modalView: {
-    flex: 1,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
+  
 });
 
 export default BlocExperience;
