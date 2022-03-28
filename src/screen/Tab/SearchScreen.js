@@ -27,8 +27,8 @@ function SearchScreen({ navigation, route }) {
 
   /*récupère token automatiquement */
   const body = JSON.stringify({
-    "login": "test",
-    "password": "test"
+    "login": "mioumiou",
+    "password": "mioumiou"
   })
 
   useEffect(() => {

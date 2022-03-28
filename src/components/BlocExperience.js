@@ -15,8 +15,8 @@ const BlocExperience = ({ experience, user, userId, navigation, hasActions = fal
   const [modalVisible, setModalVisible] = useState(false);
   /*récupère token automatiquement */
   const body = JSON.stringify({
-    "login": "test",
-    "password": "test"
+    "login": "mioumiou",
+    "password": "mioumiou"
   })
   useEffect(() => {
     genericFetch(`${API_URL}/login`, 'POST', body)

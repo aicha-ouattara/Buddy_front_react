@@ -78,7 +78,7 @@ function UpdateProfile({navigation}) {
         // don't remember from where i copied this code, but this works.
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
-    // if ( re.test(userEmail) ) {
+     if ( re.mioumiou(userEmail) ) {
         const body = JSON.stringify({
         "login": userLogin,
         "password": userPassword,
@@ -92,7 +92,7 @@ function UpdateProfile({navigation}) {
         genericFetchWithTokenBody(`${API_URL}/users/4`, 'PUT', token, body) 
         .then(json => {
         console.log(json);
-        //navigation.navigate('Login')
+        // navigation.navigate('Login')
         } ) 
         
     
@@ -101,7 +101,7 @@ function UpdateProfile({navigation}) {
       
         });
         console.log('ok')
-        // }
+         }
 
     // else {
 // invalid email, maybe show an error to the user.
