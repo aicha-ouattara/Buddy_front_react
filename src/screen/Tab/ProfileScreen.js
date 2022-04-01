@@ -11,7 +11,7 @@ import {API_URL} from '@env';
 import Experience from '../Experience';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import {genericFetchWithTokenBody} from '../../api/fetchApiWithTokenBody'
+import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
 
 
 
@@ -57,7 +57,7 @@ function Profile({ navigation, route }) {
         // "spots": 9
         // "experience": `api/experiences/${experience.id}`
       })
-      genericFetchWithTokenBody(`${API_URL}/experiences/${id}`, "PUT", token, bodyExperience)
+      PatchWithTokenBody(`${API_URL}/experiences/${id}`, "PATCH", token, bodyExperience)
       .then(json => json.json())
       .catch(error => console.error(error)) 
       fetchUser();
@@ -79,7 +79,7 @@ function Profile({ navigation, route }) {
         // "spots": 5
         // "experience": `api/experiences/${experience.id}`
       })
-      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PUT', token, bodyExperience)
+      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
       .then(json => json.json())
       .catch(error => console.error(error)) 
       fetchUser();
@@ -93,7 +93,7 @@ function Profile({ navigation, route }) {
         // "spots": 9
         // "experience": `api/experiences/${experience.id}`
       })
-      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PUT', token, bodyExperience)
+      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
       .then(json => json.json())
       .catch(error => console.error(error))
       fetchUser();
