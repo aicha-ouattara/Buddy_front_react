@@ -17,25 +17,6 @@ function FavoritesScreen({navigation, route})
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
 
-  // useEffect(() => {
-  //   getData();
-  //   // removeData();
-  // }, []);
-
-  // const getData = () => {
-  //   try {
-  //     AsyncStorage.getItem("token").then((value) => {
-  //       if (value != null) {
-  //         setToken(value);
-  //         console.log("valeur feed screen:", value);
-  //         // navigation.navigate("Protected");
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const body = JSON.stringify({
     "login": "mioumiou",
     "password": "mioumiou"

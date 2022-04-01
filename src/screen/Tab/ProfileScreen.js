@@ -52,8 +52,8 @@ function Profile({ navigation, route }) {
   const deleteId = (id, interestLength) => {
     if (interestLength != 0) {
       const bodyExperience = JSON.stringify({
-        "visible": 0,
-        "archive": 1
+        "visible": false,
+        "archive": true
         // "spots": 9
         // "experience": `api/experiences/${experience.id}`
       })
@@ -72,41 +72,30 @@ function Profile({ navigation, route }) {
   };
 
   const handleVisible = (experience) => {
-    // if (visible === false) {
+
     if (experience.visible == 0) {
       const bodyExperience = JSON.stringify({
         "visible": true
-        // "spots": 5
-        // "experience": `api/experiences/${experience.id}`
       })
-<<<<<<< Updated upstream
+
       PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
-=======
-      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
->>>>>>> Stashed changes
       .then(json => json.json())
       .catch(error => console.error(error)) 
       fetchUser();
       console.log("expérience visible !");
-      // setVisible(true)
     }
-    // if (visible === true) {
+
     if (experience.visible== 1) {
       const bodyExperience = JSON.stringify({
         "visible": false
-        // "spots": 9
-        // "experience": `api/experiences/${experience.id}`
       })
-<<<<<<< Updated upstream
+
       PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
-=======
-      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
->>>>>>> Stashed changes
+
       .then(json => json.json())
       .catch(error => console.error(error))
       fetchUser();
       console.log("expérience invisible !");
-      // setVisible(false)
     }
   };
 
@@ -166,7 +155,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
                       {(
                   experience &&(
                     experience.visible == 1 &&
-                    <TouchableOpacity onPress={() => handleVisible(experience)}>
+                    <TouchableOpacity onPress={() => handleVisible(experience.id)}>
                       <Image style={{ width: 25, height: 25 }} source={require('../../../assets/visible.png')}  />
                     </TouchableOpacity>
                     )
