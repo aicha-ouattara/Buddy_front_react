@@ -40,25 +40,25 @@ const BlocExperience = ({ interest, navigation, experience}) => {
    
     if (experience.accepted == 0) {
       const bodyExperience = JSON.stringify({
-        "accepted": 0,
+        "accepted": true
     
       })
-      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PUT', token, bodyExperience)
+      genericFetchWithTokenBody(`${API_URL}/experiences/${id}`, 'PATCH', token, bodyExperience)
       .then(json => json.json())
       .catch(error => console.error(error)) 
       fetchUser();
-      console.log("expérience visible !");
+      console.log("intérêt accepté !");
     }
   
     if (experience.accepted== 1) {
       const bodyExperience = JSON.stringify({
-        "accepted": 1,
+        "accepted": false
       })
-      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PUT', token, bodyExperience)
+      genericFetchWithTokenBody(`${API_URL}/experiences/${id}`, 'PATCH', token, bodyExperience)
       .then(json => json.json())
       .catch(error => console.error(error))
       fetchUser();
-      console.log("expérience visible !");
+      console.log("intérêt refusé !");
       // setVisible(false)
     }
   };

@@ -75,11 +75,15 @@ function Profile({ navigation, route }) {
     // if (visible === false) {
     if (experience.visible == 0) {
       const bodyExperience = JSON.stringify({
-        "visible": 1,
+        "visible": true
         // "spots": 5
         // "experience": `api/experiences/${experience.id}`
       })
+<<<<<<< Updated upstream
       PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
+=======
+      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
+>>>>>>> Stashed changes
       .then(json => json.json())
       .catch(error => console.error(error)) 
       fetchUser();
@@ -89,15 +93,19 @@ function Profile({ navigation, route }) {
     // if (visible === true) {
     if (experience.visible== 1) {
       const bodyExperience = JSON.stringify({
-        "visible": 0,
+        "visible": false
         // "spots": 9
         // "experience": `api/experiences/${experience.id}`
       })
+<<<<<<< Updated upstream
       PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
+=======
+      genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
+>>>>>>> Stashed changes
       .then(json => json.json())
       .catch(error => console.error(error))
       fetchUser();
-      console.log("expérience visible !");
+      console.log("expérience invisible !");
       // setVisible(false)
     }
   };
