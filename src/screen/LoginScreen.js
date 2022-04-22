@@ -1,7 +1,8 @@
 import React, { useContext, useState, createRef, useEffect } from "react";
 import { GlobalContext } from "../context/Provider";
 import { genericFetch } from "../api/fetchApi";
-import {API_URL} from '@env';
+//import redux
+import { useDispatch, useSelector } from "react-redux";
 import {
   StyleSheet,
   TextInput,
@@ -16,8 +17,12 @@ import {
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { API_URL } from "@env";
 //import Loader from './Components/Loader';
+
+// selector import pour token
+import { authState } from "../store/auth/selectors";
+import { logIn } from "../store/auth/slice";
 
 function LoginScreen({ navigation }) {
   const state = useContext(GlobalContext);
@@ -26,7 +31,8 @@ function LoginScreen({ navigation }) {
   const [userPassword, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState("");
-  const [token, setToken] = useState("");
+  const dispatch = useDispatch(); //on est entrain d'envoyer l'action du login  au reducers "auth"
+  const { token, isLoggedIn } = useSelector(authState);
 
   const handleSubmitPress = () => {
     setErrortext("");
@@ -42,49 +48,16 @@ function LoginScreen({ navigation }) {
       login: userLogin,
       password: userPassword,
     });
-
-    genericFetch(`${API_URL}/login`, "POST", body)
-      .then((json) => json.json())
-      .then((data) => setData(data.token));
-
-    // .then((response) => response.json())
-    // .then((retour) => {
-    //   console.log(retour);
-    //   let storeToken = retour.token;
-    //   let key = "token";
-    //   save(key, storeToken);
-    // })
+    //On peut l'écrire sans le void mais c'est pour les bonnes pratiques
+    void dispatch(logIn(body));
   };
 
-  // useEffect(() => {
-  //   // setData();
-  //   getData();
-  // }, []);
-
-  const setData = async (token) => {
-    try {
-      await AsyncStorage.setItem("token", JSON.stringify(token));
-      console.log("storage set data :", token);
+  useEffect(() => {
+    if (isLoggedIn && token) {
       navigation.navigate("Protected");
-    } catch (error) {
-      console.log(error);
     }
-  };
+  }, [isLoggedIn, token]);
 
-  // const getData = () => {
-  //   console.log(AsyncStorage.getItem("token"));
-  //   try {
-  //     AsyncStorage.getItem("token").then((value) => {
-  //       if (value != null) {
-  //         navigation.navigate("Protected");
-  //       } else {
-  //         console.log(value);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <View style={styles.mainBody}>
@@ -97,7 +70,6 @@ function LoginScreen({ navigation }) {
         }}
       >
         <View>
-          <Text>{token}</Text>
           <KeyboardAvoidingView enabled>
             <View style={{ alignItems: "center" }}></View>
             <View style={styles.SectionStyle}>
