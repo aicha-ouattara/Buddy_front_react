@@ -15,7 +15,7 @@ This project is developped with React Native and Expo.
 
 ## Requirements
 
-You need a local server.
+You need a local server. You need expo.
 
 You need to download the Buddy API and launch it:
 
@@ -32,9 +32,18 @@ You need to download the Buddy API and launch it:
 
     npm install react-native-paper react-native-paper-tabs react-native-pager-view
 
+If you have an issue with versions, you can always run:
+
+    expo doctor --fix-dependencies
 
 ### Start the project
 
     expo start
+
+Dev tools will open on:
+
+    localhost:19002
+
+If you run it in the web version, you'll see the app at:
 
     localhost:19006
