@@ -21,51 +21,6 @@ function FeedScreen({ navigation }) {
 
   console.log("token", token);
 
-  /* useEffect(() => {
-    getData();
-    // removeData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      AsyncStorage.getItem("token").then((value) => {
-        if (value != null) {
-          // alert("hey", value);
-          setToken(value);
-          console.log("token state:", setToken(value));
-          console.log("valeur protected screen:", value);
-          // navigation.navigate("Protected");
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };*/
-  /*récupère token automatiquement */
-  // const body = JSON.stringify({
-  //   "login": "mioumiou",
-  //   "password": "mioumiou"
-  // })
-
-  // useEffect(() => {
-  //   genericFetch(`${API_URL}/login`, 'POST', body)
-  //     .then(json => json.json())
-  //     .then(data => setToken(data.token))
-  //     .catch(error => console.error(error))
-  // }, [])
-
-  // fetch a voir ! API
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   genericFetchWithToken(`${API_URL}/experiences?visible=true`, "GET", token)
-  //     .then((json) => json.json())
-  //     .then((data) => setExperiences(data))
-  //     .catch((error) => console.error(error))
-  //     .finally(() => setIsLoading(false));
-
-  //   token.length > 0 && setUserId(jwt_decode(token).id); //get user Id from Token
-  // }, [token]);
 
   return (
     <View style={styles.mainBody}>

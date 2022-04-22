@@ -1,5 +1,12 @@
-import React, { useContext, useState, createRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {
+  useContext,
+  useState,
+  createRef
+} from "react";
+import {
+  useDispatch,
+  useSelector
+} from "react-redux";
 
 import {
   StyleSheet,
@@ -12,17 +19,29 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-import { GlobalContext } from "../context/Provider";
-import { genericFetch } from "../api/fetchApi";
-import { API_URL } from "@env";
+import {
+  GlobalContext
+} from "../context/Provider";
+import {
+  genericFetch
+} from "../api/fetchApi";
+import {
+  API_URL
+} from "@env";
 //import Loader from './Components/Loader';
-import { authState } from "../store/auth/selectors";
-import { onSignUp } from "../store/auth/slice";
+import {
+  authState
+} from "../store/auth/selectors";
+import {
+  onSignUp
+} from "../store/auth/slice";
 
 // import { API_URL } from "@env";
 //import { genericFetchUsers } from '../api/fetchApi';
 
-function RegisterScreen({ navigation }) {
+function RegisterScreen({
+  navigation
+}) {
   const state = useContext(GlobalContext);
 
   const [userFirstName, setUserFirstName] = useState("");
@@ -35,7 +54,10 @@ function RegisterScreen({ navigation }) {
   const [errortext, setErrortext] = useState("");
   const [message, setMessage] = useState("");
   const dispatch = useDispatch(); //on est entrain d'envoyer l'action du login  au reducers "auth"
-  const { token, isLoggedIn } = useSelector(authState);
+  const {
+    token,
+    isLoggedIn
+  } = useSelector(authState);
 
   const handleSubmitButton = () => {
     setErrortext("");
@@ -84,103 +106,173 @@ function RegisterScreen({ navigation }) {
     }
   };
 
-  return (
-    <View style={styles.mainBody}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          justifyContent: "center",
-          alignContent: "center",
-        }}
-      >
-        <KeyboardAvoidingView enabled>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserLogin) => setUserLogin(UserLogin)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Login"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
-            />
-          </View>
+  return ( <
+    View style = {
+      styles.mainBody
+    } >
+    <
+    ScrollView keyboardShouldPersistTaps = "handled"
+    contentContainerStyle = {
+      {
+        justifyContent: "center",
+        alignContent: "center",
+      }
+    } >
+    <
+    KeyboardAvoidingView enabled >
+    <
+    View style = {
+      styles.SectionStyle
+    } >
+    <
+    TextInput style = {
+      styles.inputStyle
+    }
+    onChangeText = {
+      (UserLogin) => setUserLogin(UserLogin)
+    }
+    underlineColorAndroid = "#f000"
+    placeholder = "Enter Login"
+    placeholderTextColor = "#8b9cb5"
+    autoCapitalize = "sentences"
+    returnKeyType = "next"
+    onSubmitEditing = {
+      Keyboard.dismiss
+    }
+    blurOnSubmit = {
+      false
+    }
+    /> <
+    /View>
 
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserFirstName) => setUserFirstName(UserFirstName)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Firstname"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserLastName) => setUserLastName(UserLastName)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Lastname"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Email"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="email-address"
-              returnKeyType="next"
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Password"
-              placeholderTextColor="#8b9cb5"
-              returnKeyType="next"
-              secureTextEntry={true}
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserPhone) => setUserPhone(UserPhone)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Phone"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              returnKeyType="next"
-              blurOnSubmit={false}
-            />
-          </View>
-          {errortext != "" ? (
-            <Text style={styles.errorTextStyle}>{errortext}</Text>
-          ) : null}
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitButton}
-          >
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </View>
+    <
+    View style = {
+      styles.SectionStyle
+    } >
+    <
+    TextInput style = {
+      styles.inputStyle
+    }
+    onChangeText = {
+      (UserFirstName) => setUserFirstName(UserFirstName)
+    }
+    underlineColorAndroid = "#f000"
+    placeholder = "Enter Firstname"
+    placeholderTextColor = "#8b9cb5"
+    autoCapitalize = "sentences"
+    returnKeyType = "next"
+    blurOnSubmit = {
+      false
+    }
+    /> <
+    /View> <
+    View style = {
+      styles.SectionStyle
+    } >
+    <
+    TextInput style = {
+      styles.inputStyle
+    }
+    onChangeText = {
+      (UserLastName) => setUserLastName(UserLastName)
+    }
+    underlineColorAndroid = "#f000"
+    placeholder = "Enter Lastname"
+    placeholderTextColor = "#8b9cb5"
+    autoCapitalize = "sentences"
+    returnKeyType = "next"
+    blurOnSubmit = {
+      false
+    }
+    /> <
+    /View> <
+    View style = {
+      styles.SectionStyle
+    } >
+    <
+    TextInput style = {
+      styles.inputStyle
+    }
+    onChangeText = {
+      (UserEmail) => setUserEmail(UserEmail)
+    }
+    underlineColorAndroid = "#f000"
+    placeholder = "Enter Email"
+    placeholderTextColor = "#8b9cb5"
+    keyboardType = "email-address"
+    returnKeyType = "next"
+    blurOnSubmit = {
+      false
+    }
+    /> <
+    /View> <
+    View style = {
+      styles.SectionStyle
+    } >
+    <
+    TextInput style = {
+      styles.inputStyle
+    }
+    onChangeText = {
+      (UserPassword) => setUserPassword(UserPassword)
+    }
+    underlineColorAndroid = "#f000"
+    placeholder = "Enter Password"
+    placeholderTextColor = "#8b9cb5"
+    returnKeyType = "next"
+    secureTextEntry = {
+      true
+    }
+    blurOnSubmit = {
+      false
+    }
+    /> <
+    /View> <
+    View style = {
+      styles.SectionStyle
+    } >
+    <
+    TextInput style = {
+      styles.inputStyle
+    }
+    onChangeText = {
+      (UserPhone) => setUserPhone(UserPhone)
+    }
+    underlineColorAndroid = "#f000"
+    placeholder = "Enter Phone"
+    placeholderTextColor = "#8b9cb5"
+    keyboardType = "numeric"
+    returnKeyType = "next"
+    blurOnSubmit = {
+      false
+    }
+    /> <
+    /View> {
+      errortext != "" ? ( <
+        Text style = {
+          styles.errorTextStyle
+        } > {
+          errortext
+        } < /Text>
+      ) : null
+    } <
+    TouchableOpacity style = {
+      styles.buttonStyle
+    }
+    activeOpacity = {
+      0.5
+    }
+    onPress = {
+      handleSubmitButton
+    } >
+    <
+    Text style = {
+      styles.buttonTextStyle
+    } > REGISTER < /Text> <
+    /TouchableOpacity> <
+    /KeyboardAvoidingView> <
+    /ScrollView> <
+    /View>
   );
 }
 export default RegisterScreen;

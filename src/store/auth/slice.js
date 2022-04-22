@@ -1,7 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { initialState, sliceName } from "./constants";
-import { API_URL } from "@env";
-import { genericFetch } from "../../api/fetchApi";
+import {
+  createSlice,
+  createAsyncThunk
+} from "@reduxjs/toolkit";
+import {
+  initialState,
+  sliceName
+} from "./constants";
+import {
+  API_URL
+} from "@env";
+import {
+  genericFetch
+} from "../../api/fetchApi";
 
 //Fetch de l'api pour le login
 export const logIn = createAsyncThunk("auth/logIn", async (body, thunkAPI) => {
@@ -42,5 +52,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logOut } = authSlice.actions;
+export const {
+  logOut
+} = authSlice.actions;
 export default authSlice.reducer;

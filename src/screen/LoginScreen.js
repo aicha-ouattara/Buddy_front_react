@@ -58,31 +58,6 @@ function LoginScreen({ navigation }) {
     }
   }, [isLoggedIn, token]);
 
-  /* const setData = async (token) => {
-    try {
-      await AsyncStorage.setItem("token", JSON.stringify(token));
-      console.log("storage set data :", token);
-      setToken(token);
-      //navigation.navigate("Protected");
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
-
-  // const getData = () => {
-  //   console.log(AsyncStorage.getItem("token"));
-  //   try {
-  //     AsyncStorage.getItem("token").then((value) => {
-  //       if (value != null) {
-  //         navigation.navigate("Protected");
-  //       } else {
-  //         console.log(value);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <View style={styles.mainBody}>
