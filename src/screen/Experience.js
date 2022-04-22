@@ -1,18 +1,46 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, Text, View, Button, Modal, Image, TouchableOpacity, TextInput } from 'react-native';
-import { Divider, Avatar } from 'react-native-paper';
+import React, {
+  useContext,
+  useEffect,
+  useState
+} from 'react';
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  Button,
+  Modal,
+  Image,
+  TouchableOpacity,
+  TextInput
+} from 'react-native';
+import {
+  Divider,
+  Avatar
+} from 'react-native-paper';
 
 // import { GlobalContext } from '../context/Provider';
-import { genericFetch } from '../api/fetchApi';
-import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
-import { API_URL } from '@env';
+import {
+  genericFetch
+} from '../api/fetchApi';
+import {
+  genericFetchWithToken
+} from '../api/fetchApiWithToken';
+import {
+  genericFetchWithTokenBody
+} from '../api/fetchApiWithTokenBody';
+import {
+  API_URL
+} from '@env';
 import Loading from '../components/Loading';
 import Bucket from '../components/Bucket';
 import ModalMessage from '../components/ModalMessage';
 import jwt_decode from "jwt-decode";
 
-const Experience = ({ route, navigation }) => {
+const Experience = ({
+  route,
+  navigation
+}) => {
 
   // const state = useContext(GlobalContext);
 
@@ -30,13 +58,13 @@ const Experience = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [content, setContent] = useState("");
-  
+
   useEffect(() => {
     genericFetch(`${API_URL}/login`, 'POST', body)
       .then(json => json.json())
       .then(data => setToken(data.token))
       .catch(error => console.error(error))
-      
+
   }, [])
 
 
@@ -47,16 +75,18 @@ const Experience = ({ route, navigation }) => {
       .then(data => setExperience(data))
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
-      token.length > 0 && setUserId(jwt_decode(token).id); //get user Id from Token
+    token.length > 0 && setUserId(jwt_decode(token).id); //get user Id from Token
   }, [token])
 
 
   useEffect(() => {
-experience && experience?.interests &&    experience.interests.map(function (interest) { //set interest id and liked if it exists
+    experience && experience?.interests && experience.interests.map(function (interest) { //set interest id and liked if it exists
       if (interest.user == `/api/users/${userId}`) {
         setLiked(true)
         setInterestId(interest.id)
-      } else {console.log(interest.user, userId)}
+      } else {
+        console.log(interest.user, userId)
+      }
     })
   }, [experience])
 
@@ -69,7 +99,9 @@ experience && experience?.interests &&    experience.interests.map(function (int
         })
         genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
           .then(json => json.json())
-          .then(data => { setInterestId(data.id), console.log(`liked ${experience.id} - interest ${data.id} created - by user ${userId}`) })
+          .then(data => {
+            setInterestId(data.id), console.log(`liked ${experience.id} - interest ${data.id} created - by user ${userId}`)
+          })
           .catch(error => console.error(error))
 
         setLiked(true)
@@ -110,7 +142,7 @@ experience && experience?.interests &&    experience.interests.map(function (int
         const bodyInterest = JSON.stringify({
           "plan": true,
           "experience": `api/experiences/${experience.id}`,
-          "message" : message
+          "message": message
         })
         // genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
         //   .then(json => json.json())
@@ -131,71 +163,200 @@ experience && experience?.interests &&    experience.interests.map(function (int
       setSuperLiked(false)
     }
   }
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+  return ( <
+    View style = {
+      {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    } >
 
-      {isLoading ? <Loading /> :
-        (experience.user && (
+    {
+      isLoading ? < Loading / > : (experience.user && (
 
-          <ScrollView>
-            <View style={styles.views}>
-              <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
-            </View>
+        <
+        ScrollView >
+        <
+        View style = {
+          styles.views
+        } > {
+          /* <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} /> */
+        } <
+        Image style = {
+          styles.experiencePicture
+        }
+        source = {
+          require(`../../assets/exemple_ville.jpeg`)
+        }
+        /> < /
+        View >
 
-            <View style={styles.views}>
-              <View style={{flex: 0.25, alignItems: 'center', justifyContent: "space-between", flexDirection: 'row'}}>
-                <Text style={styles.title}>{experience.title}</Text>
-                <View style={styles.blocActions}>
-                  <TouchableOpacity onPress={() => { handleLike(experience) }}>
-                    <Bucket liked={liked} />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => handleSuperLike(experience)} >
-                    <Bucket liked={superLiked} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View>
-              <Text>{experience.location}</Text>
-              <Text>{experience.created_at}</Text>
-              </View>
-            </View>
+        <
+        View style = {
+          styles.views
+        } >
+        <
+        View style = {
+          {
+            flex: 0.25,
+            alignItems: 'center',
+            justifyContent: "space-between",
+            flexDirection: 'row'
+          }
+        } >
+        <
+        Text style = {
+          styles.title
+        } > {
+          experience.title
+        } < /Text> <
+        View style = {
+          styles.blocActions
+        } >
+        <
+        TouchableOpacity onPress = {
+          () => {
+            handleLike(experience)
+          }
+        } >
+        <
+        Bucket liked = {
+          liked
+        }
+        /> < /
+        TouchableOpacity > <
+        TouchableOpacity onPress = {
+          () => handleSuperLike(experience)
+        } >
+        <
+        Bucket liked = {
+          superLiked
+        }
+        /> < /
+        TouchableOpacity > <
+        /View> < /
+        View > <
+        View >
+        <
+        Text > {
+          experience.location
+        } < /Text> <
+        Text > {
+          experience.created_at
+        } < /Text> < /
+        View > <
+        /View>
 
-            <Divider />
-            <View style={styles.views}>
-              <TouchableOpacity onPress={() => { navigation.navigate('User', { id: experience.user.id }) }}>
-                <View  style={{flew: 1, flexDirection: 'row'}}>
-                <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../assets/profil.png')} />
-                <Text>{experience.user.login}</Text>
-                </View>
-              </TouchableOpacity>
-              <Text>{experience.reviews.length} commentaires</Text>
-              <Text>durée : {experience.duration} · {experience.spots} places</Text>
-            </View>
-            <Divider />
-            <View style={styles.views}>
-              <Text style={{ fontSize: 12, textAlign: 'justify', paddingBottom: 10 }}>{experience.content}</Text>
-              <Divider />
-            </View>
+        <
+        Divider / >
+        <
+        View style = {
+          styles.views
+        } >
+        <
+        TouchableOpacity onPress = {
+          () => {
+            navigation.navigate('User', {
+              id: experience.user.id
+            })
+          }
+        } >
+        <
+        View style = {
+          {
+            flew: 1,
+            flexDirection: 'row'
+          }
+        } >
+        <
+        Avatar.Image style = {
+          styles.avatar
+        }
+        size = {
+          24
+        }
+        color = "white"
+        source = {
+          require('../../assets/profil.png')
+        }
+        /> <
+        Text > {
+          experience.user.login
+        } < /Text> < /
+        View > <
+        /TouchableOpacity> <
+        Text > {
+          experience.reviews.length
+        }
+        commentaires < /Text> <
+        Text > durée: {
+          experience.duration
+        }· {
+          experience.spots
+        }
+        places < /Text> < /
+        View > <
+        Divider / >
+        <
+        View style = {
+          styles.views
+        } >
+        <
+        Text style = {
+          {
+            fontSize: 12,
+            textAlign: 'justify',
+            paddingBottom: 10
+          }
+        } > {
+          experience.content
+        } < /Text> <
+        Divider / >
+        <
+        /View>
 
-                <Modal visible={formOpen}>
-                <View>
-                  <TextInput 
-                  value={content}
-                  onChange={(content) => setContent(content)}
-                  multiline editable />
-                  <TouchableOpacity onPress={() => setFormOpen(false)} ><Text>Revenir</Text></TouchableOpacity>
-                  <TouchableOpacity onPress={() => submitSuperLike(content)} ><Text>Envoyer</Text></TouchableOpacity>
-                  </View>
-                  </Modal>
-            
-              <ModalMessage modalVisible={modalVisible} message="Tu essayes d'ajouter une de tes propres expériences à ta bucket list :')" />
-            
-          </ScrollView>
+        <
+        Modal visible = {
+          formOpen
+        } >
+        <
+        View >
+        <
+        TextInput value = {
+          content
+        }
+        onChange = {
+          (content) => setContent(content)
+        }
+        multiline editable / >
+        <
+        TouchableOpacity onPress = {
+          () => setFormOpen(false)
+        } > < Text > Revenir < /Text></TouchableOpacity >
+        <
+        TouchableOpacity onPress = {
+          () => submitSuperLike(content)
+        } > < Text > Envoyer < /Text></TouchableOpacity >
+        <
+        /View> < /
+        Modal >
 
-        ))}
+        <
+        ModalMessage modalVisible = {
+          modalVisible
+        }
+        message = "Tu essayes d'ajouter une de tes propres expériences à ta bucket list :')" / >
+
+        <
+        /ScrollView>
+
+      ))
+    }
 
 
-    </View>
+    <
+    /View>
   );
 }
 
@@ -204,8 +365,8 @@ experience && experience?.interests &&    experience.interests.map(function (int
 //   // const state = useContext(GlobalContext);
 
 //   const body = JSON.stringify({
-//     login: "mioumiou",
-//     password: "mioumiou",
+//     login: "test",
+//     password: "test",
 //   });
 //   const [isLoading, setIsLoading] = useState(true);
 //   const [experience, setExperience] = useState([]);
@@ -326,7 +487,7 @@ experience && experience?.interests &&    experience.interests.map(function (int
 //         )
 //       )}
 //     </View>
- // );
+// );
 //};
 
 const styles = StyleSheet.create({

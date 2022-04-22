@@ -18,8 +18,8 @@ function FeedScreen({ navigation }) {
 
   /*récupère token automatiquement */
   const body = JSON.stringify({
-    "login": "mioumiou",
-    "password": "mioumiou"
+    "login": "test",
+    "password": "test"
   })
 
   useEffect(() => {

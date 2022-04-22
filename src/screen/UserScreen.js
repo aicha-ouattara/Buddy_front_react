@@ -12,8 +12,8 @@ import { genericFetchWithToken } from '../api/fetchApiWithToken';
 
 function UserScreen({ navigation, route }) {
   const body = JSON.stringify({
-    login: "mioumiou",
-    password: "mioumiou",
+    login: "test",
+    password: "test",
   });
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);

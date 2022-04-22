@@ -11,8 +11,8 @@ const BlocExperience = ({ interest, navigation, experience}) => {
   const [user, setUser] = useState([]);
 
   const body = JSON.stringify({
-    "login": "mioumiou",
-    "password": "mioumiou"
+    "login": "test",
+    "password": "test"
   })
 
 
