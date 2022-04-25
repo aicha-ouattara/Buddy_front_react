@@ -3,8 +3,8 @@ import { View, Text, Image, ScrollView, TextInput, Title, StyleSheet, TouchableO
 import { API_URL } from '@env';
 import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
-
+// import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
+import {PatchWithTokenBody} from '../api/fetchApiWithTokenBody'
 
 const BlocExperience = ({ interest, navigation, experience}) => {
   const [token, setToken] = useState("");
@@ -38,23 +38,23 @@ const BlocExperience = ({ interest, navigation, experience}) => {
 
   const handleStateExperience = (experience) => {
    
-    if (experience.accepted == 0) {
+    if (experience.accepted == 1 ) {
       const bodyExperience = JSON.stringify({
         "accepted": true
     
       })
-      genericFetchWithTokenBody(`${API_URL}/experiences/${id}`, 'PATCH', token, bodyExperience)
+      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
       .then(json => json.json())
       .catch(error => console.error(error)) 
       fetchUser();
       console.log("intérêt accepté !");
     }
   
-    if (experience.accepted== 1) {
+    if (experience.accepted == 0) {
       const bodyExperience = JSON.stringify({
         "accepted": false
       })
-      genericFetchWithTokenBody(`${API_URL}/experiences/${id}`, 'PATCH', token, bodyExperience)
+      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
       .then(json => json.json())
       .catch(error => console.error(error))
       fetchUser();
@@ -89,12 +89,15 @@ const BlocExperience = ({ interest, navigation, experience}) => {
           interest.plan == 1 &&
           interest.accepted == null && 
           <>
-            <Image style={{ width: 25, height: 25 }} source={require('../../assets/attente.png')}  />
+            {/* <Image style={{ width: 25, height: 25 }} source={require('../../assets/attente.png')}  /> */}
+
             <TouchableOpacity onPress={() => handleStateExperience(experience.id)}  >
                <Image style={{ width: 25, height: 25 }} source={require('../../assets/accepted.png')}  />
             </TouchableOpacity>
+
             <Text>OR</Text>
-            <TouchableOpacity onPress={() => handleStateExperience(experience.id)}  >
+
+            <TouchableOpacity onPress={() => handleStateExperience(experience)}  >
                <Image style={{ width: 25, height: 25 }} source={require('../../assets/refused.png')}  />
             </TouchableOpacity>
           </>

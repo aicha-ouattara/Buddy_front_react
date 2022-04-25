@@ -85,7 +85,7 @@ function Profile({ navigation, route }) {
       console.log("expérience visible !");
     }
 
-    if (experience.visible== 1) {
+    if (experience.visible == 1) {
       const bodyExperience = JSON.stringify({
         "visible": false
       })
@@ -96,6 +96,7 @@ function Profile({ navigation, route }) {
       .catch(error => console.error(error))
       fetchUser();
       console.log("expérience invisible !");
+
     }
   };
 
@@ -152,6 +153,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
               <>
                 <BlocExperience navigation={navigation} experience={experience} user={user} />
                 <View style={styles.blocActions}>
+                  
                       {(
                   experience &&(
                     experience.visible == 1 &&
@@ -160,6 +162,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
                     </TouchableOpacity>
                     )
                 )}
+            
 
                 {(
                   experience &&(
