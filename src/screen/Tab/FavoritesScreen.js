@@ -18,8 +18,8 @@ function FavoritesScreen({navigation, route})
   const [token, setToken] = useState("");
 
   const body = JSON.stringify({
-    "login": "mioumiou",
-    "password": "mioumiou"
+    "login": "test",
+    "password": "test"
 })
   useEffect(() => {
     genericFetch(`${API_URL}/login`, 'POST', body) 

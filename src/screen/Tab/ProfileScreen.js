@@ -12,37 +12,51 @@ import Experience from '../Experience';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
-
-
-
-
+import { authState } from "../../store/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../store/auth/slice";
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
+  const [experiences, setExperiences] = useState([]);
+  const { token } = useSelector(authState);
 
-  const body = JSON.stringify({
-    "login": "mioumiou",
-    "password": "mioumiou"
-})
+  console.log(token);
+  // const body = JSON.stringify({
+  //   login: "mioumiou",
+  //   password: "mioumiou",
+  // });
 
+  // useEffect(() => {
+  //   genericFetch(`${API_URL}/login`, "POST", body)
+  //     .then((json) => json.json())
+  //     .then((data) => setToken(data.token))
+  //     .catch((error) => console.error(error));
+  // }, []);
 
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, 'POST', body) 
-    .then(json => json.json())
-    .then(data => setToken(data.token))
-    .catch(error => console.error(error))
-  }, [])
-
+  // const getData = () => {
+  //   try {
+  //     AsyncStorage.getItem("token").then((value) => {
+  //       if (value != null) {
+  //         setToken(value);
+  //         console.log("valeur feed screen:", value);
+  //         // navigation.navigate("Protected");
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const fetchUser = () => {
-    genericFetchWithToken(`${API_URL}/users/7`, 'GET', token) 
-    .then(json => json.json())
-    .then(data => setUser(data))
-    .catch(error => console.error(error))
-    .finally(() => setIsLoading(false))
-  }
+    genericFetchWithToken(`${API_URL}/users/2`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -219,6 +233,10 @@ function AllInteractions({ navigation, user }) {
 function UserProfileInfos({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  const dispatch = useDispatch();
+  const onLogOut = () => {
+    dispatch(logOut());
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -227,6 +245,8 @@ function UserProfileInfos({ navigation, user }) {
       </Title>
 
       <View>
+        <Button onPress={onLogOut}>deconnexion</Button>
+
         <View>
           <Image
             style={{ width: 50, height: 50 }}

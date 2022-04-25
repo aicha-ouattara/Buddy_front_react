@@ -7,27 +7,30 @@ import ContainerFeedExperience from '../../components/ContainerFeedExperience';
 import Loading from '../../components/Loading';
 import { API_URL } from '@env';
 import jwt_decode from "jwt-decode";
+import { authState } from "../../store/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../store/auth/slice";
 
 function FeedScreen({ navigation }) {
 
   const [userId, setUserId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [experiences, setExperiences] = useState([]);
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
+  const { token } = useSelector(authState);
 
+  // /*récupère token automatiquement */
+  // const body = JSON.stringify({
+  //   "login": "test",
+  //   "password": "test"
+  // })
 
-  /*récupère token automatiquement */
-  const body = JSON.stringify({
-    "login": "mioumiou",
-    "password": "mioumiou"
-  })
-
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, 'POST', body)
-      .then(json => json.json())
-      .then(data => setToken(data.token))
-      .catch(error => console.error(error))
-  }, [])
+  // useEffect(() => {
+  //   genericFetch(`${API_URL}/login`, 'POST', body)
+  //     .then(json => json.json())
+  //     .then(data => setToken(data.token))
+  //     .catch(error => console.error(error))
+  // }, [])
 
   useEffect(() => {
     setIsLoading(true)
