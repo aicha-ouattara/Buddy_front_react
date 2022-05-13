@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
@@ -17,6 +17,10 @@ function Profile({ navigation, route }) {
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
 
+
+  //CONNEXION À L'UTILISATEUR PRÉCIS
+
+
   const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
       .then(json => json.json())
@@ -28,10 +32,13 @@ function Profile({ navigation, route }) {
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
-    console.log('useEffect')
   }, [])
 
 
+
+
+
+// SUPPRESSION EXPERIENCE
   const deleteId = (id, interestLength) => {
     if (interestLength != 0) {
       const bodyExperience = JSON.stringify({
@@ -51,6 +58,9 @@ function Profile({ navigation, route }) {
       console.log("expérience supprimée !");
     }
   };
+
+
+  //POSSIBLITÉMODIFICATION VISIBILITÉ EXPÉRIENCE
 
   const handleVisible = (experience) => {
 
@@ -82,6 +92,36 @@ function Profile({ navigation, route }) {
   };
 
 
+// ACCEPETER INVITATION
+
+  const handleStateExperience = (interest) => {
+   
+    if (interest.accepted == null ) {
+      const bodyInterest = JSON.stringify({
+        "accepted": true
+    
+      })
+      PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
+      .then(json => json.json())
+      .catch(error => console.error(error)) 
+      fetchUser();
+      console.log("intérêt accepté !");
+    }
+  
+    if (interest.accepted == null) {
+      const bodyInterest = JSON.stringify({
+        "accepted": false
+      })
+      PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
+      .then(json => json.json())
+      .catch(error => console.error(error))
+      fetchUser();
+      console.log("intérêt refusé !");
+      // setVisible(false)
+    }
+  };
+
+
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text> Loading ... </Text>{" "}
@@ -101,6 +141,10 @@ function Profile({ navigation, route }) {
             fetchUser();
 
           }}
+          handleStateExperience={(interest) => {
+            handleStateExperience(interest);
+            fetchUser();
+        }}
         />
       </TabScreen>
 
@@ -115,6 +159,8 @@ function Profile({ navigation, route }) {
   );
 }
 
+
+//TOUTES LES EXPERIENCES
 function AllExperiences({ navigation, user, deleteId, handleVisible }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
@@ -165,7 +211,11 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
   );
 }
 
-function AllInteractions({ navigation, user }) {
+
+
+
+// TOUTES LES INTERACTIONS
+function AllInteractions({ navigation, user, handleStateExperience }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -182,7 +232,32 @@ function AllInteractions({ navigation, user }) {
               experience.interests.map((interest) => (
                 <View>
                   <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}  />
-                 
+               
+
+                  {(
+                    interest &&(
+                      interest.plan == 1 &&
+                      interest.accepted == null && 
+                      <TouchableOpacity onPress={() => handleStateExperience(interest)}  >
+                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
+                      </TouchableOpacity>
+
+                      )
+                  )}
+                    {(
+                    interest &&(
+                      interest.plan == 1 &&
+                      interest.accepted == null && 
+                      <TouchableOpacity onPress={() => handleStateExperience(interest)}  >
+                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
+                      </TouchableOpacity>
+
+                      )
+                  )}
+
+              
+
+              
                   <View style={styles.blocText}>
                     <Text>{interest.message}</Text>
                     <Text>{interest.date}</Text>
@@ -196,6 +271,11 @@ function AllInteractions({ navigation, user }) {
   );
 }
 
+
+
+
+
+//LE PROFIL PRIVÉ DE L'UTILISATEUR
 function UserProfileInfos({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
@@ -241,6 +321,15 @@ function UserProfileInfos({ navigation, user }) {
     </View>
   );
 }
+
+
+
+
+
+
+
+
+//FRONT 
 const styles = StyleSheet.create({
   experiencePicture: {
     width: 72,
