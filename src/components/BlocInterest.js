@@ -1,11 +1,12 @@
 import React, { useState, useEffect} from 'react';
 import { View, Text, Image, ScrollView, TextInput, Title, StyleSheet, TouchableOpacity } from 'react-native';
+import { API_URL } from '@env';
+import { genericFetch } from '../api/fetchApi';
+import { genericFetchWithToken } from '../api/fetchApiWithToken';
+// import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
+import {PatchWithTokenBody} from '../api/fetchApiWithTokenBody'
 
-<<<<<<< Updated upstream
 const BlocExperience = ({ user, interest, navigation, experience}) => {
-=======
-const BlocExperience = ({ interest, navigation, experience}) => {
->>>>>>> Stashed changes
 
     return (
       <View>

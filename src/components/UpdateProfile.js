@@ -7,38 +7,9 @@ import { genericFetchWithToken } from '../api/fetchApiWithToken';
 import {genericFetchWithTokenBody} from '../api/fetchApiWithTokenBody'
 
 function UpdateProfile({navigation}) {
-<<<<<<< Updated upstream
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(0);
     const { token, idUser } = useSelector(authState);
-=======
-
-    const bodyLogin = JSON.stringify({
-        "login": "mioumiou",
-        "password": "mioumiou"
-    })
-
-      const [isLoading, setIsLoading] = useState(true);
-      const [user, setUser] = useState([]);
-      const [token, setToken] = useState("");
-      
-     
-      const getData = () => {
-        try {
-          AsyncStorage.getItem("token").then((value) => {
-            if (value != null) {
-              setToken(value);
-              console.log("valeur feed screen:", value);
-              // navigation.navigate("Protected");
-            }
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-    const state = useContext(GlobalContext);
->>>>>>> Stashed changes
 
     const [userFirstName, setUserFirstName] = useState('');
     const [userLastName, setUserLastName] = useState('');
@@ -73,7 +44,7 @@ function UpdateProfile({navigation}) {
         // don't remember from where i copied this code, but this works.
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
-     if ( re.mioumiou(userEmail) ) {
+     if ( re.test(userEmail) ) {
         const body = JSON.stringify({
         "login": userLogin,
         "password": userPassword,
@@ -84,11 +55,7 @@ function UpdateProfile({navigation}) {
      })    
  
     
-<<<<<<< Updated upstream
         genericFetchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
-=======
-        genericFetchWithTokenBody(`${API_URL}/users/4`, 'PATCH', token, body) 
->>>>>>> Stashed changes
         .then(json => {
         console.log(json);
         fetchUser();
