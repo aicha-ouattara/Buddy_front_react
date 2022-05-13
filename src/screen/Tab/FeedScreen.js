@@ -16,21 +16,8 @@ function FeedScreen({ navigation }) {
   const [userId, setUserId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [experiences, setExperiences] = useState([]);
-  // const [token, setToken] = useState("");
-  const { token } = useSelector(authState);
-
-  // /*récupère token automatiquement */
-  // const body = JSON.stringify({
-  //   "login": "test",
-  //   "password": "test"
-  // })
-
-  // useEffect(() => {
-  //   genericFetch(`${API_URL}/login`, 'POST', body)
-  //     .then(json => json.json())
-  //     .then(data => setToken(data.token))
-  //     .catch(error => console.error(error))
-  // }, [])
+  const { token, idUser } = useSelector(authState);
+  console.log(idUser)
 
   useEffect(() => {
     setIsLoading(true)

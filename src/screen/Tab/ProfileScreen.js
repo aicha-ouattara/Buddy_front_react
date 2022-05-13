@@ -6,10 +6,6 @@ import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
 import FormModal from '../../components/FormModal';
 import {API_URL} from '@env';
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import UpdateEvent from '../../components/UpdateEvent';
-import Experience from '../Experience';
-import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
 import { authState } from "../../store/auth/selectors";
@@ -18,58 +14,29 @@ import { logOut } from "../../store/auth/slice";
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState([]);
-  // const [token, setToken] = useState("");
-  const [experiences, setExperiences] = useState([]);
-  const { token } = useSelector(authState);
-
-  console.log(token);
-  // const body = JSON.stringify({
-  //   login: "mioumiou",
-  //   password: "mioumiou",
-  // });
-
-  // useEffect(() => {
-  //   genericFetch(`${API_URL}/login`, "POST", body)
-  //     .then((json) => json.json())
-  //     .then((data) => setToken(data.token))
-  //     .catch((error) => console.error(error));
-  // }, []);
-
-  // const getData = () => {
-  //   try {
-  //     AsyncStorage.getItem("token").then((value) => {
-  //       if (value != null) {
-  //         setToken(value);
-  //         console.log("valeur feed screen:", value);
-  //         // navigation.navigate("Protected");
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const [user, setUser] = useState(0);
+  const { token, idUser } = useSelector(authState);
 
   const fetchUser = () => {
-    genericFetchWithToken(`${API_URL}/users/2`, "GET", token)
-      .then((json) => json.json())
-      .then((data) => setUser(data))
-      .catch((error) => console.error(error))
-      .finally(() => setIsLoading(false));
-  };
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
+      .then(json => json.json())
+      .then(data => setUser(data))
+      .catch(error => console.error(error))
+      .finally(() => setIsLoading(false))
+  }
 
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
-  }, [token]);
+    console.log('useEffect')
+  }, [])
+
 
   const deleteId = (id, interestLength) => {
     if (interestLength != 0) {
       const bodyExperience = JSON.stringify({
         "visible": false,
         "archive": true
-        // "spots": 9
-        // "experience": `api/experiences/${experience.id}`
       })
       PatchWithTokenBody(`${API_URL}/experiences/${id}`, "PATCH", token, bodyExperience)
       .then(json => json.json())
@@ -99,7 +66,7 @@ function Profile({ navigation, route }) {
       console.log("expérience visible !");
     }
 
-    if (experience.visible== 1) {
+    if (experience.visible == 1) {
       const bodyExperience = JSON.stringify({
         "visible": false
       })
@@ -110,10 +77,10 @@ function Profile({ navigation, route }) {
       .catch(error => console.error(error))
       fetchUser();
       console.log("expérience invisible !");
+
     }
   };
 
-  console.log(user);
 
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -166,19 +133,21 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
               <>
                 <BlocExperience navigation={navigation} experience={experience} user={user} />
                 <View style={styles.blocActions}>
+                  
                       {(
                   experience &&(
                     experience.visible == 1 &&
-                    <TouchableOpacity onPress={() => handleVisible(experience.id)}>
+                    <TouchableOpacity onPress={() => handleVisible(experience)}>
                       <Image style={{ width: 25, height: 25 }} source={require('../../../assets/visible.png')}  />
                     </TouchableOpacity>
                     )
                 )}
+            
 
                 {(
                   experience &&(
                     experience.visible == 0 && 
-                    <TouchableOpacity onPress={() => handleVisible(experience.id)}  >
+                    <TouchableOpacity onPress={() => handleVisible(experience)}  >
                      <Image style={{ width: 25, height: 25 }} source={require('../../../assets/invisible.png')}  />
                     </TouchableOpacity>
                   )
