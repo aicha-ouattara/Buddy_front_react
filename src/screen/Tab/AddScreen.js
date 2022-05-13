@@ -25,7 +25,6 @@ function AddScreen({navigation})
   const [location, setLocation] = useState("");
   const [duration, setDuration] = useState(0);
 
-    // 
 
     const body = JSON.stringify({
       "login": "test",
