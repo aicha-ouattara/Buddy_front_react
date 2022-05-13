@@ -5,54 +5,36 @@ import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-pape
 import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
 import {API_URL} from '@env';
-// import AsyncStorage from "@react-native-async-storage/async-storage";
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
+import { authState } from "../../store/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
 
 function FavoritesScreen({navigation, route}) 
 {
-
-
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState([]);
-  const [token, setToken] = useState("");
+  const [user, setUser] = useState(0);
+  const { token, idUser } = useSelector(authState);
 
-  const body = JSON.stringify({
-    "login": "test",
-    "password": "test"
-})
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, 'POST', body) 
-    .then(json => json.json())
-    .then(data => setToken(data.token))
-    .catch(error => console.error(error))
-  }, [])
-
-
- 
   const fetchUser = () => {
-    genericFetchWithToken(`${API_URL}/users/7`, 'GET', token) 
-    .then(json => json.json())
-    .then(data => setUser(data))
-    .catch(error => console.error(error))
-    .finally(() => setIsLoading(false))
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
+      .then(json => json.json())
+      .then(data => setUser(data))
+      .catch(error => console.error(error))
+      .finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
-    setIsLoading(true)
-    fetchUser()
-  }, [token])
+    setIsLoading(true);
+    fetchUser();
+  }, [])
 
   const deleteId = (id) => {
         genericFetchWithToken(`${API_URL}/interests/${id}`, 'DELETE', token)
          fetchUser()
          console.log('intéret supprimé !') 
   }
-
-  
-  
-  console.log(user)
-
 
   return (
     
