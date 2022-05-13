@@ -1,35 +1,15 @@
 import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { API_URL } from "@env" ;
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-//import { genericFetchUsers } from '../api/fetchApi';
+import { authState } from "../store/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { genericFetchWithToken } from '../api/fetchApiWithToken';
+import {genericFetchWithTokenBody} from '../api/fetchApiWithTokenBody'
 
 function UpdateProfile({navigation}) {
-
-    const bodyLogin = JSON.stringify({
-        "login": "test",
-        "password": "test"
-    })
-
-      const [isLoading, setIsLoading] = useState(true);
-      const [user, setUser] = useState([]);
-      const [token, setToken] = useState("");
-      
-     
-      const getData = () => {
-        try {
-          AsyncStorage.getItem("token").then((value) => {
-            if (value != null) {
-              setToken(value);
-              console.log("valeur feed screen:", value);
-              // navigation.navigate("Protected");
-            }
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    const [isLoading, setIsLoading] = useState(true);
+    const [user, setUser] = useState(0);
+    const { token, idUser } = useSelector(authState);
 
     const [userFirstName, setUserFirstName] = useState('');
     const [userLastName, setUserLastName] = useState('');
@@ -40,43 +20,27 @@ function UpdateProfile({navigation}) {
     const [errortext, setErrortext] = useState('');
     const [message, setMessage] = useState("");
 
-  
+    const fetchUser = () => {
+        genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
+          .then(json => json.json())
+          .then(data => setUser(data))
+          .catch(error => console.error(error))
+          .finally(() => setIsLoading(false))
+      }
+    
+      useEffect(() => {
+        setIsLoading(true);
+        fetchUser();
+      }, [])
+    
+    
 
     const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
 
     const handleSubmitButton = () => {
         //console.log(typeof userPhone);
         setErrortext('');
-            // if (!userFirstName ) {
-            //     setErrortext('Please fill Name');
-            //     return;
-            //     }
-
-            // if (!userLastName) {
-            //     setErrortext('Please fill Name');
-            //     return;
-            // }
-
-            // if (!userEmail) {
-            //     setErrortext('Please fill Email');
-            //     return;
-            // }
-
-            // if (!userPhone) {
-            //     setErrortext('Please fill Age');
-            //     return;
-            // }
-
-            // if (!userLogin) {
-            //     setErrortext('Please fill Address');
-            //     return;
-            // }
-
-            // if (!userPassword) {
-            //     setErrortext('Please fill Password');
-            //     return;
-            // }
-
+       
         // don't remember from where i copied this code, but this works.
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
@@ -89,13 +53,13 @@ function UpdateProfile({navigation}) {
         "email": userEmail,
         "telephone": parseInt(userPhone),
      })    
-      
+ 
     
-        genericFetchWithTokenBody(`${API_URL}/users/4`, 'PUT', token, body) 
+        genericFetchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
         .then(json => {
         console.log(json);
-        // navigation.navigate('Login')
-        } ) 
+        fetchUser();
+        }, [])
         
     
         .catch((error) => {
@@ -105,10 +69,6 @@ function UpdateProfile({navigation}) {
         console.log('ok')
          }
 
-    // else {
-// invalid email, maybe show an error to the user.
-// setErrortext('Password syntax is not correct');
-// }
 }
 
 return (
@@ -196,7 +156,7 @@ return (
                 setUserPassword(UserPassword)
                 }
                 underlineColorAndroid="#f000"
-                //defaultValue={user.password}
+                defaultValue={user.password}
                 placeholder="Enter Password"
                 placeholderTextColor="#8b9cb5"
                 returnKeyType="next"

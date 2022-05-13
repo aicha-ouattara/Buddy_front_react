@@ -6,62 +6,8 @@ import { genericFetchWithToken } from '../api/fetchApiWithToken';
 // import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
 import {PatchWithTokenBody} from '../api/fetchApiWithTokenBody'
 
-const BlocExperience = ({ interest, navigation, experience}) => {
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState([]);
+const BlocExperience = ({ user, interest, navigation, experience}) => {
 
-  const body = JSON.stringify({
-    "login": "test",
-    "password": "test"
-  })
-
-
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, 'POST', body) 
-    .then(json => json.json())
-    .then(data => setToken(data.token))
-    .catch(error => console.error(error))
-  }, [])
-
-  const fetchUser = () => {
-    genericFetchWithToken(`${API_URL}/users/7`, 'GET', token) 
-    .then(json => json.json())
-    .then(data => setUser(data))
-    .catch(error => console.error(error))
-  
-  }
-
-  useEffect(() => {
-    fetchUser();
-  }, [token]);
-
-
-  const handleStateExperience = (experience) => {
-   
-    if (experience.accepted == 1 ) {
-      const bodyExperience = JSON.stringify({
-        "accepted": true
-    
-      })
-      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
-      .then(json => json.json())
-      .catch(error => console.error(error)) 
-      fetchUser();
-      console.log("intérêt accepté !");
-    }
-  
-    if (experience.accepted == 0) {
-      const bodyExperience = JSON.stringify({
-        "accepted": false
-      })
-      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
-      .then(json => json.json())
-      .catch(error => console.error(error))
-      fetchUser();
-      console.log("intérêt refusé !");
-      // setVisible(false)
-    }
-  };
     return (
       <View>
       
@@ -84,27 +30,7 @@ const BlocExperience = ({ interest, navigation, experience}) => {
          )
        )}
 
-       {(
-        interest &&(
-          interest.plan == 1 &&
-          interest.accepted == null && 
-          <>
-            {/* <Image style={{ width: 25, height: 25 }} source={require('../../assets/attente.png')}  /> */}
-
-            <TouchableOpacity onPress={() => handleStateExperience(experience.id)}  >
-               <Image style={{ width: 25, height: 25 }} source={require('../../assets/accepted.png')}  />
-            </TouchableOpacity>
-
-            <Text>OR</Text>
-
-            <TouchableOpacity onPress={() => handleStateExperience(experience)}  >
-               <Image style={{ width: 25, height: 25 }} source={require('../../assets/refused.png')}  />
-            </TouchableOpacity>
-          </>
-        
-         )
-
-      )}
+     
 
      
          <Text onPress={() => {navigation.navigate('Experience', {id:experience.id})}}>{experience.title}</Text>

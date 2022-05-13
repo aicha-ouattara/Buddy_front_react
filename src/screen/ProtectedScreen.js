@@ -27,12 +27,12 @@ function ProtectedScreen() {
          
          <View>
             <Image
-            source={require('../../assets/home.png')}
+            source={require('../../assets/map.png')}
             resizeMode="contain"
             style={{
               width: 25,
               height: 25,
-              tintColor: focused ? '#e32f45' : '#748c94',
+              // tintColor: focused ? '#e32f45' : '#748c94',
             }}/>
           </View>
 
@@ -48,12 +48,12 @@ function ProtectedScreen() {
 
           <View>
             <Image
-            source={require('../../assets/search.png')}
+            source={require('../../assets/compass.png')}
             resizeMode="contain"
             style={{
               width: 25,
               height: 25,
-              tintColor: focused ? '#e32f45' : '#748c94',
+              // tintColor: focused ? '#e32f45' : '#748c94',
             }}/>
           </View>
 
@@ -71,7 +71,7 @@ function ProtectedScreen() {
             style={{
               width: 25,
               height: 25,
-              tintColor: focused ? '#e32f45' : '#748c94',
+              // tintColor: focused ? '#e32f45' : '#748c94',
             }}/>
           </View>
         ),
@@ -85,7 +85,7 @@ function ProtectedScreen() {
             style={{
               width: 25,
               height: 25,
-              tintColor: focused ? '#e32f45' : '#748c94',
+              // tintColor: focused ? '#e32f45' : '#748c94',
             }}/>
           </View>
         ),
@@ -94,12 +94,12 @@ function ProtectedScreen() {
         tabBarIcon: ({focused}) => (
           <View>
             <Image
-            source={require('../../assets/profil.png')}
+            source={require('../../assets/adventure.png')}
             resizeMode="contain"
             style={{
               width: 25,
               height: 25,
-              tintColor: focused ? '#e32f45' : '#748c94',
+              // tintColor: focused ? '#e32f45' : '#748c94',
             }}/>
           </View>
         ),
