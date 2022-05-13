@@ -1,20 +1,16 @@
 import React from 'react';
-import { SafeAreaView, FlatList, StyleSheet, View } from 'react-native';
+import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 import BlocExperience from './BlocExperience'
 
-function ContainerFeedExperience({ experiences, navigation, userId}) {
+function ContainerFeedExperience({ experiences, navigation}) {
 
   const renderItem = ({ item }) => (
-  
       <BlocExperience navigation={navigation} key={item.id} 
       experience={item} user={item.user} 
-      hasActions={true} userId={userId} />
-
+      hasActions={true} />
   );
 
-
   return (
-
     <SafeAreaView style={styles.container}>
       <FlatList
         data={experiences}
@@ -26,7 +22,6 @@ function ContainerFeedExperience({ experiences, navigation, userId}) {
     </SafeAreaView>)
 
 }
-
 
 const styles = StyleSheet.create({
   container: {
