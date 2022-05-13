@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import { View, Text, Image, ScrollView, TextInput, Title, StyleSheet, TouchableOpacity } from 'react-native';
 import { API_URL } from '@env';
 import { genericFetch } from '../api/fetchApi';

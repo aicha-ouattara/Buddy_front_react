@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Button, Image } from 'react-native';
-import { GlobalContext } from '../context/Provider';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import FeedScreen from './Tab/FeedScreen';
@@ -11,7 +11,7 @@ import FavoritesScreen from './Tab/FavoritesScreen';
 
 function ProtectedScreen() {
 
-    const state = useContext(GlobalContext);
+    
 
 
     //Permet de créer un groupe de screen avec une navbar en bas

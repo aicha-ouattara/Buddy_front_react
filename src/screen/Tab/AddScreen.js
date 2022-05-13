@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -9,7 +9,6 @@ import {
   View,
   Button,
 } from "react-native";
-// import { GlobalContext } from '../context/Provider';
 import NumberPlease from "react-native-number-please";
 import SelectDropdown from 'react-native-select-dropdown'
 import {API_URL} from '@env';
@@ -26,7 +25,7 @@ function AddScreen({navigation})
   const [location, setLocation] = useState("");
   const [duration, setDuration] = useState(0);
 
-    // const state = useContext(GlobalContext);
+    // 
 
     const body = JSON.stringify({
       "login": "test",

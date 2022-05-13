@@ -1,5 +1,4 @@
 import React, {
-  useContext,
   useState,
   createRef
 } from "react";
@@ -19,9 +18,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-import {
-  GlobalContext
-} from "../context/Provider";
+
 import {
   genericFetch
 } from "../api/fetchApi";
@@ -42,7 +39,7 @@ import {
 function RegisterScreen({
   navigation
 }) {
-  const state = useContext(GlobalContext);
+
 
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
@@ -142,8 +139,8 @@ function RegisterScreen({
     blurOnSubmit = {
       false
     }
-    /> <
-    /View>
+    /> < /
+    View >
 
     <
     View style = {
@@ -164,8 +161,8 @@ function RegisterScreen({
     blurOnSubmit = {
       false
     }
-    /> <
-    /View> <
+    /> < /
+    View > <
     View style = {
       styles.SectionStyle
     } >
@@ -184,8 +181,8 @@ function RegisterScreen({
     blurOnSubmit = {
       false
     }
-    /> <
-    /View> <
+    /> < /
+    View > <
     View style = {
       styles.SectionStyle
     } >
@@ -204,8 +201,8 @@ function RegisterScreen({
     blurOnSubmit = {
       false
     }
-    /> <
-    /View> <
+    /> < /
+    View > <
     View style = {
       styles.SectionStyle
     } >
@@ -226,8 +223,8 @@ function RegisterScreen({
     blurOnSubmit = {
       false
     }
-    /> <
-    /View> <
+    /> < /
+    View > <
     View style = {
       styles.SectionStyle
     } >
@@ -246,8 +243,8 @@ function RegisterScreen({
     blurOnSubmit = {
       false
     }
-    /> <
-    /View> {
+    /> < /
+    View > {
       errortext != "" ? ( <
         Text style = {
           styles.errorTextStyle
@@ -268,10 +265,10 @@ function RegisterScreen({
     <
     Text style = {
       styles.buttonTextStyle
-    } > REGISTER < /Text> <
-    /TouchableOpacity> <
-    /KeyboardAvoidingView> <
-    /ScrollView> <
+    } > REGISTER < /Text> < /
+    TouchableOpacity > <
+    /KeyboardAvoidingView> < /
+    ScrollView > <
     /View>
   );
 }

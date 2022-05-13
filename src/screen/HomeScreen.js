@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {  useEffect } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { GlobalContext } from "../context/Provider";
+
 //import SliderHome from "../components/SliderHome";
 
 function HomeScreen({ navigation }) {
-  const state = useContext(GlobalContext);
+  
 
   return (
     <View>

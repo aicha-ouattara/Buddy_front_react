@@ -1,5 +1,5 @@
-import React, { useContext, useState, createRef, useEffect } from "react";
-import { GlobalContext } from "../context/Provider";
+import React, {  useState, createRef, useEffect } from "react";
+
 import { genericFetch } from "../api/fetchApi";
 //import redux
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,7 @@ import { authState } from "../store/auth/selectors";
 import { logIn } from "../store/auth/slice";
 
 function LoginScreen({ navigation }) {
-  const state = useContext(GlobalContext);
+  
 
   const [userLogin, setUserLogin] = useState("");
   const [userPassword, setUserPassword] = useState("");

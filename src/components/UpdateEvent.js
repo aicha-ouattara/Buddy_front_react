@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState, createRef} from 'react';
+import React, { useEffect, useState, createRef} from 'react';
 import {ActivityIndicator, StyleSheet, TouchableOpacity, ScrollView, Text, TextInput, View, Button } from 'react-native';
-import { GlobalContext } from '../context/Provider';
+
 import NumberPlease from "react-native-number-please";
 import SelectDropdown from 'react-native-select-dropdown'
 import {API_URL} from '@env';
@@ -8,10 +8,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function UpdateEvent({navigation}) 
 {
-
-    // const state = useContext(GlobalContext);
-
-   
   const [user, setUser] = useState([]);
   const [token, setToken] = useState("");
     
@@ -27,9 +23,7 @@ function UpdateEvent({navigation})
     } catch (error) {
       console.log(error);
     }
-  };
-
-      const state = useContext(GlobalContext);
+  };      
 
       const [title, setTitle] = useState('');
       const [content, setContent] = useState('');

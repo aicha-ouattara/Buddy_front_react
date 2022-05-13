@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { GlobalContext } from "../context/Provider";
 
 import HomeScreen from "../screen/HomeScreen";
 import ProtectedScreen from "../screen/ProtectedScreen";

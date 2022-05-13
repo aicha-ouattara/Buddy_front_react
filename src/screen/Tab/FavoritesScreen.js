@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity, TextInput } from 'react-native';
 import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';

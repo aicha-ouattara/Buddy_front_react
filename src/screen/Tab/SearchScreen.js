@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
 import ContainerFeedExperience from '../../components/ContainerFeedExperience';
-// import { GlobalContext } from '../context/Provider';
+// 
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import { API_URL } from '@env';
@@ -15,7 +15,7 @@ const searchParams = new URLSearchParams(entryPoint.search)
 
 function SearchScreen({ navigation, route }) {
 
-  // const state = useContext(GlobalContext);
+  // 
 
 
   const [token, setToken] = useState("");

@@ -1,5 +1,9 @@
-//import { API_URL } from '../../';
-import { getToken } from './token';
+import {
+  getToken
+} from './token';
+import {
+  API_URL
+} from '@env';
 
 const getHeaders = async () => {
   const token = await getToken();
@@ -18,7 +22,7 @@ const getHeaders = async () => {
 export const post = async (destination, body) => {
   const headers = await getHeaders();
 
-  const result = await fetch('http://10.0.1.238:8000/api/experiences', {
+  const result = await fetch(`${API_URL}/experiences`, {
     method: 'POST',
     headers,
     body: JSON.stringify(body),
@@ -29,13 +33,15 @@ export const post = async (destination, body) => {
   if (result.ok) {
     return await result.json();
   }
-  throw { error: result.status };
+  throw {
+    error: result.status
+  };
 };
 
 export const get = async (destination) => {
   const headers = await getHeaders();
 
-  const result = await fetch('http://10.0.1.238:8000/api/login', {
+  const result = await fetch(`${API_URL}/login`, {
     method: 'GET',
     headers,
   });
@@ -44,8 +50,8 @@ export const get = async (destination) => {
     return await result.json();
   }
 
-  throw { 
-      error: result.status 
-};
+  throw {
+    error: result.status
+  };
 
 };

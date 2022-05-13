@@ -1,6 +1,5 @@
-import React, {useContext, useEffect, useState, createRef} from 'react';
+import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
-import { GlobalContext } from '../context/Provider';
 import { API_URL } from "@env" ;
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -31,8 +30,6 @@ function UpdateProfile({navigation}) {
           console.log(error);
         }
       };
-
-    const state = useContext(GlobalContext);
 
     const [userFirstName, setUserFirstName] = useState('');
     const [userLastName, setUserLastName] = useState('');
