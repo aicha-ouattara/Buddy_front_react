@@ -94,6 +94,7 @@ function Profile({ navigation, route }) {
 
 // ACCEPETER INVITATION
 
+<<<<<<< Updated upstream
   const handleStateExperience = (interest) => {
    
     if (interest.accepted == null ) {
@@ -102,17 +103,35 @@ function Profile({ navigation, route }) {
     
       })
       PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
+=======
+  const handleStateExperience = (experience) => {
+   
+    if (experience.accepted == 1 ) {
+      const bodyExperience = JSON.stringify({
+        "accepted": true
+    
+      })
+      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
+>>>>>>> Stashed changes
       .then(json => json.json())
       .catch(error => console.error(error)) 
       fetchUser();
       console.log("intérêt accepté !");
     }
   
+<<<<<<< Updated upstream
     if (interest.accepted == null) {
       const bodyInterest = JSON.stringify({
         "accepted": false
       })
       PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
+=======
+    if (experience.accepted == 0) {
+      const bodyExperience = JSON.stringify({
+        "accepted": false
+      })
+      PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience)
+>>>>>>> Stashed changes
       .then(json => json.json())
       .catch(error => console.error(error))
       fetchUser();
@@ -141,10 +160,15 @@ function Profile({ navigation, route }) {
             fetchUser();
 
           }}
+<<<<<<< Updated upstream
           handleStateExperience={(interest) => {
             handleStateExperience(interest);
             fetchUser();
         }}
+=======
+          handleStateExperience={{experience} =>
+        } 
+>>>>>>> Stashed changes
         />
       </TabScreen>
 
@@ -215,7 +239,11 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
 
 
 // TOUTES LES INTERACTIONS
+<<<<<<< Updated upstream
 function AllInteractions({ navigation, user, handleStateExperience }) {
+=======
+function AllInteractions({ navigation, user }) {
+>>>>>>> Stashed changes
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
