@@ -12,6 +12,7 @@ import {
 import {
   genericFetch
 } from "../../api/fetchApi";
+import jwt_decode from "jwt-decode";
 
 //Fetch de l'api pour le login
 export const logIn = createAsyncThunk("auth/logIn", async (body, thunkAPI) => {
@@ -40,6 +41,7 @@ export const authSlice = createSlice({
     logOut: (state, action) => {
       state.isLoggedIn = false;
       state.token = null;
+      state.idUser = null;
     },
   },
   extraReducers: (builder) => {
@@ -48,6 +50,7 @@ export const authSlice = createSlice({
       // Add user to the state array
       state.isLoggedIn = true;
       state.token = action.payload.token;
+      state.idUser = jwt_decode(state.token).id
     });
   },
 });
