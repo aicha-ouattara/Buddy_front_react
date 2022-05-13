@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { API_URL } from '@env';
 import Bucket from './Bucket';
@@ -9,10 +9,13 @@ import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
 import { authState } from "../store/auth/selectors";
 import { useSelector } from "react-redux";
 
+
 const BlocExperience = ({ experience, user, navigation, hasActions = false }) => {
+
   const [liked, setLiked] = useState(false);
   const [interestId, setInterestId] = useState(0)
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalType, setModalType] = useState("");
   const { token, idUser } = useSelector(authState);
 
   useEffect(() => {
@@ -34,20 +37,31 @@ const BlocExperience = ({ experience, user, navigation, hasActions = false }) =>
     liked ? (
       genericFetchWithToken(`${API_URL}/interests/${interestId}`, 'DELETE', token),
       console.log(`unliked ${experience.id} - interest ${interestId} deleted - by user ${idUser}`),
-      setLiked(false)
+      setLiked(false),
+      setModalVisible(true),
+      setModalType("unliked"),
+      setTimeout(() => {
+        setModalVisible(false)
+      }, 1000)
     ) : (
       experience.user.id != idUser ? ( //if not your own experience
         genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
           .then(json => json.json())
           .then(data => {setInterestId(data.id), console.log(`liked ${experience.id} - interest ${data.id} created - by user ${idUser}`)})
           .catch(error => console.error(error)),
-        setLiked(true)
+        setLiked(true),
+        setModalVisible(true),
+        setModalType("liked"),
+        setTimeout(() => {
+          setModalVisible(false)
+        }, 1000)
         ) : (
         console.log('Cannot like your own experiences'),
         setModalVisible(true),
+        setModalType("error"),
         setTimeout(() => {
           setModalVisible(false)
-        }, 4000)
+        }, 2000)
       )
     )
   }
@@ -56,7 +70,7 @@ const BlocExperience = ({ experience, user, navigation, hasActions = false }) =>
     <View style={styles.box}>
 
       <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
-        {/* <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} /> */}
+        <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
         <View style={styles.blocText}>
           <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
           <Text numberOfLines={3} >{experience.content}</Text>
@@ -74,9 +88,10 @@ const BlocExperience = ({ experience, user, navigation, hasActions = false }) =>
           </TouchableOpacity>
         </View>
       }
-    {modalVisible && 
-      <ModalMessage message="Tu essayes d'ajouter une de tes propres expériences à ta bucket list :')" />
+    {modalVisible && modalType && 
+      <ModalMessage modalType={modalType} />
     }
+    
     </View>
   );
 }
