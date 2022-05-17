@@ -1,4 +1,4 @@
-import React, {  useState, createRef, useEffect } from "react";
+import React, { useState, createRef, useEffect } from "react";
 
 import { genericFetch } from "../api/fetchApi";
 //import redux
@@ -25,8 +25,6 @@ import { authState } from "../store/auth/selectors";
 import { logIn } from "../store/auth/slice";
 
 function LoginScreen({ navigation }) {
-  
-
   const [userLogin, setUserLogin] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,7 +56,6 @@ function LoginScreen({ navigation }) {
     }
   }, [isLoggedIn, token]);
 
-
   return (
     <View style={styles.mainBody}>
       <ScrollView
@@ -76,8 +73,8 @@ function LoginScreen({ navigation }) {
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={(UserLogin) => setUserLogin(UserLogin)}
-                placeholder="Enter login"
-                placeholderTextColor="#8b9cb5"
+                placeholder="login"
+                placeholderTextColor="white"
                 autoCapitalize="none"
                 keyboardType="default"
                 returnKeyType="next"
@@ -89,8 +86,8 @@ function LoginScreen({ navigation }) {
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                placeholder="Enter Password"
-                placeholderTextColor="#8b9cb5"
+                placeholder="Password"
+                placeholderTextColor="white"
                 keyboardType="default"
                 blurOnSubmit={false}
                 secureTextEntry={true}
@@ -119,7 +116,7 @@ function LoginScreen({ navigation }) {
               style={styles.registerTextStyle}
               onPress={() => navigation.navigate("Register")}
             >
-              New Here ? Register
+              Nouveau ici ? inscrivez-vous
             </Text>
 
             {/* <TouchableOpacity
@@ -145,7 +142,7 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#307ecc",
+    backgroundColor: "#F14D53",
     alignContent: "center",
   },
   SectionStyle: {
@@ -192,7 +189,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   errorTextStyle: {
-    color: "red",
+    color: "white",
     textAlign: "center",
     fontSize: 14,
   },

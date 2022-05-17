@@ -12,13 +12,18 @@ import {
 } from "react-native";
 
 const images = [
-  "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg?cs=srgb&dl=pexels-helena-lopes-708440.jpg&fm=jpg",
-  "https://images.pexels.com/photos/1510150/pexels-photo-1510150.jpeg?cs=srgb&dl=pexels-d%C6%B0%C6%A1ng-nh%C3%A2n-1510150.jpg&fm=jpg",
-  "https://images.pexels.com/photos/39369/baby-teddy-bear-cute-39369.jpeg?cs=srgb&dl=pexels-pixabay-39369.jpg&fm=jpg",
+  "https://zupimages.net/up/22/20/8810.png",
+  "https://zupimages.net/up/22/20/lvzb.png",
+  "https://zupimages.net/up/22/20/6y6m.png",
 ];
 
-const WIDHT = Dimensions.get("window").width;
+// const WIDHT = Dimensions.get("window").width;
+// const HEIGHT = Dimensions.get("window").height;
+const WIDHT = 340;
 const HEIGHT = Dimensions.get("window").height;
+
+console.log("taille", WIDHT);
+console.log("HEIGHT", WIDHT);
 
 const SliderHome = () => {
   const [imgActive, setImgActive] = useState(0);
@@ -28,6 +33,7 @@ const SliderHome = () => {
       const slide = Math.ceil(
         nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width
       );
+      console.log("test", slide);
       if (slide != imgActive) {
         setImgActive(slide);
       }
@@ -57,7 +63,6 @@ const SliderHome = () => {
           {images.map((e, index) => (
             <Text
               key={e}
-              style
               style={imgActive == index ? styles.dotActive : styles.dot}
             >
               ●
@@ -72,13 +77,15 @@ const SliderHome = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
   wrap: {
     width: WIDHT,
-    height: HEIGHT * 0.25,
+    height: HEIGHT * 0.4,
+    // borderRadius: 20,
+    // borderWidth: 1,
+    // borderStyle: "solid",
   },
   wrapDot: {
     position: "absolute",
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
   },
   dotActive: {
     margin: 3,
-    color: "black",
+    color: "white",
   },
   dot: {
     margin: 3,

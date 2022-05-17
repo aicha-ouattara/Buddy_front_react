@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Image, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -11,6 +11,7 @@ import Experience from "../screen/Experience";
 import UserScreen from "../screen/UserScreen";
 import { useSelector } from "react-redux";
 import { authState } from "../store/auth/selectors";
+import { RotateInDownLeft } from "react-native-reanimated";
 
 export default function Nav() {
   //Permet de créer un groupe de screens
@@ -23,7 +24,11 @@ export default function Nav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         {isLoggedIn && (
@@ -31,7 +36,26 @@ export default function Nav() {
             <Stack.Screen
               name="Protected"
               component={ProtectedScreen}
-              options={{ headerLeft: null }}
+              options={{
+                headerLeft: null,
+                headerTitle: () => (
+                  <View
+                    style={{
+                      marginLeft: 173,
+                    }}
+                  >
+                    <Image
+                      style={{
+                        width: 50,
+                        height: 50,
+
+                        // backgroundColor: "#F14D53",
+                      }}
+                      source={require("../../assets/logo.png")}
+                    />
+                  </View>
+                ),
+              }}
             />
             <Stack.Screen name="Experience" component={Experience} />
             <Stack.Screen name="User" component={UserScreen} />
