@@ -1,23 +1,13 @@
-import React, { useReducer, useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateProfile from './UpdateProfile.js';
+import React, { useState } from "react";
+import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import UpdateEvent from "./UpdateEvent.js";
 
 
-const FormModal = () => {
+
+const EventForm = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
-
-{/* sur la page profil affichage */}
-      <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
-        >
-        <Image style={{ width: 40, height: 40 }} source={require('../../assets/edit.png')}  />
-      </Pressable>
-
-  
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -29,22 +19,24 @@ const FormModal = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-              
+            <Text style={styles.modalText}>UPDATE INFOS</Text>
+            <UpdateEvent/>
             <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+             <Text>Done !</Text>
+    
             </Pressable>
-
-            <Text style={styles.modalText}>INFORMATIONS PERSONNELLES</Text>
-
-            <UpdateProfile/>
-          
           </View>
         </View>
       </Modal>
-  
+      <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.textStyle}>Update</Text>
+      </Pressable>
     </View>
   );
 };
@@ -54,14 +46,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
-    width: "70vw",
-    borderRadius: 20,
+    marginTop: 22
   },
-  
   modalView: {
-    backgroundColor: "#f2f2f2",
+    margin: 20,
+    backgroundColor: "white",
     borderRadius: 20,
+    padding: 35,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -77,12 +68,11 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-  // buttonOpen: {
-  //   backgroundColor: "#F194FF",
-  // },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
   buttonClose: {
-    textAlign: "right",
-    alignItems: "right",
+    backgroundColor: "#2196F3",
   },
   textStyle: {
     color: "white",
@@ -95,4 +85,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FormModal;
+export default EventForm;

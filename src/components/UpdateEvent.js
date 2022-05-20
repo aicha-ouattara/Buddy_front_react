@@ -1,110 +1,65 @@
-import React, { useEffect, useState, createRef} from 'react';
-import {ActivityIndicator, StyleSheet, TouchableOpacity, ScrollView, Text, TextInput, View, Button } from 'react-native';
-
+import React, {  useEffect, useState } from "react";
+import { ActivityIndicator, StyleSheet, TouchableOpacity, ScrollView, Text, TextInput, View, Button } from "react-native";
 import NumberPlease from "react-native-number-please";
 import SelectDropdown from 'react-native-select-dropdown'
 import {API_URL} from '@env';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { genericFetch } from '../api/fetchApi';
+import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
+import { genericFetchWithToken } from '../api/fetchApiWithToken';
+import { authState } from "../store/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
 
-function UpdateEvent({navigation}) 
+function UpdateEvent({navigation, route, experience}) 
 {
-  const [user, setUser] = useState([]);
-  const [token, setToken] = useState("");
-    
-  const getData = () => {
-    try {
-      AsyncStorage.getItem("token").then((value) => {
-        if (value != null) {
-          setToken(value);
-          console.log("valeur feed screen:", value);
-          // navigation.navigate("Protected");
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };      
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(0);
+  const { token, idUser } = useSelector(authState);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [spots, setSpots] = useState({ id: "spots", value: 0 });
+  const [location, setLocation] = useState("");
+  const [duration, setDuration] = useState(0);
 
-      const [title, setTitle] = useState('');
-      const [content, setContent] = useState('');
-      // const [image, image] = useState('');
-      const [spots, setSpots] = useState(0);
-      const [location, setLocation] = useState('');
-      const [duration, setDuration] = useState('');
-      const [errortext, setErrortext] = useState('');
-      const [message, setMessage] = useState("");
 
-      const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
+      .then(json => json.json())
+      .then(data => setUser(data))
+      .catch(error => console.error(error))
+      .finally(() => setIsLoading(false))
+  }
 
-      const handleSubmitButton = () => {
-          //console.log(typeof userPhone);
-          setErrortext('');
-              if (!title) {
-                  setErrortext('Please fill title');
-                  return;
-                  }
-  
-              if (!content) {
-                  setErrortext('Please fill content');
-                  return;
-              }
-  
-              if (!spots) {
-                  setErrortext('Please fill spots');
-                  return;
-              }
-  
-              if (!location) {
-                  setErrortext('Please fill location');
-                  return;
-              }
-  
-              if (!duration) {
-                  setErrortext('Please fill duration');
-                  return;
-              }
-              let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-              if ( re.test(title) ) {
-                  const body = JSON.stringify({
-                  "title": title,
-                  "content": content,
-                  "spots": spots,
-                  "location": location,
-                  "duration": duration,
-              })    
-                
-  
-  
-  
-      genericFetchWithTokenBody(`${API_URL}/experiences/{id}`, 'PUT', token, bodyExperience) 
-      .then(json => {
-      console.log(json);
-      //navigation.navigate('Login')
-      } ) 
-      
-  
-      .catch((error) => {
-      console.error("error" , error);
-    
-      });
-      console.log('ok')
-      }
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUser();
+  }, [])
 
-  else {
-// invalid email, maybe show an error to the user.
-setErrortext('Password syntax is not correct');
-}
+    const handleSubmitPress = (experience) => {
+     
+      const bodyExperience = JSON.stringify({
+        "title": title,
+        "content": content,
+        "image": "imageexample",
+        "spots" : spots.value,
+        "location" : location,
+        "duration" : 15
+      })
+
+        genericFetchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, bodyExperience) 
+      .then(json => json.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error))
+      fetchUser();
         
     }
 
 
 
     return (
+      
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            experience && ( 
-            <Text key={experience.id}></Text>
-            {console.log(experience)}
+           {user.experiences &&
+            user.experiences.map((experience) => (
           <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
@@ -112,10 +67,10 @@ setErrortext('Password syntax is not correct');
             justifyContent: 'center',
             alignContent: 'center',
           }}>
-            <Text>update</Text>
+            <Text>ADD</Text>
             <View>
             <TextInput
-                  placeholder={experience.title} 
+                  placeholder={experience.title}
                   onChangeText={(title) =>
                     setTitle(title)
                   }
@@ -161,7 +116,6 @@ setErrortext('Password syntax is not correct');
 
 <SelectDropdown
 	data={["< 1 hour", "1-2 hours", "half day", "whole day"]}
-  placeholder={experience.duration}
 	onSelect={(selectedItem) => {
 		setDuration(selectedItem)
 	}}
@@ -177,11 +131,11 @@ setErrortext('Password syntax is not correct');
 
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={handleSubmitPress}>Add
+                onPress={handleSubmitPress}><Text>Add</Text>
               </TouchableOpacity>
             </View>
             </ScrollView>
-            )
+  ))}
          </View>
     );
   }

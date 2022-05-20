@@ -11,6 +11,8 @@ import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/slice";
+import EventForm from '../../components/EventForm';
+import UpdateEvent from '../../components/UpdateEvent';
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -96,9 +98,9 @@ function Profile({ navigation, route }) {
 
   const handleStateExperience = (interest) => {
    
-    if (interest.accepted == null ) {
+    if (interest.accepted == 1 ) {
       const bodyInterest = JSON.stringify({
-        "accepted": true
+        "accepted": 1
     
       })
       PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
@@ -108,9 +110,9 @@ function Profile({ navigation, route }) {
       console.log("intérêt accepté !");
     }
   
-    if (interest.accepted == null) {
+    if (interest.accepted == 0) {
       const bodyInterest = JSON.stringify({
-        "accepted": false
+        "accepted": 0
       })
       PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
       .then(json => json.json())
@@ -167,19 +169,21 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
 
   return (
     
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Title style={{ textAlign: "center", paddingTop: 10 }}>
-        ALL EXPERIENCES
-      </Title>
+    <View style={styles.container}>
+      {/* <Title style={{ textAlign: "center", paddingTop: 10 }}>
+       TOUTES VOS EXPERIENCES
+      </Title> */}
       <ScrollView>
         <View>
           {user.experiences &&
             user.experiences.map((experience) => (
               experience.archive == 0 &&
               <>
+
                 <BlocExperience navigation={navigation} experience={experience} user={user} />
+                <EventForm experience={experience}/>
                 <View style={styles.blocActions}>
-                  
+                     
                       {(
                   experience &&(
                     experience.visible == 1 &&
@@ -220,10 +224,10 @@ function AllInteractions({ navigation, user, handleStateExperience }) {
   const index = useTabIndex();
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Title style={{ textAlign: "center", paddingTop: 10 }}>
-        ALL INTERACTIONS
-      </Title>
+    <View style={styles.container}>
+      {/* <Title style={{ textAlign: "center", paddingTop: 10 }}>
+        TOUTES VOS INTERACTIONS
+      </Title> */}
 
       <ScrollView>
         <View style={styles.box}>
@@ -285,38 +289,33 @@ function UserProfileInfos({ navigation, user }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Title style={{ textAlign: "center", paddingTop: 10 }}>
-        PROFILE INFOS
-      </Title>
-
-      <View>
-        <Button onPress={onLogOut}>deconnexion</Button>
+    <View style={styles.container}>
 
         <View>
-          <Image
-            style={{ width: 50, height: 50 }}
-            source={require("../../../assets/profil.png")}
-          />
+          <TouchableOpacity onPress={onLogOut}>  
+              <Image style={{ width: 30, height: 30 }} source={require("../../../assets/logout.png")}/>
+          </TouchableOpacity>
 
-          <View>
-            <Text>id {user.id} </Text>
-            <Text>Login {user.login} </Text>
-            <Text>Date d'inscription {user.created_at} </Text>
-          </View>
+          <FormModal />
+        <View>
+            <Image style={{ width: 100 , height: 100 }} source={require("../../../assets/profil.png")}/>
         </View>
 
+        <View>
+          <Text>{user.login} </Text>
+          <Text>Membre depuis le {user.created_at} </Text>
+        </View>
+       
+{/* 
         <View>
           <Text>
             {" "}
             <Image source={require("../../../assets/ok.png")} /> Vérifications
             gmail, facebook, téléphone
           </Text>
-        </View>
+        </View> */}
 
-        <View>
-          <FormModal />
-        </View>
+   
       </View>
     </View>
   );
@@ -386,7 +385,20 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
+
+
+
+
+
+container: {
+  flex: 1,
+  justifyContent: 'center',
+  alignContent: "center",
+  backgroundColor: "#f2f2f2",
+},
+
 });
+
 
 
 export default Profile;
