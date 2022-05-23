@@ -4,6 +4,7 @@ import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
 import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
+import { Avatar } from 'react-native-paper';
 import {API_URL} from '@env';
 import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
@@ -65,7 +66,7 @@ function BucketList({navigation, user, deleteId,}) {
 
   
   return (
-    <View style={{ flex:1, backgroundColor: 'white' }}>
+    <View style={styles.container}>
 
       <Title style={{textAlign: 'center', paddingTop: 10}}>BUCKETLIST</Title>
       
@@ -81,10 +82,23 @@ function BucketList({navigation, user, deleteId,}) {
               interest =>
               interest.plan == 0 && 
            
-              <>    { console.log(experience)}
-                <BlocInterest navigation={navigation} interest={interest} experience={experience} user={user}/>
-                <Text onClick={() => deleteId(interest.id)} key={interest.id} ><Image 
-            style={{ width: 25, height: 25 }} source={require('../../../assets/bucket-red.png')}  /></Text>
+              <>    
+                 <View style={styles.box}>
+                  <BlocInterest navigation={navigation} interest={interest} experience={experience} user={user}/>
+                  
+                  <View style={styles.blocActions}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
+                      <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
+                    </TouchableOpacity>
+                      
+                    <Text onClick={() => deleteId(interest.id)} key={interest.id} >
+                      <Image style={{ width: 25, height: 25 }} source={require('../../../assets/bucket-red.png')}  />
+                    </Text>
+                  </View>
+                 
+                </View>
+
+             
               </>
               
  
@@ -107,7 +121,7 @@ function ToDoNow({navigation, user, deleteId}) {
   const index = useTabIndex();
 
   return (
-    <View style={{ flex:1, backgroundColor: 'white' }}>
+    <View style={styles.container}>
       
     <Title style={{textAlign: 'center', paddingTop: 10}}>TO DO NOW</Title>
 
@@ -123,14 +137,45 @@ function ToDoNow({navigation, user, deleteId}) {
              interest =>
              interest.plan == 1 && 
              <>
-              <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
-              <Text onClick={() => deleteId(interest.id)} key={interest.id} ><Image 
-            style={{ width: 25, height: 25 }} source={require('../../../assets/heart-red.png')}  /></Text>
+                <View style={styles.box}>
+                  <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+                  
+                  <View style={styles.blocActions}>
+                  <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
+                     <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
+                  </TouchableOpacity>
+                      <Text onClick={() => deleteId(interest.id)} key={interest.id} >
+                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/heart-red.png')}  />
+                      </Text>
+
+                      <TouchableOpacity>
+                   
+                            {(
+                              interest &&(
+                                interest.plan == 1 &&
+                                interest.accepted == 0 && 
+                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
+                                )
+                            )}
+                      
+                            {(
+                              interest &&(
+                                interest.plan == 1 &&
+                                interest.accepted == 1 && 
+                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
+                              )
+                            )}
+                      </TouchableOpacity>
+
+                  </View>
+                 
+
+                </View>
+             
              </>
             
-             
-             )
-       )
+            )
+          )
          )}
       </View>
 
@@ -140,6 +185,42 @@ function ToDoNow({navigation, user, deleteId}) {
   </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignContent: "center",
+    backgroundColor: "#f2f2f2",
+  },
+
+
+  blocExperience: {
+    flex: 1,
+    flexDirection: "row",
+  },
+
+  box: {
+    flexDirection: "row",
+    borderRadius: 10,
+    backgroundColor: "white",
+    padding: 10,
+    margin: 10,
+    shadowColor: "grey",
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5, 
+    justifyContent: 'space-between',
+  },
+
+  blocActions: {
+    paddingLeft: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: "#f14d53",
+    justifyContent: "space-between"
+  }, 
+});
 
 
 

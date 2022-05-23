@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/slice";
 import EventForm from '../../components/EventForm';
 import UpdateEvent from '../../components/UpdateEvent';
+import { Avatar } from 'react-native-paper';
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -291,32 +292,25 @@ function UserProfileInfos({ navigation, user }) {
   return (
     <View style={styles.container}>
 
-        <View>
+        <View style={styles.actionsProfil}>
           <TouchableOpacity onPress={onLogOut}>  
-              <Image style={{ width: 30, height: 30 }} source={require("../../../assets/logout.png")}/>
+              <Image style={{ width: 40, height: 40 }} source={require("../../../assets/logout.png")}/>
           </TouchableOpacity>
 
           <FormModal />
-        <View>
+        </View>
+
+        <View style={styles.avatarProfil}>
             <Image style={{ width: 100 , height: 100 }} source={require("../../../assets/profil.png")}/>
         </View>
 
-        <View>
-          <Text>{user.login} </Text>
+        <View style={styles.infosProfil}>
+          <Text style={{padding: 20}}>{user.login} </Text>
           <Text>Membre depuis le {user.created_at} </Text>
         </View>
-       
-{/* 
-        <View>
-          <Text>
-            {" "}
-            <Image source={require("../../../assets/ok.png")} /> Vérifications
-            gmail, facebook, téléphone
-          </Text>
-        </View> */}
 
    
-      </View>
+    
     </View>
   );
 }
@@ -392,11 +386,36 @@ const styles = StyleSheet.create({
 
 container: {
   flex: 1,
-  justifyContent: 'center',
+  flexDirection: 'column',
+  justifyContent: 'space-around',
   alignContent: "center",
   backgroundColor: "#f2f2f2",
 },
 
+actionsProfil: {
+    flex: 0.2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 30,
+    // backgroundColor: 'red',
+},
+
+avatarProfil: {
+  flex: 0.4,
+  // backgroundColor: 'green',
+  justifyContent: "center",
+  alignItems: "center",
+  
+},
+
+infosProfil:{
+  flex: 0.4,
+  flexDirection: 'column',
+  // backgroundColor: 'yellow',
+  justifyContent: "center",
+  alignItems: "center",
+
+},
 });
 
 

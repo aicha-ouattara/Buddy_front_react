@@ -6,11 +6,11 @@ import UpdateProfile from './UpdateProfile.js';
 const FormModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View style={styles.centeredView}>
+    <View>
 
 {/* sur la page profil affichage */}
       <Pressable
-          style={[styles.button, styles.buttonOpen]}
+          style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
         <Image style={{ width: 40, height: 40 }} source={require('../../assets/edit.png')}  />
@@ -80,10 +80,10 @@ const styles = StyleSheet.create({
   // buttonOpen: {
   //   backgroundColor: "#F194FF",
   // },
-  buttonClose: {
-    textAlign: "right",
-    alignItems: "right",
-  },
+  // buttonClose: {
+  //   textAlign: "right",
+  //   alignItems: "right",
+  // },
   textStyle: {
     color: "white",
     fontWeight: "bold",

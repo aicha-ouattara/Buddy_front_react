@@ -1,41 +1,53 @@
 import React, { useState, useEffect} from 'react';
 import { View, Text, Image, ScrollView, TextInput, Title, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { Avatar } from 'react-native-paper';
 
 
 const BlocExperience = ({ user, interest, navigation, experience}) => {
 
     return (
       <View>
-      
-       {(
-         interest &&(
-           interest.plan == 1 &&
-          interest.accepted == 0 && 
-          <Image 
-          style={{ width: 25, height: 25 }} source={require('../../assets/refused.png')}  />
-           )
-
-       )}
-
-      {(
-         interest &&(
-          interest.plan == 1 &&
-          interest.accepted == 1 && 
-          <Image 
-          style={{ width: 25, height: 25 }} source={require('../../assets/accepted.png')}  />
-         )
-       )}
-
      
+        <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
+          
+          <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
+          <View style={styles.blocText}>
+            <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
+            <Text numberOfLines={3} >{experience.content}</Text>
+          </View>
+  
+        </TouchableOpacity>
+ 
+   
 
-     
-         <Text onPress={() => {navigation.navigate('Experience', {id:experience.id})}}>{experience.title}</Text>
-         <Text onPress={() => {navigation.navigate('User', {id : user.id})}} >{user.login}</Text>
          
        </View>
   );
 }
   
+const styles = StyleSheet.create({
+  experiencePicture: {
+    width: 72,
+    height: 72,
+    borderRadius: 10,
+  },
+  avatar: {
+    backgroundColor: "white"
+  },
+  blocExperience: {
+    flex: 1,
+    flexDirection: "row",
+  },
+
+  blocText: {
+    flex: 1,
+    width: "100%",
+    marginLeft: 10,
+    marginRight: 10,
+    flexDirection: 'column',
+  },
+
+});
+
     
 export default BlocExperience;
