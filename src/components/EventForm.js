@@ -1,13 +1,23 @@
-import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import React, { useReducer, useState } from "react";
+import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
 import UpdateEvent from "./UpdateEvent.js";
-
 
 
 const EventForm = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View style={styles.centeredView}>
+    <View>
+
+{/* sur la page profil affichage */}
+      <Pressable
+          style={styles.buttonOpen}
+          onPress={() => setModalVisible(true)}
+        >
+        <Image style={{ width: 40, height: 40 }} source={require('../../assets/edit.png')}  />
+      </Pressable>
+
+  
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -19,24 +29,22 @@ const EventForm = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>UPDATE INFOS</Text>
-            <UpdateEvent/>
+              
             <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-             <Text>Done !</Text>
-    
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
             </Pressable>
+
+            <Text style={styles.modalText}>MODIFICATION ÉVÉNEMENT</Text>
+
+            <UpdateEvent/>
+          
           </View>
         </View>
       </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>Update</Text>
-      </Pressable>
+  
     </View>
   );
 };
@@ -46,13 +54,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
+    marginTop: 22,
+    width: "70vw",
     borderRadius: 20,
-    padding: 35,
+  },
+  
+  modalView: {
+    backgroundColor: "#f2f2f2",
+    borderRadius: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -68,12 +77,7 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
+
   textStyle: {
     color: "white",
     fontWeight: "bold",

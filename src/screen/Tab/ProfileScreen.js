@@ -171,18 +171,16 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
   return (
     
     <View style={styles.container}>
-      {/* <Title style={{ textAlign: "center", paddingTop: 10 }}>
-       TOUTES VOS EXPERIENCES
-      </Title> */}
+ 
       <ScrollView>
         <View>
           {user.experiences &&
             user.experiences.map((experience) => (
               experience.archive == 0 &&
               <>
-
+            <View style={styles.box}>
                 <BlocExperience navigation={navigation} experience={experience} user={user} />
-                <EventForm experience={experience}/>
+
                 <View style={styles.blocActions}>
                      
                       {(
@@ -207,6 +205,8 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
                 <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
                   <Image style={{ width: 25, height: 25 }} source={require("../../../assets/trashcan.png")}/>
                 </Text>
+                <EventForm experience={experience}/>
+          </View>
         </View>
               </>
             ))}
@@ -226,19 +226,25 @@ function AllInteractions({ navigation, user, handleStateExperience }) {
 
   return (
     <View style={styles.container}>
-      {/* <Title style={{ textAlign: "center", paddingTop: 10 }}>
-        TOUTES VOS INTERACTIONS
-      </Title> */}
 
       <ScrollView>
-        <View style={styles.box}>
+        <View>
           {user.experiences &&
             user.experiences.map((experience) =>
               experience.interests.map((interest) => (
-                <View>
+                <View style={styles.box}>
                   <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}  />
                
+                  <View style={styles.blocText}>
+                    
+                    <Text>{interest.message}</Text>
+                    <Text>{interest.date}</Text>
+                  </View>
 
+                  <View style={styles.blocActions}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
+                      <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
+                    </TouchableOpacity>
                   {(
                     interest &&(
                       interest.plan == 1 &&
@@ -260,13 +266,30 @@ function AllInteractions({ navigation, user, handleStateExperience }) {
                       )
                   )}
 
-              
+                <View>
+                   
+                   {(
+                     interest &&(
+                       interest.plan == 1 &&
+                       interest.accepted == 0 && 
+                       <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
+                       )
+                   )}
+             
+                   {(
+                     interest &&(
+                       interest.plan == 1 &&
+                       interest.accepted == 1 && 
+                       <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
+                     )
+                   )}
+             </View>
+
+
+              </View>
 
               
-                  <View style={styles.blocText}>
-                    <Text>{interest.message}</Text>
-                    <Text>{interest.date}</Text>
-                  </View>
+               
                 </View>
               ))
             )}
@@ -334,9 +357,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
 
-  blocExperience: {
+  blocText: {
     flex: 1,
-    flexDirection: "row",
+    width: "100%",
+    marginLeft: 10,
+    marginRight: 10,
+    flexDirection: 'column',
   },
 
   box: {
@@ -348,16 +374,10 @@ const styles = StyleSheet.create({
     shadowColor: "grey",
     shadowOpacity: 0.25,
     shadowRadius: 6,
-    elevation: 5
+    elevation: 5,
+    justifyContent: 'space-between',
   },
 
-  blocText: {
-    flex: 1,
-    width: "100%",
-    marginLeft: 10,
-    marginRight: 10,
-    flexDirection: 'column',
-  },
 
   blocActions: {
     paddingLeft: 10,
@@ -366,19 +386,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
 
-  modalView: {
-    flex: 1,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
+
 
 
 
