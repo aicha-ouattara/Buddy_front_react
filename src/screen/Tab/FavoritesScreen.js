@@ -68,7 +68,7 @@ function BucketList({navigation, user, deleteId,}) {
   return (
     <View style={styles.container}>
 
-      <Title style={{textAlign: 'center', paddingTop: 10}}>BUCKETLIST</Title>
+      {/* <Title style={{textAlign: 'center', paddingTop: 10}}>BUCKETLIST</Title> */}
       
       <ScrollView>
         
@@ -123,7 +123,7 @@ function ToDoNow({navigation, user, deleteId}) {
   return (
     <View style={styles.container}>
       
-    <Title style={{textAlign: 'center', paddingTop: 10}}>TO DO NOW</Title>
+    {/* <Title style={{textAlign: 'center', paddingTop: 10}}>TO DO NOW</Title> */}
 
 
     <ScrollView>
