@@ -178,9 +178,15 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
             user.experiences.map((experience) => (
               experience.archive == 0 &&
               <>
-            <View style={styles.box}>
-                <BlocExperience navigation={navigation} experience={experience} user={user} />
+           <View style={styles.box}>
 
+              <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
+                <Image style={styles.experiencePicture} source={require(`../../../assets/${experience.image}`)} />
+                <View style={styles.blocText}>
+                  <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
+                  <Text numberOfLines={3} >{experience.content}</Text>
+                </View>
+              </TouchableOpacity>
                 <View style={styles.blocActions}>
                      
                       {(
@@ -352,19 +358,13 @@ const styles = StyleSheet.create({
     height: 72,
     borderRadius: 10,
   },
-
   avatar: {
     backgroundColor: "white"
   },
-
-  blocText: {
+  blocExperience: {
     flex: 1,
-    width: "100%",
-    marginLeft: 10,
-    marginRight: 10,
-    flexDirection: 'column',
+    flexDirection: "row",
   },
-
   box: {
     flexDirection: "row",
     borderRadius: 10,
@@ -374,18 +374,21 @@ const styles = StyleSheet.create({
     shadowColor: "grey",
     shadowOpacity: 0.25,
     shadowRadius: 6,
-    elevation: 5,
-    justifyContent: 'space-between',
+    elevation: 5
   },
-
-
+  blocText: {
+    flex: 1,
+    width: "100%",
+    marginLeft: 10,
+    marginRight: 10,
+    flexDirection: 'column',
+  },
   blocActions: {
     paddingLeft: 10,
     borderLeftWidth: 3,
     borderLeftColor: "#f14d53",
     justifyContent: "space-between"
-  },
-
+  }, 
 
 
 
