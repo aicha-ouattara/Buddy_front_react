@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateProfile from './UpdateProfile.js';
+import UpdateLogin from "./UpdateLogin";
 
 
-const FormModal = () => {
+const LoginModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -37,9 +37,9 @@ const FormModal = () => {
                 <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
             </Pressable>
 
-            <Text style={styles.modalText}>INFORMATIONS PERSONNELLES</Text>
+            <Text style={styles.modalText}>Modifier Login</Text>
 
-            <UpdateProfile/>
+            <UpdateLogin/>
           
           </View>
         </View>
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FormModal;
+export default LoginModal;

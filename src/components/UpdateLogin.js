@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
 import {genericFetchWithTokenBody} from '../api/fetchApiWithTokenBody'
 
-function UpdateProfile({navigation}) {
+function UpdateLogin({navigation}) {
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(0);
     const { token, idUser } = useSelector(authState);
@@ -29,39 +29,20 @@ function UpdateProfile({navigation}) {
         fetchUser();
       }, [])
     
-    
-
-    const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
-
     const handleSubmitButton = () => {
-        //console.log(typeof userPhone);
-        setErrortext('');
-       
-        // don't remember from where i copied this code, but this works.
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-     if ( re.test(userLogin) ) {
-        const body = JSON.stringify({
-        "login": userLogin,
-        "password": userPassword,
-     })    
- 
-    
-        genericFetchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
-        .then(json => {
-        console.log(json);
-        fetchUser();
-        }, [])
-        
-    
-        .catch((error) => {
-        console.error("error" , error);
-      
-        });
-        console.log('ok')
-         }
 
-}
+        if (re.test(userLogin)){
+            const body = JSON.stringify({
+                "login": userLogin
+            })
+            genericFetchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+            .then(json => {
+            console.log(json);
+            fetchUser();
+            }, [])
+            
+        }
+    };
 
 return (
     <View style={styles.mainBody}>
@@ -71,8 +52,6 @@ return (
         
         user && ( 
             <Text key={user.id}>
-
- 
 
         <ScrollView
             keyboardShouldPersistTaps="handled"
@@ -98,33 +77,11 @@ return (
         />
     </View>
 
-        <View style={styles.SectionStyle}>
-            <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserPassword) =>
-                setUserPassword(UserPassword)
-                }
-                underlineColorAndroid="#f000"
-                defaultValue={user.password}
-                placeholder="Enter Password"
-                placeholderTextColor="black"
-                returnKeyType="next"
-                secureTextEntry={true}
-                blurOnSubmit={false}
-            />
-        </View>
-
-        {errortext != '' ? (
-            <Text style={styles.errorTextStyle}>
-            {errortext}
-            </Text>
-        ) : null}
-
         <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>UPDATE</Text>
+            <Text style={styles.buttonTextStyle}>MODIFIER</Text>
         </TouchableOpacity>
     </KeyboardAvoidingView>
     </ScrollView>
@@ -135,7 +92,7 @@ return (
 </View>
 );
 };
-export default UpdateProfile
+export default UpdateLogin
 
 const styles = StyleSheet.create({
 

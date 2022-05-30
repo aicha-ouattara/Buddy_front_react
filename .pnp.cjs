@@ -38,17 +38,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.16.7"],
             ["@expo/vector-icons", "npm:12.0.5"],
             ["@react-native-async-storage/async-storage", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:1.15.15"],
+            ["@react-native-picker/picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:2.4.1"],
             ["@react-navigation/bottom-tabs", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:6.0.9"],
             ["@react-navigation/native", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:6.0.6"],
             ["@react-navigation/native-stack", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:6.2.5"],
             ["@reduxjs/toolkit", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:1.8.0"],
             ["babel-plugin-root-import", "npm:6.6.0"],
+            ["dateformat", "npm:5.0.3"],
             ["expo", "npm:44.0.4"],
-            ["expo-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:12.0.2"],
+            ["expo-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:13.1.1"],
             ["expo-secure-store", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:11.1.1"],
             ["expo-status-bar", "npm:1.2.0"],
             ["jwt-decode", "npm:3.1.2"],
             ["lodash.debounce", "npm:4.0.8"],
+            ["moment", "npm:2.29.3"],
             ["react", "npm:17.0.1"],
             ["react-dom", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:17.0.1"],
             ["react-hook-form", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:7.24.0"],
@@ -56,6 +59,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-native-carousel-control", "npm:2.0.1"],
             ["react-native-dotenv", "npm:3.3.1"],
             ["react-native-gesture-handler", "npm:2.1.3"],
+            ["react-native-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:4.8.3"],
             ["react-native-number-please", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:1.0.5"],
             ["react-native-pager-view", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:5.4.9"],
             ["react-native-paper", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:4.11.2"],
@@ -566,7 +570,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@babel-parser-npm-7.16.8-2e956b0a98-f6bc2eb1f2.zip/node_modules/@babel/parser/",
           "packageDependencies": [
             ["@babel/parser", "npm:7.16.8"],
-            ["@babel/types", "npm:7.18.0"]
+            ["@babel/types", "npm:7.18.4"]
           ],
           "linkType": "HARD",
         }]
@@ -3201,10 +3205,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:7.18.0", {
-          "packageLocation": "./.yarn/cache/@babel-types-npm-7.18.0-f0693aeded-151485f94c.zip/node_modules/@babel/types/",
+        ["npm:7.18.4", {
+          "packageLocation": "./.yarn/cache/@babel-types-npm-7.18.4-758c2695f8-85df59beb9.zip/node_modules/@babel/types/",
           "packageDependencies": [
-            ["@babel/types", "npm:7.18.0"],
+            ["@babel/types", "npm:7.18.4"],
             ["@babel/helper-validator-identifier", "npm:7.16.7"],
             ["to-fast-properties", "npm:2.0.0"]
           ],
@@ -3298,6 +3302,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["xml2js", "npm:0.4.23"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:4.1.5", {
+          "packageLocation": "./.yarn/cache/@expo-config-plugins-npm-4.1.5-d198842c05-f631217251.zip/node_modules/@expo/config-plugins/",
+          "packageDependencies": [
+            ["@expo/config-plugins", "npm:4.1.5"],
+            ["@expo/config-types", "npm:45.0.0"],
+            ["@expo/json-file", "npm:8.2.36"],
+            ["@expo/plist", "npm:0.0.18"],
+            ["@expo/sdk-runtime-versions", "npm:1.0.0"],
+            ["@react-native/normalize-color", "npm:2.0.0"],
+            ["chalk", "npm:4.1.2"],
+            ["debug", "virtual:97196aaf15f8c74fdf1d67111385c00d8fdcce141e9f310c23cedfc5a744fa765ad8c4fae6bf79c6b7c30bc5050c9ee0596af35ec2d2687979be9b84b62ff7d6#npm:4.3.3"],
+            ["find-up", "npm:5.0.0"],
+            ["getenv", "npm:1.0.0"],
+            ["glob", "npm:7.1.6"],
+            ["resolve-from", "npm:5.0.0"],
+            ["semver", "npm:7.3.5"],
+            ["slash", "npm:3.0.0"],
+            ["xcode", "npm:3.0.1"],
+            ["xml2js", "npm:0.4.23"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@expo/config-types", [
@@ -3307,6 +3333,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@expo/config-types", "npm:43.0.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:45.0.0", {
+          "packageLocation": "./.yarn/cache/@expo-config-types-npm-45.0.0-076be5d066-9b48665406.zip/node_modules/@expo/config-types/",
+          "packageDependencies": [
+            ["@expo/config-types", "npm:45.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@expo/json-file", [
@@ -3314,6 +3347,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@expo-json-file-npm-8.2.33-0d0e3d6c0b-1817fd116c.zip/node_modules/@expo/json-file/",
           "packageDependencies": [
             ["@expo/json-file", "npm:8.2.33"],
+            ["@babel/code-frame", "npm:7.10.4"],
+            ["json5", "npm:1.0.1"],
+            ["write-file-atomic", "npm:2.4.3"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:8.2.36", {
+          "packageLocation": "./.yarn/cache/@expo-json-file-npm-8.2.36-b21cfd7248-37ce80b347.zip/node_modules/@expo/json-file/",
+          "packageDependencies": [
+            ["@expo/json-file", "npm:8.2.36"],
             ["@babel/code-frame", "npm:7.10.4"],
             ["json5", "npm:1.0.1"],
             ["write-file-atomic", "npm:2.4.3"]
@@ -3343,6 +3386,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@xmldom/xmldom", "npm:0.7.5"],
             ["base64-js", "npm:1.5.1"],
             ["xmlbuilder", "npm:14.0.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.0.18", {
+          "packageLocation": "./.yarn/cache/@expo-plist-npm-0.0.18-16bd3d6339-42f5743fcd.zip/node_modules/@expo/plist/",
+          "packageDependencies": [
+            ["@expo/plist", "npm:0.0.18"],
+            ["@xmldom/xmldom", "npm:0.7.5"],
+            ["base64-js", "npm:1.5.1"],
+            ["xmlbuilder", "npm:14.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@expo/sdk-runtime-versions", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@expo-sdk-runtime-versions-npm-1.0.0-f9b9f9beab-0942d5a356.zip/node_modules/@expo/sdk-runtime-versions/",
+          "packageDependencies": [
+            ["@expo/sdk-runtime-versions", "npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -3647,6 +3709,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@react-native-community/cli-types", "npm:5.0.1"],
             ["ora", "npm:3.4.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@react-native-picker/picker", [
+        ["npm:2.4.1", {
+          "packageLocation": "./.yarn/unplugged/@react-native-picker-picker-virtual-d5fb66efe5/node_modules/@react-native-picker/picker/",
+          "packageDependencies": [
+            ["@react-native-picker/picker", "npm:2.4.1"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:2.4.1", {
+          "packageLocation": "./.yarn/unplugged/@react-native-picker-picker-virtual-d5fb66efe5/node_modules/@react-native-picker/picker/",
+          "packageDependencies": [
+            ["@react-native-picker/picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:2.4.1"],
+            ["@types/react", null],
+            ["@types/react-native", null],
+            ["react", "npm:17.0.1"],
+            ["react-native", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:0.64.3"]
+          ],
+          "packagePeers": [
+            "@types/react-native",
+            "@types/react",
+            "react-native",
+            "react"
           ],
           "linkType": "HARD",
         }]
@@ -5441,6 +5529,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["dateformat", [
+        ["npm:5.0.3", {
+          "packageLocation": "./.yarn/cache/dateformat-npm-5.0.3-e1e8c1f591-4d2f5b0b04.zip/node_modules/dateformat/",
+          "packageDependencies": [
+            ["dateformat", "npm:5.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["dayjs", [
         ["npm:1.10.7", {
           "packageLocation": "./.yarn/cache/dayjs-npm-1.10.7-34318a8e39-a0a4ca95ab.zip/node_modules/dayjs/",
@@ -6023,21 +6120,44 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["expo-image-picker", [
-        ["npm:12.0.2", {
-          "packageLocation": "./.yarn/unplugged/expo-image-picker-virtual-a4d807b151/node_modules/expo-image-picker/",
+      ["expo-image-loader", [
+        ["npm:3.2.0", {
+          "packageLocation": "./.yarn/unplugged/expo-image-loader-virtual-2b27524e3e/node_modules/expo-image-loader/",
           "packageDependencies": [
-            ["expo-image-picker", "npm:12.0.2"]
+            ["expo-image-loader", "npm:3.2.0"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:12.0.2", {
-          "packageLocation": "./.yarn/unplugged/expo-image-picker-virtual-a4d807b151/node_modules/expo-image-picker/",
+        ["virtual:0b8c9d430fc6d07d71bf51a0fc91b6081a6be5dbbed4dd35ee0a2f0e295bc67c70b9ff4550c5f160ec50ce06943fa84bc86c71b10ce1a717012b7249696d1ae2#npm:3.2.0", {
+          "packageLocation": "./.yarn/unplugged/expo-image-loader-virtual-2b27524e3e/node_modules/expo-image-loader/",
           "packageDependencies": [
-            ["expo-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:12.0.2"],
-            ["@expo/config-plugins", "npm:4.0.6"],
+            ["expo-image-loader", "virtual:0b8c9d430fc6d07d71bf51a0fc91b6081a6be5dbbed4dd35ee0a2f0e295bc67c70b9ff4550c5f160ec50ce06943fa84bc86c71b10ce1a717012b7249696d1ae2#npm:3.2.0"],
+            ["@types/expo", null],
+            ["expo", "npm:44.0.4"]
+          ],
+          "packagePeers": [
+            "@types/expo",
+            "expo"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["expo-image-picker", [
+        ["npm:13.1.1", {
+          "packageLocation": "./.yarn/cache/expo-image-picker-npm-13.1.1-e6eb364cb8-2ec44333d5.zip/node_modules/expo-image-picker/",
+          "packageDependencies": [
+            ["expo-image-picker", "npm:13.1.1"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:13.1.1", {
+          "packageLocation": "./.yarn/__virtual__/expo-image-picker-virtual-0b8c9d430f/0/cache/expo-image-picker-npm-13.1.1-e6eb364cb8-2ec44333d5.zip/node_modules/expo-image-picker/",
+          "packageDependencies": [
+            ["expo-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:13.1.1"],
+            ["@expo/config-plugins", "npm:4.1.5"],
             ["@types/expo", null],
             ["expo", "npm:44.0.4"],
+            ["expo-image-loader", "virtual:0b8c9d430fc6d07d71bf51a0fc91b6081a6be5dbbed4dd35ee0a2f0e295bc67c70b9ff4550c5f160ec50ce06943fa84bc86c71b10ce1a717012b7249696d1ae2#npm:3.2.0"],
             ["uuid", "npm:7.0.2"]
           ],
           "packagePeers": [
@@ -7769,10 +7889,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["make-fetch-happen", [
-        ["npm:10.1.5", {
-          "packageLocation": "./.yarn/cache/make-fetch-happen-npm-10.1.5-d805393723-b0b42a1ccd.zip/node_modules/make-fetch-happen/",
+        ["npm:10.1.6", {
+          "packageLocation": "./.yarn/cache/make-fetch-happen-npm-10.1.6-401b7cbf4a-e75fb12092.zip/node_modules/make-fetch-happen/",
           "packageDependencies": [
-            ["make-fetch-happen", "npm:10.1.5"],
+            ["make-fetch-happen", "npm:10.1.6"],
             ["agentkeepalive", "npm:4.2.1"],
             ["cacache", "npm:16.1.0"],
             ["http-cache-semantics", "npm:4.1.0"],
@@ -8422,6 +8542,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["moment", [
+        ["npm:2.29.3", {
+          "packageLocation": "./.yarn/cache/moment-npm-2.29.3-fe4ba99bae-2e780e36d9.zip/node_modules/moment/",
+          "packageDependencies": [
+            ["moment", "npm:2.29.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["ms", [
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/ms-npm-2.0.0-9e1101a471-0e6a22b8b7.zip/node_modules/ms/",
@@ -8519,17 +8648,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.16.7"],
             ["@expo/vector-icons", "npm:12.0.5"],
             ["@react-native-async-storage/async-storage", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:1.15.15"],
+            ["@react-native-picker/picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:2.4.1"],
             ["@react-navigation/bottom-tabs", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:6.0.9"],
             ["@react-navigation/native", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:6.0.6"],
             ["@react-navigation/native-stack", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:6.2.5"],
             ["@reduxjs/toolkit", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:1.8.0"],
             ["babel-plugin-root-import", "npm:6.6.0"],
+            ["dateformat", "npm:5.0.3"],
             ["expo", "npm:44.0.4"],
-            ["expo-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:12.0.2"],
+            ["expo-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:13.1.1"],
             ["expo-secure-store", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:11.1.1"],
             ["expo-status-bar", "npm:1.2.0"],
             ["jwt-decode", "npm:3.1.2"],
             ["lodash.debounce", "npm:4.0.8"],
+            ["moment", "npm:2.29.3"],
             ["react", "npm:17.0.1"],
             ["react-dom", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:17.0.1"],
             ["react-hook-form", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:7.24.0"],
@@ -8537,6 +8669,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-native-carousel-control", "npm:2.0.1"],
             ["react-native-dotenv", "npm:3.3.1"],
             ["react-native-gesture-handler", "npm:2.1.3"],
+            ["react-native-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:4.8.3"],
             ["react-native-number-please", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:1.0.5"],
             ["react-native-pager-view", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:5.4.9"],
             ["react-native-paper", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:4.11.2"],
@@ -8619,7 +8752,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["env-paths", "npm:2.2.1"],
             ["glob", "npm:7.2.3"],
             ["graceful-fs", "npm:4.2.10"],
-            ["make-fetch-happen", "npm:10.1.5"],
+            ["make-fetch-happen", "npm:10.1.6"],
             ["nopt", "npm:5.0.0"],
             ["npmlog", "npm:6.0.2"],
             ["rimraf", "npm:3.0.2"],
@@ -9468,6 +9601,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["invariant", "npm:2.2.4"],
             ["lodash", "npm:4.17.21"],
             ["prop-types", "npm:15.8.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["react-native-image-picker", [
+        ["npm:4.8.3", {
+          "packageLocation": "./.yarn/unplugged/react-native-image-picker-virtual-df5174e633/node_modules/react-native-image-picker/",
+          "packageDependencies": [
+            ["react-native-image-picker", "npm:4.8.3"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:4.8.3", {
+          "packageLocation": "./.yarn/unplugged/react-native-image-picker-virtual-df5174e633/node_modules/react-native-image-picker/",
+          "packageDependencies": [
+            ["react-native-image-picker", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:4.8.3"],
+            ["@types/react", null],
+            ["@types/react-native", null],
+            ["react", "npm:17.0.1"],
+            ["react-native", "virtual:c13f958bcbf7285b53474647144db3b56d6e102263df5c662f5965381eef473359c93f86b75995419f6748aab8fcdcd8ced54d107024e7eb63df7488e72d90cb#npm:0.64.3"]
+          ],
+          "packagePeers": [
+            "@types/react-native",
+            "@types/react",
+            "react-native",
+            "react"
           ],
           "linkType": "HARD",
         }]

@@ -4,7 +4,7 @@ import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation } from 'react-native-paper-tabs';
 import BlocExperience from '../components/BlocExperience';
 import BlocReview from '../components/BlocReview';
-import FormModal from '../components/FormModal';
+
 import {API_URL} from '@env';
 import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';

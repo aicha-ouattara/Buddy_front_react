@@ -4,7 +4,7 @@ import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
 import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
-import FormModal from '../../components/FormModal';
+import LoginModal from '../../components/LoginModal';
 import {API_URL} from '@env';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
@@ -12,15 +12,14 @@ import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/slice";
 import EventForm from '../../components/EventForm';
-import UpdateEvent from '../../components/UpdateEvent';
 import { Avatar } from 'react-native-paper';
-import {Picker} from '@react-native-picker/picker';
+
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
-  const {selectStatus, setSelectStatus} = useState();
+
 
   //CONNEXION À L'UTILISATEUR PRÉCIS
 
@@ -312,17 +311,28 @@ function UserProfileInfos({ navigation, user }) {
               <Image style={{ width: 40, height: 40 }} source={require("../../../assets/logout.png")}/>
           </TouchableOpacity>
 
-          <FormModal />
+          <LoginModal />
         </View>
 
         <View style={styles.avatarProfil}>
-         <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} />
+         {/* <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} /> */}
+
         </View>
 
         <View style={styles.infosProfil}>
           <Text style={{padding: 20, fontWeight: "bold" }}>{user.login} </Text>
-          <Text style={{fontWeight: "bold"}}>Membre depuis le {user.created_at} </Text>
+          <LoginModal/>
+    
+          <Text style={{fontWeight: "bold"}}>Membre depuis le {user.created_at} </Text> 
           <Text>{user.biography}</Text>
+        
+ 
+          <Text>{user.telephone}</Text>
+        
+
+          <Text>{user.password}</Text>
+      
+
         </View>
 
    
