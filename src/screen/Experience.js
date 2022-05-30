@@ -7,47 +7,49 @@ import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
 import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
 import { API_URL } from '@env';
+import { authState } from "../store/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from '../components/Loading';
 import Bucket from '../components/Bucket';
 import ModalMessage from '../components/ModalMessage';
-import jwt_decode from "jwt-decode";
+import UpdateEvent from '../components/UpdateEvent';
 
 const Experience = ({ route, navigation }) => {
 
   // const state = useContext(GlobalContext);
 
-  const body = JSON.stringify({
-    "login": "test",
-    "password": "test"
-  })
-  const [userId, setUserId] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
+  const [userId, setUserId] = useState(0);
+  const { token, idUser } = useSelector(authState);
   const [experience, setExperience] = useState([]);
   const [liked, setLiked] = useState(false);
   const [superLiked, setSuperLiked] = useState(false);
   const [interestId, setInterestId] = useState(0)
-  const [token, setToken] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [content, setContent] = useState("");
   
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, 'POST', body)
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
       .then(json => json.json())
-      .then(data => setToken(data.token))
+      .then(data => setUserId(data))
       .catch(error => console.error(error))
-      
+      .finally(() => setIsLoading(false))
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUser();
   }, [])
+
+
 
 
   useEffect(() => {
     setIsLoading(true)
     genericFetchWithToken(`${API_URL}/experiences/${route.params.id}`, 'GET', token)
-      .then(json => json.json())
-      .then(data => setExperience(data))
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false))
-      token.length > 0 && setUserId(jwt_decode(token).id); //get user Id from Token
+   fetchUser()
   }, [token])
 
 
@@ -138,6 +140,7 @@ experience && experience?.interests &&    experience.interests.map(function (int
         (experience.user && (
 
           <ScrollView>
+           {/* <UpdateEvent/> */}
             <View style={styles.views}>
               <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
             </View>

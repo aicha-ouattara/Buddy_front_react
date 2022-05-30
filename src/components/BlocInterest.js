@@ -10,10 +10,9 @@ const BlocExperience = ({ user, interest, navigation, experience}) => {
      
         <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
           
-          <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
+         
           <View style={styles.blocText}>
             <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
-            <Text numberOfLines={3} >{experience.content}</Text>
           </View>
   
         </TouchableOpacity>

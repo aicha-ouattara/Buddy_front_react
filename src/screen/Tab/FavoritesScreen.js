@@ -67,8 +67,6 @@ function BucketList({navigation, user, deleteId,}) {
   
   return (
     <View style={styles.container}>
-
-      {/* <Title style={{textAlign: 'center', paddingTop: 10}}>BUCKETLIST</Title> */}
       
       <ScrollView>
         
@@ -76,15 +74,13 @@ function BucketList({navigation, user, deleteId,}) {
           {(
 
          
-          user.experiences && user.experiences.map(experience => 
-            experience.interests.map(
-
-              interest =>
+          user.interests && user.interests.map(interest => 
+          
               interest.plan == 0 && 
            
               <>    
                  <View style={styles.box}>
-                  <BlocInterest navigation={navigation} interest={interest} experience={experience} user={user}/>
+                  <BlocInterest navigation={navigation} interest={interest} experience={interest.experience} user={user}/>
                   
                   <View style={styles.blocActions}>
                     <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
@@ -100,9 +96,9 @@ function BucketList({navigation, user, deleteId,}) {
 
              
               </>
-              
+            
  
-              )
+              
         )
           )}
       
@@ -122,23 +118,18 @@ function ToDoNow({navigation, user, deleteId}) {
 
   return (
     <View style={styles.container}>
-      
-    {/* <Title style={{textAlign: 'center', paddingTop: 10}}>TO DO NOW</Title> */}
-
 
     <ScrollView>
 
       <View >
       {(
          
-         user.experiences && user.experiences.map(experience => 
-           experience.interests.map(
-
-             interest =>
+         user.interests && user.interests.map(interest => 
+         
              interest.plan == 1 && 
              <>
                 <View style={styles.box}>
-                  <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={experience} user={user}/>
+                  <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={interest.experience} user={user}/>
                   
                   <View style={styles.blocActions}>
                   <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
@@ -174,7 +165,7 @@ function ToDoNow({navigation, user, deleteId}) {
              
              </>
             
-            )
+            
           )
          )}
       </View>

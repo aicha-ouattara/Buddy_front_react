@@ -14,12 +14,13 @@ import { logOut } from "../../store/auth/slice";
 import EventForm from '../../components/EventForm';
 import UpdateEvent from '../../components/UpdateEvent';
 import { Avatar } from 'react-native-paper';
+import {Picker} from '@react-native-picker/picker';
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
-
+  const {selectStatus, setSelectStatus} = useState();
 
   //CONNEXION À L'UTILISATEUR PRÉCIS
 
@@ -99,9 +100,9 @@ function Profile({ navigation, route }) {
 
   const handleStateExperience = (interest) => {
    
-    if (interest.accepted == 1 ) {
+    if (interest.accepted == 0 ) {
       const bodyInterest = JSON.stringify({
-        "accepted": 1
+        "accepted": 2
     
       })
       PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
@@ -113,14 +114,13 @@ function Profile({ navigation, route }) {
   
     if (interest.accepted == 0) {
       const bodyInterest = JSON.stringify({
-        "accepted": 0
+      "accepted": 1
       })
       PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, bodyInterest)
       .then(json => json.json())
       .catch(error => console.error(error))
       fetchUser();
       console.log("intérêt refusé !");
-      // setVisible(false)
     }
   };
 
@@ -251,42 +251,28 @@ function AllInteractions({ navigation, user, handleStateExperience }) {
                     <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
                       <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
                     </TouchableOpacity>
-                  {(
-                    interest &&(
-                      interest.plan == 1 &&
-                      interest.accepted == null && 
-                      <TouchableOpacity onPress={() => handleStateExperience(interest)}  >
-                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
-                      </TouchableOpacity>
-
-                      )
-                  )}
-                    {(
-                    interest &&(
-                      interest.plan == 1 &&
-                      interest.accepted == null && 
-                      <TouchableOpacity onPress={() => handleStateExperience(interest)}  >
-                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
-                      </TouchableOpacity>
-
-                      )
-                  )}
+                
 
                 <View>
                    
                    {(
                      interest &&(
-                       interest.plan == 1 &&
-                       interest.accepted == 0 && 
+                       interest.accepted == 1 && 
                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
                        )
                    )}
              
                    {(
                      interest &&(
-                       interest.plan == 1 &&
-                       interest.accepted == 1 && 
+                       interest.accepted == 2 && 
                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
+                     )
+                   )}
+
+                {(
+                     interest &&(
+                       interest.accepted == 0 && 
+                       <Image style={{ width: 25, height: 25 }} source={require('../../../assets/attente.png')}  />
                      )
                    )}
              </View>
@@ -334,8 +320,8 @@ function UserProfileInfos({ navigation, user }) {
         </View>
 
         <View style={styles.infosProfil}>
-          <Text style={{padding: 20}}>{user.login} </Text>
-          <Text>Membre depuis le {user.created_at} </Text>
+          <Text style={{padding: 20, fontWeight: "bold" }}>{user.login} </Text>
+          <Text style={{fontWeight: "bold"}}>Membre depuis le {user.created_at} </Text>
         </View>
 
    
@@ -408,12 +394,10 @@ actionsProfil: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 30,
-    // backgroundColor: 'red',
 },
 
 avatarProfil: {
   flex: 0.4,
-  // backgroundColor: 'green',
   justifyContent: "center",
   alignItems: "center",
   
@@ -422,10 +406,8 @@ avatarProfil: {
 infosProfil:{
   flex: 0.4,
   flexDirection: 'column',
-  // backgroundColor: 'yellow',
   justifyContent: "center",
   alignItems: "center",
-
 },
 });
 
