@@ -316,12 +316,13 @@ function UserProfileInfos({ navigation, user }) {
         </View>
 
         <View style={styles.avatarProfil}>
-            <Image style={{ width: 100 , height: 100 }} source={require("../../../assets/profil.png")}/>
+         <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} />
         </View>
 
         <View style={styles.infosProfil}>
           <Text style={{padding: 20, fontWeight: "bold" }}>{user.login} </Text>
           <Text style={{fontWeight: "bold"}}>Membre depuis le {user.created_at} </Text>
+          <Text>{user.biography}</Text>
         </View>
 
    

@@ -12,7 +12,7 @@ const BlocExperience = ({ user, interest, navigation, experience}) => {
           
          
           <View style={styles.blocText}>
-            <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
+            <Text><Text style={{fontWeight: "bold"}}>{interest.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
           </View>
   
         </TouchableOpacity>
