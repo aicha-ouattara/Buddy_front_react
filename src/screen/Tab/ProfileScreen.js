@@ -322,7 +322,10 @@ function UserProfileInfos({ navigation, user }) {
         <View style={styles.infosProfil}>
           <Text style={{padding: 20, fontWeight: "bold" }}>{user.login} </Text>
           <Text style={{fontWeight: "bold"}}>Membre depuis le {user.created_at} </Text>
+<<<<<<< Updated upstream
           <Text>{user.biography}</Text>
+=======
+>>>>>>> Stashed changes
         </View>
 
    
