@@ -31,6 +31,7 @@ const BlocExperience = ({ experience, user, navigation, hasActions = false }) =>
   const handleLike = (experience) => {
     const bodyInterest = JSON.stringify({
       "plan": false,
+      "title": experience.title,
       "experience": `api/experiences/${experience.id}`
     })
 

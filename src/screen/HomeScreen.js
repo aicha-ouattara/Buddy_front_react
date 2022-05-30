@@ -38,7 +38,7 @@ function HomeScreen({ navigation }) {
               color: "white",
             }}
           >
-            Partager votre expérience
+            Partagez votre expérience
           </Text>
 
           <View

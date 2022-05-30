@@ -39,7 +39,7 @@ If you have an issue with versions, you can always run:
 ### Start the project
 
     expo start
-
+ 
 Dev tools will open on:
 
     localhost:19002

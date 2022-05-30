@@ -112,10 +112,18 @@ experience && experience?.interests &&    experience.interests.map(function (int
           "experience": `api/experiences/${experience.id}`,
           "message" : message
         })
-        // genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
-        //   .then(json => json.json())
-        //   .then(data => { setInterestId(data.id), console.log(`superliked ${experience.id} - interest ${data.id} created - by user ${userId}`) })
-        //   .catch(error => console.error(error))
+      if (liked === false) {
+        genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
+        .then(json => json.json())
+        .then(data => { setInterestId(data.id), console.log(`superliked ${experience.id} - interest ${data.id} created - by user ${userId}`) })
+        .catch(error => console.error(error))
+      }
+      if (liked === true) {
+        genericFetchWithTokenBody(`${API_URL}/interests`, 'POST', token, bodyInterest)
+        .then(json => json.json())
+        .then(data => { setInterestId(data.id), console.log(`superliked ${experience.id} - interest ${data.id} created - by user ${userId}`) })
+        .catch(error => console.error(error))
+      }
 
         setSuperLiked(true)
       } else {
@@ -181,7 +189,7 @@ experience && experience?.interests &&    experience.interests.map(function (int
                 <View>
                   <TextInput 
                   value={content}
-                  onChange={(content) => setContent(content)}
+                  onChange={(e) => setContent(e.target.value)}
                   multiline editable />
                   <TouchableOpacity onPress={() => setFormOpen(false)} ><Text>Revenir</Text></TouchableOpacity>
                   <TouchableOpacity onPress={() => submitSuperLike(content)} ><Text>Envoyer</Text></TouchableOpacity>
