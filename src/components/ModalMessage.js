@@ -1,19 +1,39 @@
-import React,  { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Modal, Image } from 'react-native';
 
 const ModalMessage = ({ modalType = '', modalVisible }) => {
-  
+
   const [imageUrl, setImageUrl] = useState('')
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
 
-  
+
   const selectType = () => {
-    switch(modalType) {
+    switch (modalType) {
       case "error":
         setImageUrl("lost-compass.gif")
         setTitle("OOPS !")
         setText("Tu essayes d'ajouter une de tes propres expériences à ta bucket list...")
+        break;
+      case "missing":
+        setImageUrl("lost-compass.gif")
+        setTitle("OOPS !")
+        setText("Tous les champs sont obligatoires.")
+        break;
+      case "stop":
+        setImageUrl("icons/stop.gif")
+        setTitle("OOPS !")
+        setText("Tu ne peux pas liker une expérience dans ta to do now.")
+        break;
+        case "superliked":
+        setImageUrl("icons/todonow.gif")
+        setTitle("YAY !")
+        setText("Expérience ajoutée à ta to do now !")
+        break;
+      case "unsuperlike":
+        setImageUrl("icons/stop.gif")
+        setTitle("OOPS !")
+        setText("Cette expérience est déjà dans ta To Do Now. Tu ne peux pas la supprimer si facilement.")
         break;
       case "liked":
         setImageUrl("liked.gif")
@@ -31,27 +51,27 @@ const ModalMessage = ({ modalType = '', modalVisible }) => {
   useEffect(() => {
     selectType()
   }, [])
- 
+
   return (
-      <Modal
+    <Modal
       presentationStyle="overFullScreen"
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-      >
-        <View style={styles.container}>
-          <View style={styles.modalView}>
-            <View style={styles.image}>
-              {imageUrl && <Image style={styles.icon} source={require(`../../assets/${imageUrl}`)} />}
-            </View>
-            <View style={styles.text}>
-              <Text style={{fontWeight: 'bold', paddingBottom: 5}}>{title}</Text>
-              <Text>{text}</Text>
-            </View>
+      animationType="fade"
+      transparent={true}
+      visible={modalVisible}
+    >
+      <View style={styles.container}>
+        <View style={styles.modalView}>
+          <View style={styles.image}>
+            {imageUrl && <Image style={styles.icon} source={require(`../../assets/${imageUrl}`)} />}
+          </View>
+          <View style={styles.text}>
+            <Text style={{ fontWeight: 'bold', paddingBottom: 5 }}>{title}</Text>
+            <Text>{text}</Text>
           </View>
         </View>
-      </Modal>
-    )
+      </View>
+    </Modal>
+  )
 
 }
 
@@ -75,7 +95,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: "center",
     backgroundColor: "white",
-    
+
   },
   image: {
     padding: 20

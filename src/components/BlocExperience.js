@@ -71,7 +71,7 @@ const BlocExperience = ({ experience, user, navigation, hasActions = false }) =>
     <View style={styles.box}>
 
       <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
-        <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
+        <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`) ?? require(`../../assets/exemple_ville.jpeg`)} />
         <View style={styles.blocText}>
           <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
           <Text numberOfLines={3} >{experience.content}</Text>

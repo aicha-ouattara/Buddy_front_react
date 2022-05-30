@@ -27,7 +27,7 @@ function AddScreen({ navigation }) {
   const [location, setLocation] = useState("");
   const [duration, setDuration] = useState();
   const { token } = useSelector(authState);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   const handleSubmitPress = () => {
     const bodyExperience = JSON.stringify({

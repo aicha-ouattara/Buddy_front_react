@@ -13,14 +13,18 @@ function FeedScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [experiences, setExperiences] = useState([]);
 
-  useEffect(() => {
-    setIsLoading(true)
+  const fetchExperiences = () => {
     genericFetchWithToken(`${API_URL}/experiences?visible=true`, 'GET', token)
-      .then(json => json.json())
-      .then(data => setExperiences(data))
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false))
-  }, [token])
+    .then(json => json.json())
+    .then(data => setExperiences(data))
+    .catch(error => console.error(error))
+    .finally(() => setIsLoading(false))
+  }
+
+useEffect(() => {
+  setIsLoading(true)
+  fetchExperiences()
+}, [token])
 
   return (
     <View style={styles.mainBody}>
