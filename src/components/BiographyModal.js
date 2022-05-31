@@ -1,9 +1,10 @@
 import React, { useReducer, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateLogin from "./LoginUpdate";
+import UpdateBiography from "./BiographyUpdate";
 
 
-const LoginModal = () => {
+
+const BiographyModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -29,17 +30,18 @@ const LoginModal = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-              
+              <View style={styles.closeButton}>
             <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
                 <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
             </Pressable>
+            </View>
 
-            <Text style={styles.modalText}>Modifier Login</Text>
+            <Text style={styles.modalText}>Écrire une biographie</Text>
 
-            <UpdateLogin/>
+                    <UpdateBiography/>
           
           </View>
         </View>
@@ -52,7 +54,7 @@ const LoginModal = () => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     marginTop: 22,
     width: "70vw",
@@ -77,13 +79,13 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-  // buttonOpen: {
-  //   backgroundColor: "#F194FF",
-  // },
-  // buttonClose: {
-  //   textAlign: "right",
-  //   alignItems: "right",
-  // },
+
+  buttonClose:{
+      justifyContent: 'flex-end',
+      backgroundColor: 'red',
+  },
+
+
   textStyle: {
     color: "white",
     fontWeight: "bold",
@@ -95,4 +97,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginModal;
+export default BiographyModal;
