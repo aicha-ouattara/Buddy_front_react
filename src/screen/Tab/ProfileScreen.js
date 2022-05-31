@@ -1,18 +1,18 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
-import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
-import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
-import LoginModal from '../../components/LoginModal';
+import LoginModal from '../../components/user/LoginModal';
 import {API_URL} from '@env';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
+import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/slice";
-import EventForm from '../../components/EventForm';
 import { Avatar } from 'react-native-paper';
+import BiographyModal from '../../components/user/BiographyModal';
+import PhoneModal from '../../components/user/PhoneModal';
+import PasswordModal from '../../components/user/PasswordModal';
 
 
 function Profile({ navigation, route }) {
@@ -306,33 +306,46 @@ function UserProfileInfos({ navigation, user }) {
   return (
     <View style={styles.container}>
 
-        <View style={styles.actionsProfil}>
-          <TouchableOpacity onPress={onLogOut}>  
-              <Image style={{ width: 40, height: 40 }} source={require("../../../assets/logout.png")}/>
-          </TouchableOpacity>
-
-          <LoginModal />
-        </View>
-
         <View style={styles.avatarProfil}>
-         {/* <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} /> */}
+         <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} />
 
         </View>
 
         <View style={styles.infosProfil}>
-          <Text style={{padding: 20, fontWeight: "bold" }}>{user.login} </Text>
-          <LoginModal/>
-    
-          <Text style={{fontWeight: "bold"}}>Membre depuis le {user.created_at} </Text> 
-          <Text>{user.biography}</Text>
-        
- 
-          <Text>{user.telephone}</Text>
-        
+          
+          <View style = {styles.login}>
+             <Text style={{padding: 20, fontWeight: "bold", fontSize: 25 }}>{user.login} </Text> 
+            <LoginModal/>
+          </View>
 
-          <Text>{user.password}</Text>
+          <View style = {styles.biographie}>
+          <Text style={{fontSize: 20}}>{user.biography}</Text>
+          <BiographyModal/>
+          </View>
+         
+          <View style = {styles.phone}>
+            <Text style={{fontSize: 15}}>{user.telephone}</Text>
+            <PhoneModal/>
+          </View>
+
+          <View>
+            <Text style={{fontSize: 20}}>Mot de passe caché{user.password}</Text>
+            <PasswordModal/>
+          </View>
+         
+
+          <View>
+            <Text style={{fontWeight: "bold", fontSize: 12}}>Membre depuis le {new Date(user.created_at).toLocaleDateString()} </Text> 
+          </View>
+        
       
 
+        </View>
+
+        <View style={styles.actionsProfil}>
+          <TouchableOpacity onPress={onLogOut} style={styles.deconnexion}>  
+              <Text style={{ color: 'white', fontSize: 10}}>DÉCONNEXION</Text>
+          </TouchableOpacity>
         </View>
 
    
@@ -401,25 +414,48 @@ container: {
 },
 
 actionsProfil: {
-    flex: 0.2,
+    flex: 0.1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     padding: 30,
 },
 
 avatarProfil: {
-  flex: 0.4,
+  flex: 0.2,
   justifyContent: "center",
   alignItems: "center",
   
 },
 
 infosProfil:{
-  flex: 0.4,
+  flex: 0.7,
   flexDirection: 'column',
-  justifyContent: "center",
+  justifyContent: "space-between",
   alignItems: "center",
 },
+
+deconnexion:{
+  backgroundColor: '#F14D53',
+  justifyContent: "center",
+  alignItems: "center",
+
+},
+
+biographie:{
+  padding: 40,
+  backgroundColor: '#FFFACD',
+  borderRadius: 20,
+  flexDirection: 'row',
+},
+
+login:{
+  flexDirection: 'row',
+},
+
+phone:{
+  flexDirection: 'row',
+}
+
 });
 
 

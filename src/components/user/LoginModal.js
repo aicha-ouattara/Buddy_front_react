@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateEvent from "./UpdateEvent.js";
+import UpdateLogin from "./LoginUpdate";
 
 
-const EventForm = () => {
+const LoginModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -13,7 +13,7 @@ const EventForm = () => {
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 40, height: 40 }} source={require('../../assets/edit.png')}  />
+        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -34,12 +34,12 @@ const EventForm = () => {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
+                <Image style={{ width: 20, height: 20 }} source={require('../../../assets/close.png')}  />
             </Pressable>
 
-            <Text style={styles.modalText}>MODIFICATION ÉVÉNEMENT</Text>
+            <Text style={styles.modalText}>Modifier Login</Text>
 
-            <UpdateEvent/>
+            <UpdateLogin/>
           
           </View>
         </View>
@@ -77,7 +77,13 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-
+  // buttonOpen: {
+  //   backgroundColor: "#F194FF",
+  // },
+  // buttonClose: {
+  //   textAlign: "right",
+  //   alignItems: "right",
+  // },
   textStyle: {
     color: "white",
     fontWeight: "bold",
@@ -89,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EventForm;
+export default LoginModal;

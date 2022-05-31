@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateLogin from "./UpdateLogin";
+import PasswordUpdate from "./PasswordUpdate";
 
 
-const LoginModal = () => {
+const PasswordModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -13,7 +13,7 @@ const LoginModal = () => {
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 40, height: 40 }} source={require('../../assets/edit.png')}  />
+        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -34,12 +34,12 @@ const LoginModal = () => {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
+                <Image style={{ width: 20, height: 20 }} source={require('../../../assets/close.png')}  />
             </Pressable>
 
             <Text style={styles.modalText}>Modifier Login</Text>
 
-            <UpdateLogin/>
+           <PasswordUpdate/>
           
           </View>
         </View>
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginModal;
+export default PasswordModal;

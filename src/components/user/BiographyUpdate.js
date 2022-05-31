@@ -1,20 +1,17 @@
 import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { API_URL } from "@env" ;
-import { authState } from "../store/auth/selectors";
+import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
-import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import {genericFetchWithTokenBody} from '../api/fetchApiWithTokenBody'
+import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
-function UpdateLogin({navigation}) {
+function UpdateBiography({navigation}) {
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(0);
     const { token, idUser } = useSelector(authState);
 
-    const [userLogin, setUserLogin] = useState('');
-    const [userPassword, setUserPassword] = useState('');
-    const [errortext, setErrortext] = useState('');
-    const [message, setMessage] = useState("");
+    const [userBiography, setUserBiography] = useState('');
 
     const fetchUser = () => {
         genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
@@ -30,18 +27,20 @@ function UpdateLogin({navigation}) {
       }, [])
     
     const handleSubmitButton = () => {
-
-        if (re.test(userLogin)){
+        
             const body = JSON.stringify({
-                "login": userLogin
+                "biography": userBiography
             })
-            genericFetchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
-            .then(json => {
-            console.log(json);
+            PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+            .then(json => { console.log(json); } ) 
+            .catch((error) => {console.error("error" , error)})
             fetchUser();
-            }, [])
+            console.log('ok')
+      
+
+        console.log('hh')
             
-        }
+        
     };
 
 return (
@@ -65,15 +64,17 @@ return (
          
         <TextInput
             style={styles.inputStyle}
-            onChangeText={(UserLogin) => setUserLogin(UserLogin)}
-            keepDefaultValues={user.login}
+            onChangeText={(userBiography) => setUserBiography(userBiography)}
+            keepDefaultValues={user.biography}
             underlineColorAndroid="#f000"
-            placeholder={user.login}
+            placeholder= {user.biography}
             placeholderTextColor="black"
             autoCapitalize="sentences"
             returnKeyType="next"
             onSubmitEditing={Keyboard.dismiss}
             blurOnSubmit={false}
+            numberOfLines={8}
+
         />
     </View>
 
@@ -92,7 +93,7 @@ return (
 </View>
 );
 };
-export default UpdateLogin
+export default UpdateBiography
 
 const styles = StyleSheet.create({
 
