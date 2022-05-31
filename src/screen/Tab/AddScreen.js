@@ -27,7 +27,7 @@ function AddScreen({ navigation }) {
   const [location, setLocation] = useState("");
   const [duration, setDuration] = useState();
   const { token } = useSelector(authState);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleSubmitPress = () => {
     const bodyExperience = JSON.stringify({
@@ -135,9 +135,11 @@ function AddScreen({ navigation }) {
               />
             </View>
 
-            <View style={styles.SectionStyle}>
+            <View style={styles.textAreaContainer}>
               <TextInput
-                style={styles.inputStyle}
+                style={styles.textArea}
+                multiline={true}
+                numberOfLines={10}
                 placeholder="Description"
                 onChangeText={(content) => setContent(content)}
                 placeholderTextColor="white"
@@ -150,7 +152,9 @@ function AddScreen({ navigation }) {
             </View>
 
             <NumberPlease
-              digits={[{ id: "spots", label: "spots", min: 0, max: 15 }]}
+              digits={[
+                { id: "spots", label: "Disponibilité (s)", min: 0, max: 15 },
+              ]}
               values={spots}
               onChange={(values) => setSpots(values)}
               style={{}}
@@ -160,7 +164,7 @@ function AddScreen({ navigation }) {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                placeholder="Location"
+                placeholder="Localisation"
                 onChangeText={(location) => setLocation(location)}
                 placeholderTextColor="white"
                 autoCapitalize="none"
@@ -180,6 +184,7 @@ function AddScreen({ navigation }) {
               onSelect={(selectedItem) => {
                 setDuration(selectedItem.data);
               }}
+              defaultButtonText={"Duration"}
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem.data;
               }}
@@ -203,6 +208,15 @@ function AddScreen({ navigation }) {
 
 export default AddScreen;
 const styles = StyleSheet.create({
+  textAreaContainer: {
+    borderColor: "gray",
+    borderWidth: 1,
+    padding: 5,
+  },
+  textArea: {
+    height: 150,
+    justifyContent: "flex-start",
+  },
   number: { backgroundColor: "black", borderWidth: 0, borderRadius: 20 },
   dropdown: {
     marginTop: 10,
