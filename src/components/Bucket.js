@@ -5,8 +5,8 @@ function Bucket({ liked }) {
   return (
       <View>
             <Image style={styles.icone} 
-            source={liked ? require('../../assets/bucket-red.png') 
-                    : require('../../assets/bucket-grey.png')}
+            source={liked ? require('../../assets/icons/bucket-red.png') 
+                    : require('../../assets/icons/bucket-grey.png')}
             />
       </View>
   )

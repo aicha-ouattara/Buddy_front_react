@@ -80,7 +80,7 @@ function ProtectedScreen() {
         tabBarIcon: ({focused}) => (
           <View>
             <Image
-            source={require('../../assets/bucket-red.png')}
+            source={require('../../assets/icons/bucket-red.png')}
             resizeMode="contain"
             style={{
               width: 25,

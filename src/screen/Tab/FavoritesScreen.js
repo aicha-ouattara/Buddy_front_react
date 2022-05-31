@@ -88,7 +88,7 @@ function BucketList({navigation, user, deleteId,}) {
                     </TouchableOpacity>
                       
                     <Text onClick={() => deleteId(interest.id)} key={interest.id} >
-                      <Image style={{ width: 25, height: 25 }} source={require('../../../assets/bucket-red.png')}  />
+                      <Image style={{ width: 25, height: 25 }} source={require('../../../assets/icons/bucket-red.png')}  />
                     </Text>
                   </View>
                  

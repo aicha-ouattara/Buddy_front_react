@@ -5,8 +5,8 @@ function Now({ liked }) {
   return (
       <View>
             <Image style={styles.icone} 
-            source={liked ? require('../../assets/now-red.png') 
-                    : require('../../assets/now-grey.png')}
+            source={liked ? require('../../assets/icons/now-red.png') 
+                    : require('../../assets/icons/now-grey.png')}
             />
       </View>
   )
