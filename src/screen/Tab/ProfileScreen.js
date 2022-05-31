@@ -1,20 +1,18 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
-import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
-import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
-import LoginModal from '../../components/LoginModal';
+import LoginModal from '../../components/user/LoginModal';
 import {API_URL} from '@env';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/slice";
-import EventForm from '../../components/EventForm';
 import { Avatar } from 'react-native-paper';
-import BiographyModal from '../../components/BiographyModal';
-import PhoneModal from '../../components/PhoneModal';
+import BiographyModal from '../../components/user/BiographyModal';
+import PhoneModal from '../../components/user/PhoneModal';
+import PasswordModal from '../../components/user/PasswordModal';
 
 
 function Profile({ navigation, route }) {
@@ -331,12 +329,13 @@ function UserProfileInfos({ navigation, user }) {
           </View>
 
           <View>
-            <Text style={{fontSize: 20}}>{user.password}</Text>
+            <Text style={{fontSize: 20}}>Mot de passe caché{user.password}</Text>
+            <PasswordModal/>
           </View>
          
 
           <View>
-            <Text style={{fontWeight: "bold", fontSize: 12}}>Membre depuis le {user.created_at} </Text> 
+            <Text style={{fontWeight: "bold", fontSize: 12}}>Membre depuis le {new Date(user.created_at).toLocaleDateString()} </Text> 
           </View>
         
       

@@ -1,10 +1,9 @@
 import React, { useReducer, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdatePhone from "./PhoneUpdate";
+import PasswordUpdate from "./PasswordUpdate";
 
 
-
-const PhoneModal = () => {
+const PasswordModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -14,7 +13,7 @@ const PhoneModal = () => {
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-         <Image style={{ width: 20, height: 20 }} source={require('../../assets/edit.png')}  />
+        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -35,12 +34,13 @@ const PhoneModal = () => {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
+                <Image style={{ width: 20, height: 20 }} source={require('../../../assets/close.png')}  />
             </Pressable>
 
-            <Text style={styles.modalText}>Écrire une biographie</Text>
+            <Text style={styles.modalText}>Modifier Login</Text>
 
-                   <UpdatePhone/>         
+           <PasswordUpdate/>
+          
           </View>
         </View>
       </Modal>
@@ -77,6 +77,13 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
+  // buttonOpen: {
+  //   backgroundColor: "#F194FF",
+  // },
+  // buttonClose: {
+  //   textAlign: "right",
+  //   alignItems: "right",
+  // },
   textStyle: {
     color: "white",
     fontWeight: "bold",
@@ -88,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PhoneModal;
+export default PasswordModal;

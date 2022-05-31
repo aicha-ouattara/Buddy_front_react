@@ -1,18 +1,18 @@
 import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { API_URL } from "@env" ;
-import { authState } from "../store/auth/selectors";
+import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
-import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import {PatchWithTokenBody} from '../api/fetchApiWithTokenBody';
+import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 
-function UpdateBiography({navigation}) {
-    const [isLoading, setIsLoading] = useState(true);
+import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
+
+function UpdateLogin({navigation}) {
+    const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(0);
     const { token, idUser } = useSelector(authState);
-
-    const [userBiography, setUserBiography] = useState('');
-
+    const [userLogin, setUserLogin] = useState("");
+    const [errortext, setErrortext] = useState("");
     const fetchUser = () => {
         genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
           .then(json => json.json())
@@ -27,11 +27,12 @@ function UpdateBiography({navigation}) {
       }, [])
     
     const handleSubmitButton = () => {
-        
+            
             const body = JSON.stringify({
-                "biography": userBiography
+                "login": userLogin
             })
-            PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+     
+            PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body)
             .then(json => { console.log(json); } ) 
             .catch((error) => {console.error("error" , error)})
             fetchUser();
@@ -39,10 +40,9 @@ function UpdateBiography({navigation}) {
       
 
         console.log('hh')
-            
-        
-    };
-
+    
+    }
+    
 return (
     <View style={styles.mainBody}>
    
@@ -64,20 +64,19 @@ return (
          
         <TextInput
             style={styles.inputStyle}
-            onChangeText={(userBiography) => setUserBiography(userBiography)}
-            keepDefaultValues={user.biography}
+            onChangeText={(UserLogin) => setUserLogin(UserLogin)}
             underlineColorAndroid="#f000"
-            placeholder= {user.biography}
+            placeholder={user.login}
             placeholderTextColor="black"
             autoCapitalize="sentences"
             returnKeyType="next"
             onSubmitEditing={Keyboard.dismiss}
             blurOnSubmit={false}
-            numberOfLines={8}
-
         />
     </View>
-
+    {errortext != "" && (
+              <Text style={styles.errorTextStyle}>{errortext}</Text>
+            )}
         <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
@@ -93,7 +92,7 @@ return (
 </View>
 );
 };
-export default UpdateBiography
+export default UpdateLogin
 
 const styles = StyleSheet.create({
 

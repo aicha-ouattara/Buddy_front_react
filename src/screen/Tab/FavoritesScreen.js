@@ -1,14 +1,10 @@
 import React, { useEffect, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity, TextInput } from 'react-native';
-import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
-import BlocExperience from '../../components/BlocExperience';
 import BlocInterest from '../../components/BlocInterest';
 import { Avatar } from 'react-native-paper';
 import {API_URL} from '@env';
-import { genericFetch } from '../../api/fetchApi';
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody'
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 

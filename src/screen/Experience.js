@@ -183,7 +183,6 @@ return (
       (experience.user && (
 
         <ScrollView>
-          {/* <UpdateEvent/> */}
           <View style={styles.views}>
             <Image style={styles.experiencePicture} source={require(`../../assets/${experience.image}`)} />
           </View>

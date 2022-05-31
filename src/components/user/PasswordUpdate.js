@@ -1,17 +1,17 @@
 import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { API_URL } from "@env" ;
-import { authState } from "../store/auth/selectors";
+import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
-import { genericFetchWithToken } from '../api/fetchApiWithToken';
+import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 
-import {PatchWithTokenBody} from '../api/fetchApiWithTokenBody';
+import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
-function UpdateLogin({navigation}) {
+function PasswordUpdate({navigation}) {
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(0);
     const { token, idUser } = useSelector(authState);
-    const [userLogin, setUserLogin] = useState("");
+    const [userPassword, setUserPassword] = useState("");
     const [errortext, setErrortext] = useState("");
     const fetchUser = () => {
         genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
@@ -29,7 +29,7 @@ function UpdateLogin({navigation}) {
     const handleSubmitButton = () => {
             
             const body = JSON.stringify({
-                "login": userLogin
+                "password": userPassword
             })
      
             PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body)
@@ -62,17 +62,16 @@ return (
 
     <View style={styles.SectionStyle}>
          
-        <TextInput
-            style={styles.inputStyle}
-            onChangeText={(UserLogin) => setUserLogin(UserLogin)}
-            underlineColorAndroid="#f000"
-            placeholder={user.login}
-            placeholderTextColor="black"
-            autoCapitalize="sentences"
-            returnKeyType="next"
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={false}
-        />
+    <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
+              underlineColorAndroid="#f000"
+              placeholder={user.password}
+              placeholderTextColor="white"
+              returnKeyType="next"
+              secureTextEntry={true}
+              blurOnSubmit={false}
+            />
     </View>
     {errortext != "" && (
               <Text style={styles.errorTextStyle}>{errortext}</Text>
@@ -92,7 +91,7 @@ return (
 </View>
 );
 };
-export default UpdateLogin
+export default PasswordUpdate
 
 const styles = StyleSheet.create({
 

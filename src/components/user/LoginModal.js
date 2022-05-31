@@ -1,10 +1,9 @@
 import React, { useReducer, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateBiography from "./BiographyUpdate";
+import UpdateLogin from "./LoginUpdate";
 
 
-
-const BiographyModal = () => {
+const LoginModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -14,7 +13,7 @@ const BiographyModal = () => {
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 20, height: 20 }} source={require('../../assets/edit.png')}  />
+        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -30,18 +29,17 @@ const BiographyModal = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-              <View style={styles.closeButton}>
+              
             <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
+                <Image style={{ width: 20, height: 20 }} source={require('../../../assets/close.png')}  />
             </Pressable>
-            </View>
 
-            <Text style={styles.modalText}>Écrire une biographie</Text>
+            <Text style={styles.modalText}>Modifier Login</Text>
 
-                    <UpdateBiography/>
+            <UpdateLogin/>
           
           </View>
         </View>
@@ -54,7 +52,7 @@ const BiographyModal = () => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
     width: "70vw",
@@ -79,13 +77,13 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-
-  buttonClose:{
-      justifyContent: 'flex-end',
-      backgroundColor: 'red',
-  },
-
-
+  // buttonOpen: {
+  //   backgroundColor: "#F194FF",
+  // },
+  // buttonClose: {
+  //   textAlign: "right",
+  //   alignItems: "right",
+  // },
   textStyle: {
     color: "white",
     fontWeight: "bold",
@@ -97,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BiographyModal;
+export default LoginModal;

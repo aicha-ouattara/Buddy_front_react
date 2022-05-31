@@ -1,17 +1,17 @@
 import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { API_URL } from "@env" ;
-import { authState } from "../store/auth/selectors";
+import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
-import { genericFetchWithToken } from '../api/fetchApiWithToken';
-import {PatchWithTokenBody} from '../api/fetchApiWithTokenBody';
+import { genericFetchWithToken } from '../../api/fetchApiWithToken';
+import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
-function UpdatePhone({navigation}) {
+function UpdateBiography({navigation}) {
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(0);
     const { token, idUser } = useSelector(authState);
 
-    const [userPhone, setUserPhone] = useState('');
+    const [userBiography, setUserBiography] = useState('');
 
     const fetchUser = () => {
         genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
@@ -27,9 +27,9 @@ function UpdatePhone({navigation}) {
       }, [])
     
     const handleSubmitButton = () => {
-   
+        
             const body = JSON.stringify({
-                "telephone": parseInt(userPhone)
+                "biography": userBiography
             })
             PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
             .then(json => { console.log(json); } ) 
@@ -64,15 +64,17 @@ return (
          
         <TextInput
             style={styles.inputStyle}
-            onChangeText={(userPhone) => setUserPhone(userPhone)}
-            keepDefaultValues={user.telephone}
+            onChangeText={(userBiography) => setUserBiography(userBiography)}
+            keepDefaultValues={user.biography}
             underlineColorAndroid="#f000"
-            placeholder= {user.telephone}
+            placeholder= {user.biography}
             placeholderTextColor="black"
             autoCapitalize="sentences"
             returnKeyType="next"
             onSubmitEditing={Keyboard.dismiss}
             blurOnSubmit={false}
+            numberOfLines={8}
+
         />
     </View>
 
@@ -91,7 +93,7 @@ return (
 </View>
 );
 };
-export default UpdatePhone
+export default UpdateBiography
 
 const styles = StyleSheet.create({
 

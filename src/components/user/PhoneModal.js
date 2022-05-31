@@ -1,9 +1,10 @@
 import React, { useReducer, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateEvent from "./UpdateEvent.js";
+import UpdatePhone from "./PhoneUpdate";
 
 
-const EventForm = () => {
+
+const PhoneModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -13,7 +14,7 @@ const EventForm = () => {
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 40, height: 40 }} source={require('../../assets/edit.png')}  />
+         <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -34,13 +35,12 @@ const EventForm = () => {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                <Image style={{ width: 20, height: 20 }} source={require('../../assets/close.png')}  />
+                <Image style={{ width: 20, height: 20 }} source={require('../../../assets/close.png')}  />
             </Pressable>
 
-            <Text style={styles.modalText}>MODIFICATION ÉVÉNEMENT</Text>
+            <Text style={styles.modalText}>Écrire une biographie</Text>
 
-            <UpdateEvent/>
-          
+                   <UpdatePhone/>         
           </View>
         </View>
       </Modal>
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-
   textStyle: {
     color: "white",
     fontWeight: "bold",
@@ -89,4 +88,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EventForm;
+export default PhoneModal;
