@@ -27,6 +27,8 @@ import { Avatar } from "react-native-paper";
 import BiographyModal from "../../components/user/BiographyModal";
 import PhoneModal from "../../components/user/PhoneModal";
 import PasswordModal from "../../components/user/PasswordModal";
+import InteractionStatusModal from "../../components/user/InteractionStatusModal";
+
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -181,6 +183,7 @@ function Profile({ navigation, route }) {
         <UserProfileInfos user={user} navigation={navigation} />
       </TabScreen>
     </Tabs>
+
   );
 }
 
@@ -193,76 +196,54 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
     <View style={styles.container}>
       <ScrollView>
         <View>
+          
           {user.experiences &&
-            user.experiences.map(
-              (experience) =>
-                experience.archive == 0 && (
-                  <>
-                    <View style={styles.box}>
-                      <TouchableOpacity
-                        style={styles.blocExperience}
-                        onPress={() => {
-                          navigation.navigate("Experience", {
-                            id: experience.id,
-                          });
-                        }}
-                      >
-                        <Image
-                          style={styles.experiencePicture}
-                          source={{ uri: experience.image }}
-                        />
-                        <View style={styles.blocText}>
-                          <Text>
-                            <Text style={{ fontWeight: "bold" }}>
-                              {experience.title}
-                            </Text>
-                            <Text> | </Text>
-                            <Text style={{ fontStyle: "italic" }}>
-                              {experience.location}
-                            </Text>
-                          </Text>
-                          <Text numberOfLines={3}>{experience.content}</Text>
-                        </View>
-                      </TouchableOpacity>
-                      <View style={styles.blocActions}>
-                        {experience && experience.visible == 1 && (
-                          <TouchableOpacity
-                            onPress={() => handleVisible(experience)}
-                          >
-                            <Image
-                              style={{ width: 25, height: 25 }}
-                              source={require("../../../assets/visible.png")}
-                            />
-                          </TouchableOpacity>
-                        )}
+            user.experiences.map((experience) => (
+              experience.archive == 0 &&
+              <>
+           <View style={styles.box}>
 
-                        {experience && experience.visible == 0 && (
-                          <TouchableOpacity
-                            onPress={() => handleVisible(experience)}
-                          >
-                            <Image
-                              style={{ width: 25, height: 25 }}
-                              source={require("../../../assets/invisible.png")}
-                            />
-                          </TouchableOpacity>
-                        )}
+              <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
+              <Image
+          style={styles.experiencePicture}
+          source={
+            { uri: experience.image } ?? require(`../../../assets/exemple_ville.jpeg`)
+          }
+        />
+                <View style={styles.blocText}>
+                  <Text><Text style={{fontWeight: "bold"}}>{experience.title}</Text><Text> | </Text><Text style={{fontStyle: "italic"}}>{experience.location}</Text></Text>
+                  <Text numberOfLines={3} >{experience.content}</Text>
+                </View>
+              </TouchableOpacity>
+                <View style={styles.blocActions}>
+                   
+                      {(
+                  experience &&(
+                    experience.visible == 1 &&
+                    <TouchableOpacity onPress={() => handleVisible(experience)}>
+                      <Image style={{ width: 25, height: 25 }} source={require('../../../assets/visible.png')}  />
+                    </TouchableOpacity>
+                    )
+                )}
+            
 
-                        <Text
-                          onClick={() =>
-                            deleteId(experience.id, experience.interests.length)
-                          }
-                          key={experience.id}
-                        >
-                          <Image
-                            style={{ width: 25, height: 25 }}
-                            source={require("../../../assets/trashcan.png")}
-                          />
-                        </Text>
-                      </View>
-                    </View>
-                  </>
-                )
-            )}
+                {(
+                  experience &&(
+                    experience.visible == 0 && 
+                    <TouchableOpacity onPress={() => handleVisible(experience)}  >
+                     <Image style={{ width: 25, height: 25 }} source={require('../../../assets/invisible.png')}  />
+                    </TouchableOpacity>
+                  )
+                )}
+
+                <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
+                  <Image style={{ width: 25, height: 25 }} source={require("../../../assets/trashcan.png")}/>
+                </Text>
+              
+          </View>
+        </View>
+              </>
+            ))}
         </View>
       </ScrollView>
     </View>
@@ -270,13 +251,15 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
 }
 
 // TOUTES LES INTERACTIONS
-function AllInteractions({ navigation, user, handleStateExperience }) {
+function AllInteractions({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
   return (
     <View style={styles.container}>
+      
       <ScrollView>
+     
         <View>
           {user.experiences &&
             user.experiences.map((experience) =>
@@ -289,6 +272,8 @@ function AllInteractions({ navigation, user, handleStateExperience }) {
                     experience={experience}
                     user={user}
                   />
+                  <InteractionStatusModal interest={interest}/>
+                  
 
                   <View style={styles.blocText}>
                     <Text>{interest.message}</Text>
@@ -310,6 +295,9 @@ function AllInteractions({ navigation, user, handleStateExperience }) {
                     </TouchableOpacity>
 
                     <View>
+                   
+                  
+            
                       {interest && interest.accepted == 1 && (
                         <Image
                           style={{ width: 25, height: 25 }}
@@ -323,13 +311,8 @@ function AllInteractions({ navigation, user, handleStateExperience }) {
                           source={require("../../../assets/accepted.png")}
                         />
                       )}
-
-                      {interest && interest.accepted == 0 && (
-                        <Image
-                          style={{ width: 25, height: 25 }}
-                          source={require("../../../assets/attente.png")}
-                        />
-                      )}
+                      
+                    
                     </View>
                   </View>
                 </View>
