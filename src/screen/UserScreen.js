@@ -1,30 +1,19 @@
 import React, {  useState, useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import {Text, View, Image, ScrollView } from 'react-native';
 import { Title } from 'react-native-paper';
 import { Tabs, TabScreen, useTabIndex, useTabNavigation } from 'react-native-paper-tabs';
 import BlocExperience from '../components/BlocExperience';
 import BlocReview from '../components/BlocReview';
-
+import Loading from '../components/Loading';
 import {API_URL} from '@env';
-import { genericFetch } from '../api/fetchApi';
 import { genericFetchWithToken } from '../api/fetchApiWithToken';
-
+import { authState } from "../store/auth/selectors";
+import { useSelector } from "react-redux";
 
 function UserScreen({ navigation, route }) {
-  const body = JSON.stringify({
-    login: "test",
-    password: "test",
-  });
+  const { token } = useSelector(authState);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, "POST", body)
-      .then((json) => json.json())
-      .then((data) => setToken(data.token))
-      .catch((error) => console.error(error));
-  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -35,12 +24,10 @@ function UserScreen({ navigation, route }) {
       .finally(() => setIsLoading(false));
   }, [token]);
 
-  // console.log(user)
+
 
   return isLoading ? (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text> Loading ... </Text>{" "}
-    </View>
+    <Loading /> 
   ) : (
     <Tabs style={{ backgroundColor: "white" }}>
       <TabScreen label="Experiences">

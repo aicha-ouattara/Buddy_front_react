@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Avatar } from "react-native-paper";
-import { API_URL } from "@env";
-import Bucket from "./Bucket";
-import ModalMessage from "./ModalMessage";
-import { genericFetchWithToken } from "../api/fetchApiWithToken";
-import { genericFetchWithTokenBody } from "../api/fetchApiWithTokenBody";
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import { Avatar } from 'react-native-paper';
+import { API_URL } from '@env';
+import Bucket from './Bucket';
+import Now from './Now';
+import ModalMessage from './ModalMessage';
+import { genericFetchWithToken } from '../api/fetchApiWithToken';
+import { genericFetchWithTokenBody } from '../api/fetchApiWithTokenBody';
 import { authState } from "../store/auth/selectors";
 import { useSelector } from "react-redux";
 
@@ -16,23 +17,26 @@ const BlocExperience = ({
   hasActions = false,
 }) => {
   const [liked, setLiked] = useState(false);
-  const [interestId, setInterestId] = useState(0);
+  const [superliked, setSuperliked] = useState(false);
+  const [interestId, setInterestId] = useState(0)
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
   const { token, idUser } = useSelector(authState);
 
   useEffect(() => {
-    experience?.interests &&
-      experience.interests.map(function(interest) {
-        //set interest id and liked if it exists
-        if (interest.user == `/api/users/${idUser}`) {
-          setLiked(true);
-          setInterestId(interest.id);
-        } else {
-          console.log(interest.user, idUser);
+    experience?.interests && experience.interests.map(function (interest) { //set interest id and liked if it exists
+      if (interest.user == `/api/users/${idUser}`) {
+        if (interest.plan === 0 || interest.plan === false) {
+          setLiked(true)
         }
-      });
-  }, []);
+        if (interest.plan === 1 || interest.plan === true) {
+        setSuperliked(true)
+      }
+        setInterestId(interest.id)
+      } else {console.log(interest.user, idUser)}
+    })
+  }, [])
+
 
   const handleLike = (experience) => {
     const bodyInterest = JSON.stringify({
@@ -86,6 +90,14 @@ const BlocExperience = ({
   };
   const encodedBase64 = experience.image;
 
+  const handleSuperLike = () => {
+    setModalVisible(true),
+        setModalType("unsuperlike"),
+        setTimeout(() => {
+          setModalVisible(false)
+        }, 2000)
+  }
+
   return (
     <View style={styles.box}>
       <TouchableOpacity
@@ -125,13 +137,12 @@ const BlocExperience = ({
               source={require("../../assets/profil.png")}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              handleLike(experience);
-            }}
-          >
+          {!superliked && <TouchableOpacity onPress={() => { handleLike(experience) }} >
             <Bucket liked={liked} />
-          </TouchableOpacity>
+          </TouchableOpacity>}
+          {superliked &&  <TouchableOpacity onPress={() => { handleSuperLike() }} >
+        <Now liked={true} />
+          </TouchableOpacity>}
         </View>
       )}
       {modalVisible && modalType && <ModalMessage modalType={modalType} />}
