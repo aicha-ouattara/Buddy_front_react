@@ -300,7 +300,7 @@ const Experience = ({ route, navigation }) => {
             <View style={styles.views}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("User", { id: experience.user.id });
+                  navigation.navigate("User", { id: experience.user.id, name: experience.user.login });
                 }}
               >
                 <View style={{ flew: 1, flexDirection: "row" }}>

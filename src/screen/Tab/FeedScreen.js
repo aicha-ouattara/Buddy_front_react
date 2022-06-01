@@ -24,6 +24,11 @@ function FeedScreen({ navigation }) {
 useEffect(() => {
   setIsLoading(true)
   fetchExperiences()
+}, [])
+
+useEffect(() => {
+  setIsLoading(true)
+  fetchExperiences()
 }, [token])
 
   return (

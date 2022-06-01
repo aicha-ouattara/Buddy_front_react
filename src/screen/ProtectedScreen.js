@@ -41,11 +41,9 @@ function ProtectedScreen() {
       }} />
 
 
-      <Tab.Screen name="Recherche" component={SearchScreen} 
-      options= {{
-
+      <Tab.Screen name="Search" component={SearchScreen} 
+      options={({ route }) => ({
         tabBarIcon: ({focused}) => (
-
           <View>
             <Image
             source={require('../../assets/compass.png')}
@@ -56,10 +54,9 @@ function ProtectedScreen() {
               // tintColor: focused ? '#e32f45' : '#748c94',
             }}/>
           </View>
-
         ),
-
-      }} />
+      })}
+       />
 
 
       <Tab.Screen name="Créer une expérience" component={AddScreen} options= {{

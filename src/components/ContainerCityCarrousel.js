@@ -23,10 +23,10 @@ function ContainerCityCarrousel({ experiences, navigation }) {
     <TouchableOpacity style={styles.item} onPress={() => {
       navigation.navigate('Search', {
         screen: 'Protected',
-        location: item[0]
+        location: item[0],
       })
     }}>
-      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 20 }} source={require('../../assets/exemple_ville.jpeg')} resizeMode="cover" >
+      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 20 }} source={require('../../assets/exemple_vill.jpeg')} resizeMode="cover" >
         <View style={styles.blocText}>
           <View style={styles.text}>
             <Text style={styles.title}>{item[0]}</Text>

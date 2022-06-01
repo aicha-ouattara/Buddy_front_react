@@ -11,7 +11,7 @@ import Experience from "../screen/Experience";
 import UserScreen from "../screen/UserScreen";
 import { useSelector } from "react-redux";
 import { authState } from "../store/auth/selectors";
-import { RotateInDownLeft } from "react-native-reanimated";
+
 
 export default function Nav() {
   //Permet de créer un groupe de screens
@@ -19,7 +19,7 @@ export default function Nav() {
 
   //Permet de récupérer les données des states
   const { token, isLoggedIn } = useSelector(authState);
-  //   const {isLoggedIn} = useLogin();
+
 
   return (
     <NavigationContainer>
@@ -57,8 +57,12 @@ export default function Nav() {
                 ),
               }}
             />
-            <Stack.Screen name="Experience" component={Experience} />
-            <Stack.Screen name="User" component={UserScreen} />
+            <Stack.Screen name="Experience" component={Experience} options={({ route }) => ({
+    title: route.params.name,
+  })}/>
+            <Stack.Screen name="User" component={UserScreen} options={({ route }) => ({
+    title: route.params.name,
+  })}/>
           </>
         )}
       </Stack.Navigator>
