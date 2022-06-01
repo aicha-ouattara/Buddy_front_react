@@ -41,7 +41,7 @@ function ProtectedScreen() {
       }} />
 
 
-      <Tab.Screen name="Search" component={SearchScreen} 
+      <Tab.Screen name="Recherche" component={SearchScreen} 
       options= {{
 
         tabBarIcon: ({focused}) => (
@@ -62,7 +62,7 @@ function ProtectedScreen() {
       }} />
 
 
-      <Tab.Screen name="Add" component={AddScreen} options= {{
+      <Tab.Screen name="Créer une expérience" component={AddScreen} options= {{
         tabBarIcon: ({focused}) => (
           <View>
             <Image
@@ -76,7 +76,7 @@ function ProtectedScreen() {
           </View>
         ),
       }} />  
-      <Tab.Screen name="Favorites" component={FavoritesScreen} options= {{
+      <Tab.Screen name="Mes listes" component={FavoritesScreen} options= {{
         tabBarIcon: ({focused}) => (
           <View>
             <Image
