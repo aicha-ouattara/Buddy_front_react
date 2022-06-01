@@ -19,16 +19,26 @@ import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import { color } from "react-native-reanimated";
+import { calendarFormat } from "moment";
 
 function AddScreen({ navigation }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [spots, setSpots] = useState({ id: "spots", value: 0 });
   const [location, setLocation] = useState("");
-  const [duration, setDuration] = useState();
+  const [duration, setDuration] = useState(0);
   const { token } = useSelector(authState);
   const [image, setImage] = useState(null);
 
+  const cleanForm = () => {
+    setTitle("");
+    setContent("");
+    setSpots({ id: "spots", value: 0 });
+    setLocation("");
+    setDuration(0);
+    setImage(null);
+    navigation.navigate("Feed");
+  };
   const handleSubmitPress = () => {
     const bodyExperience = JSON.stringify({
       title,
@@ -41,10 +51,17 @@ function AddScreen({ navigation }) {
 
     console.log(bodyExperience);
 
-    genericFetchWithTokenBody(`${API_URL}/experiences`, "POST", token, bodyExperience)
+    genericFetchWithTokenBody(
+      `${API_URL}/experiences`,
+      "POST",
+      token,
+      bodyExperience
+    )
       .then((json) => json.json())
       .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+      // .then((data) => cleanForm())
+      .catch((error) => console.error(error))
+      .finally(() => cleanForm());
   };
 
   const pickImage = async () => {
@@ -120,6 +137,7 @@ function AddScreen({ navigation }) {
               <TextInput
                 style={styles.inputStyle}
                 placeholder="Titre"
+                value={title}
                 onChangeText={(title) => setTitle(title)}
                 placeholderTextColor="white"
                 autoCapitalize="none"
@@ -136,6 +154,7 @@ function AddScreen({ navigation }) {
                 multiline={true}
                 numberOfLines={10}
                 placeholder="Description"
+                value={content}
                 onChangeText={(content) => setContent(content)}
                 placeholderTextColor="white"
                 autoCapitalize="none"
@@ -160,6 +179,7 @@ function AddScreen({ navigation }) {
               <TextInput
                 style={styles.inputStyle}
                 placeholder="Localisation"
+                value={location}
                 onChangeText={(location) => setLocation(location)}
                 placeholderTextColor="white"
                 autoCapitalize="none"
@@ -179,6 +199,7 @@ function AddScreen({ navigation }) {
               onSelect={(selectedItem) => {
                 setDuration(selectedItem.data);
               }}
+              // value={selectedItem.data}
               defaultButtonText={"Duration"}
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem.data;

@@ -25,6 +25,7 @@ import DureeModal from "../components/event/DureeModal";
 import SpotsModal from "../components/event/SpotsModal";
 import ContentModal from "../components/event/ContentModal";
 import LieuModal from "../components/event/LieuModal";
+import ImageModal from "../components/event/ImageModal";
 
 const Experience = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -258,6 +259,7 @@ const Experience = ({ route, navigation }) => {
                 style={styles.experiencePicture}
                 source={{ uri: encodedBase64 }}
               />
+              {editableModal && <ImageModal experience={experience} />}
             </View>
 
             <View style={styles.views}>
