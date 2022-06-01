@@ -1,5 +1,6 @@
 import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView, Pressable, Modal, Alert} from 'react-native';
+import SelectDropdown from "react-native-select-dropdown";
 import { API_URL } from "@env" ;
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,20 +85,23 @@ console.log('hh')
 
     <View style={styles.SectionStyle}>
          
-        <TextInput
-            style={styles.inputStyle}
-            onChangeText={(location) => setLocation(location)}
-            keepDefaultValues={experience.location}
-            underlineColorAndroid="#f000"
-            placeholder= {experience.location}
-            placeholderTextColor="black"
-            autoCapitalize="sentences"
-            returnKeyType="next"
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={false}
-            numberOfLines={8}
-
-        />
+    <SelectDropdown
+              data={[
+                { hours: "< 1", data: 1 },
+                { hours: "1-2 heures", data: 1.5 },
+                { hours: "demie journée", data: 12 },
+                { hours: "journée", data: 24 },
+              ]}
+              onSelect={(selectedItem) => {
+                setDuration(selectedItem.data);
+              }}
+              defaultButtonText={experience.duration}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem.data;
+              }}
+              rowTextForSelection={(item, index) => item.hours}
+              buttonStyle={styles.dropdown}
+            />
     </View>
 
         <TouchableOpacity

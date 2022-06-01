@@ -247,11 +247,11 @@ return (
             <Text>{experience.reviews.length} commentaires</Text>
             <Text>durée : {experience.duration} </Text>
             {editableModal && 
-                 <DureeModal />
+                 <DureeModal experience ={experience} />
               }
             <Text>{experience.spots} places</Text>
             {editableModal && 
-                <SpotsModal/>
+                <SpotsModal experience ={experience}/>
               }
           </View>
           <Divider />
