@@ -15,6 +15,7 @@ import TitleModal from '../components/event/TitleModal';
 import DureeModal from '../components/event/DureeModal';
 import SpotsModal from '../components/event/SpotsModal';
 import ContentModal from '../components/event/ContentModal';
+import LieuModal from '../components/event/LieuModal';
 
 const Experience = ({ route, navigation }) => {
 
@@ -192,6 +193,8 @@ useEffect (() => {
       console.log('hello')
 }, [experience])
 
+
+
 return (
   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
@@ -208,7 +211,7 @@ return (
               <Text style={styles.title}>{experience.title}</Text>
 
               {editableModal && 
-                 <TitleModal />
+                 <TitleModal experience ={experience}  />
               }
         
          
@@ -223,6 +226,10 @@ return (
             </View>
             <View>
               <Text>{experience.location}</Text>
+              {editableModal && 
+                 <LieuModal experience ={experience}  />
+              }
+        
               <Text>{new Date(experience.created_at).toLocaleDateString()}</Text>
             </View>
           </View>
@@ -251,7 +258,7 @@ return (
           <View style={styles.views}>
             <Text style={{ fontSize: 12, textAlign: 'justify', paddingBottom: 10 }}>{experience.content}</Text>
             {editableModal && 
-               <ContentModal/>
+               <ContentModal experience ={experience} />
               }
             <Divider />
           </View>

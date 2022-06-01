@@ -9,12 +9,7 @@ import { genericFetchWithTokenBody } from "../api/fetchApiWithTokenBody";
 import { authState } from "../store/auth/selectors";
 import { useSelector } from "react-redux";
 
-const BlocExperience = ({
-  experience,
-  user,
-  navigation,
-  hasActions = false,
-}) => {
+const BlocExperience = ({ experience, user, navigation, hasActions = false,}) => {
   const [liked, setLiked] = useState(false);
   const [interestId, setInterestId] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);

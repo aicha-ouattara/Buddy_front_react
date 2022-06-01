@@ -79,10 +79,15 @@ function BucketList({navigation, user, deleteId,}) {
                   <BlocInterest navigation={navigation} interest={interest} experience={interest.experience} user={user}/>
                   
                   <View style={styles.blocActions}>
-                    <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
-                      <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
-                    </TouchableOpacity>
-                      
+                  <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
+                  <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
+                  </TouchableOpacity>
+                  <View style={styles.blocText}>
+                    <Text style={{fontWeight: "bold"}}>{interest.title}</Text>
+                    <Text style={{fontWeight: "bold"}}>{new Date(interest.date).toLocaleDateString()}</Text>
+                 </View>
                     <Text onClick={() => deleteId(interest.id)} key={interest.id} >
                       <Image style={{ width: 25, height: 25 }} source={require('../../../assets/icons/bucket-red.png')}  />
                     </Text>
@@ -124,13 +129,21 @@ function ToDoNow({navigation, user, deleteId}) {
          
              interest.plan == 1 && 
              <>
-                <View style={styles.box}>
-                  <BlocInterest navigation={navigation} key={interest.id} interest={interest} experience={interest.experience} user={user}/>
-                  
+                <View style={styles.box}>                  
                   <View style={styles.blocActions}>
                   <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
-                     <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
+                  <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
                   </TouchableOpacity>
+                  <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>     
+                  </TouchableOpacity>
+                  <View style={styles.blocText}>
+                    <Text style={{fontWeight: "bold"}}>{interest.title}</Text>
+                    <Text style={{fontWeight: "bold"}}>{new Date(interest.date).toLocaleDateString()}</Text>
+                 </View>
+  
+   
+ 
+                    
                       <Text onClick={() => deleteId(interest.id)} key={interest.id} >
                         <Image style={{ width: 25, height: 25 }} source={require('../../../assets/heart-red.png')}  />
                       </Text>

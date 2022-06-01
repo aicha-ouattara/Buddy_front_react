@@ -210,7 +210,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
                 <Text onClick={() => deleteId(experience.id, experience.interests.length)} key={experience.id} >
                   <Image style={{ width: 25, height: 25 }} source={require("../../../assets/trashcan.png")}/>
                 </Text>
-              
+                <EventForm experience={experience}/>
           </View>
         </View>
               </>
@@ -307,7 +307,7 @@ function UserProfileInfos({ navigation, user }) {
     <View style={styles.container}>
 
         <View style={styles.avatarProfil}>
-         <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} />
+         {/* <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} /> */}
 
         </View>
 

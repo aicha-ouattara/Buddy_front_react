@@ -41,12 +41,7 @@ function AddScreen({ navigation }) {
 
     console.log(bodyExperience);
 
-    genericFetchWithTokenBody(
-      `${API_URL}/experiences`,
-      "POST",
-      token,
-      bodyExperience
-    )
+    genericFetchWithTokenBody(`${API_URL}/experiences`, "POST", token, bodyExperience)
       .then((json) => json.json())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));

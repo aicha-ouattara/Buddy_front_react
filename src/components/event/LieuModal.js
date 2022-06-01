@@ -6,16 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
-function TitleModal ({navigation, experience}) {
+function LieuModal ({navigation, experience}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [user, setUser] = useState(0);
-  const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
   const { token, idUser } = useSelector(authState);
   const handleSubmitButton = () => {
     
     const body = JSON.stringify({
-        "title": title
+      "location": location
     })
     PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, body) 
     .then(json => { console.log(json); } ) 
@@ -74,7 +74,7 @@ console.log('hh')
             <Text key={experience.id}>
                 <Text key={experience.title}></Text>
 
-        <ScrollView
+                <ScrollView
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{
             justifyContent: 'center',
@@ -86,10 +86,10 @@ console.log('hh')
          
         <TextInput
             style={styles.inputStyle}
-            onChangeText={(Title) => setTitle(Title)}
-            keepDefaultValues={experience.title}
+            onChangeText={(location) => setLocation(location)}
+            keepDefaultValues={experience.location}
             underlineColorAndroid="#f000"
-            placeholder= {experience.title}
+            placeholder= {experience.location}
             placeholderTextColor="black"
             autoCapitalize="sentences"
             returnKeyType="next"
@@ -224,7 +224,4 @@ successTextStyle: {
 },
 });
 
-export default TitleModal;
-
-
-
+export default LieuModal;
