@@ -101,14 +101,7 @@ function LoginScreen({ navigation }) {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress={
-                handleSubmitPress
-                // async () => {
-                //   let result = await SecureStore.getItemAsync("token");
-                //   await console.log("result", result);
-                //   navigation.navigate("Protected", { setToken });
-                // }
-              }
+              onPress={handleSubmitPress}
             >
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
             </TouchableOpacity>
@@ -118,18 +111,6 @@ function LoginScreen({ navigation }) {
             >
               Nouveau ici ? inscrivez-vous
             </Text>
-
-            {/* <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={async () => {
-                let result = await SecureStore.getItemAsync("token");
-                await console.log(result);
-                navigation.navigate("Register");
-              }}
-            >
-              <Text style={styles.buttonTextStyle}>token</Text>
-            </TouchableOpacity> */}
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
