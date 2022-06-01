@@ -28,6 +28,8 @@ import BiographyModal from "../../components/user/BiographyModal";
 import PhoneModal from "../../components/user/PhoneModal";
 import PasswordModal from "../../components/user/PasswordModal";
 import InteractionStatusModal from "../../components/user/InteractionStatusModal";
+import AvatarChoice from "../../components/user/AvatarChoice";
+import AvatarModal from "../../components/user/AvatarModal";
 
 
 function Profile({ navigation, route }) {
@@ -196,6 +198,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
     <View style={styles.container}>
       <ScrollView>
         <View>
+         
           
           {user.experiences &&
             user.experiences.map((experience) => (
@@ -336,7 +339,8 @@ function UserProfileInfos({ navigation, user }) {
   return (
     <View style={styles.container}>
       <View style={styles.avatarProfil}>
-        {/* <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} /> */}
+        <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} />
+        <AvatarModal/>
       </View>
 
       <View style={styles.infosProfil}>
@@ -438,6 +442,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
     justifyContent: "center",
     alignItems: "center",
+    opacity: 1,
   },
 
   infosProfil: {
