@@ -7,7 +7,6 @@ import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
-import {Avatar} from 'react-native-elements';
 import AvatarChoice from './AvatarChoice';
 
 function AvatarModal ({navigation}) {
@@ -124,7 +123,7 @@ const pickImage = async () => {
     <KeyboardAvoidingView enabled>
     <View style={styles.camera}>
         <Text  onPress={pickImage}/>
-         
+        <AvatarChoice/>
         
 
       </View>
@@ -155,7 +154,7 @@ const pickImage = async () => {
       }
 </View>
 
-<AvatarChoice/>
+
           
           </View>
         </View>

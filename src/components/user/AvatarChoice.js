@@ -7,9 +7,8 @@ import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
+
 // import { Avatar } from "react-native-paper";
-
-
 
 function AvatarChoice ({navigation}) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -44,17 +43,17 @@ function AvatarChoice ({navigation}) {
   
   
   {avatars &&
-            avatars?.map((avatar) => {
+            avatars.map((avatar) => {
                 const encodedBase64 = avatar.image
                 return (
               
                  
-                 
-           <View style={styles.avatarProfil} key={avatar.id}>
-                <Image style={{   width: 72, height: 72, borderRadius: 10, opacity: 1,}} source={{ uri: encodedBase64 } || require('../../../assets/visible.png')}  />
-                <Text>{avatar.id}</Text>
+    <View style={styles.container}>  
+        <View style={styles.avatarProfil} key={avatar.id}>
+            <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }}  />
+            <Text>{avatar.id}</Text>
         </View>
-              
+    </View>      
    ) })}
     
       </View>
@@ -63,9 +62,10 @@ function AvatarChoice ({navigation}) {
   
   const styles = StyleSheet.create({
     experiencePicture: {
-      width: 72,
-      height: 72,
-      borderRadius: 10,
+        flex: 1,
+        height: 64,
+        width: 64,
+        resizeMode: "cover",
         opacity: 1,
     },
 
@@ -73,9 +73,8 @@ function AvatarChoice ({navigation}) {
         flex: 0.2,
         justifyContent: "center",
         alignItems: "center",
-        opacity: 1,
+         opacity: 'none',
       },
-    
 
  
   });

@@ -275,7 +275,7 @@ function AllInteractions({ navigation, user }) {
                     experience={experience}
                     user={user}
                   />
-                  <InteractionStatusModal interest={interest}/>
+                  <InteractionStatusModal key={interest} interest={interest}/>
                   
 
                   <View style={styles.blocText}>
@@ -341,6 +341,7 @@ function UserProfileInfos({ navigation, user }) {
       <View style={styles.avatarProfil}>
         <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} />
         <AvatarModal/>
+    
       </View>
 
       <View style={styles.infosProfil}>
