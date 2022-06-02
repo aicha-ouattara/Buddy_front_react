@@ -8,13 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
+
 // import { Avatar } from "react-native-paper";
 
 function AvatarChoice ({navigation}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(0);
-    const [avatars, setAvatars] = useState(null);
+    const [avatars, setAvatars] = useState(null);  
+    const [avatar, setAvatar] = useState('');
     const { token, idUser } = useSelector(authState);
 
     const fetchAvatars = () => {
@@ -23,7 +25,6 @@ function AvatarChoice ({navigation}) {
         .then(data => setAvatars(data))
         .catch(error => console.error(error))
         .finally(() => setIsLoading(false));
-        console.log('hhhhhhhhhhh')
        
       }
     
@@ -32,6 +33,37 @@ function AvatarChoice ({navigation}) {
         fetchAvatars()
     }, [token])
 
+
+    const fetchUser = () => {
+      genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
+        .then(json => json.json())
+        .then(data => setUser(data))
+        .catch(error => console.error(error))
+  
+    }
+  
+    useEffect(() => {
+  
+      fetchUser();
+    }, [])
+
+    const handleSubmitButton = () => {
+    
+      const body = JSON.stringify({
+        "avatar": avatar
+      })
+      
+      PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+      .then(json => { console.log(json); } ) 
+      .catch((error) => {console.error("error" , error)})
+      fetchUser();
+      console.log('ok')
+  
+  console.log('hh')
+      
+  
+  };
+  
   
   
     return isLoading ? (
@@ -39,7 +71,7 @@ function AvatarChoice ({navigation}) {
           <Text> Loading ... </Text>{" "}
         </View>
       ) : (
-      <View>
+      <View style = {{flex: 1}} >
   
   
   {avatars &&
@@ -48,21 +80,31 @@ function AvatarChoice ({navigation}) {
                 return (
               
                  
-    <View style={styles.container}>  
-        <View style={styles.avatarProfil} key={avatar.id}>
-            <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }}  />
-            <Text>{avatar.id}</Text>
+    <View style={styles.container} key={avatar.id}>  
+        <View style={styles.avatarProfil} >
+          <TouchableOpacity onPress={() => setAvatar(avatar.image)}>
+             <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }}  />
+            
+            
+          </TouchableOpacity>
+           
+        
         </View>
     </View>      
    ) })}
-    
+      <TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
+            onPress={handleSubmitButton}>
+            <Text style={styles.buttonTextStyle}>MODIFIER</Text>
+        </TouchableOpacity>
       </View>
     );
   };
   
   const styles = StyleSheet.create({
     experiencePicture: {
-        flex: 1,
+      
         height: 64,
         width: 64,
         resizeMode: "cover",
@@ -70,7 +112,7 @@ function AvatarChoice ({navigation}) {
     },
 
     avatarProfil: {
-        flex: 0.2,
+       
         justifyContent: "center",
         alignItems: "center",
          opacity: 'none',

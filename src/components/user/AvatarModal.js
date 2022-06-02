@@ -11,7 +11,7 @@ import AvatarChoice from './AvatarChoice';
 
 function AvatarModal ({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [user, setUser] = useState(0);
   const [avatar, setAvatar] = useState(null);
   const { token, idUser } = useSelector(authState);
@@ -23,12 +23,11 @@ function AvatarModal ({navigation}) {
       .then(json => json.json())
       .then(data => setUser(data))
       .catch(error => console.error(error))
-      .finally(() => setIsLoading(false));
 
   }
 
   useEffect(() => {
-    setIsLoading(true);
+
     fetchUser();
   }, [])
 
@@ -49,27 +48,8 @@ console.log('hh')
 };
 
 
-const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
 
-    console.log(result);
-
-    if (!result.cancelled) {
-      setAvatar(result.uri);
-    }
-  };
-
-  return isLoading ? (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text> Loading ... </Text>{" "}
-    </View>
-  ) : (
+  return (
     <View>
 
 {/* sur la page profil affichage */}
@@ -104,12 +84,12 @@ const pickImage = async () => {
 
             <Text style={styles.modalText}>Modifier le titre</Text>
 
-        
+                  
 
     <View style={styles.mainBody}>
-       
+   
     {
-     
+        
         user && ( 
             <Text key={user.id}>
              
@@ -122,30 +102,28 @@ const pickImage = async () => {
             }}>
     <KeyboardAvoidingView enabled>
     <View style={styles.camera}>
-        <Text  onPress={pickImage}/>
-        <AvatarChoice/>
-        
+    {/* <SelectDropdown
+              data={[
+                { hours: "< 1", data: 1 },
+                { hours: "1-2 heures", data: 1.5 },
+                { hours: "demie journée", data: 12 },
+                { hours: "journée", data: 24 },
+              ]}
+              onSelect={(selectedItem) => {
+                setAvatar(selectedItem.data);
+              }}
+              defaultButtonText='Selectionne ton avatar !'
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem.data;
+              }}
+              rowTextForSelection={(item, index) => item.hours}
+              buttonStyle={styles.dropdown}
+            /> */}
+            <AvatarChoice/>
 
       </View>
-          
-
-      {avatar && (
-        <Image
-          source={{ uri: avatar }}
-          style={{
-            width: 200,
-            height: 200,
-          }}
-        />
-    
-      )}
-
-        <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>MODIFIER</Text>
-        </TouchableOpacity>
+     
+   
     </KeyboardAvoidingView>
     </ScrollView>
      </Text> )
@@ -153,8 +131,6 @@ const pickImage = async () => {
     
       }
 </View>
-
-
           
           </View>
         </View>

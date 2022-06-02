@@ -332,6 +332,7 @@ function UserProfileInfos({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
   const dispatch = useDispatch();
+  const encodedBase64 = user.avatar
   const onLogOut = () => {
     dispatch(logOut());
   };
@@ -339,7 +340,7 @@ function UserProfileInfos({ navigation, user }) {
   return (
     <View style={styles.container}>
       <View style={styles.avatarProfil}>
-        <Image style={styles.experiencePicture} source={require(`../../../assets/${user.avatar}`)} />
+      <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }}  /> 
         <AvatarModal/>
     
       </View>
