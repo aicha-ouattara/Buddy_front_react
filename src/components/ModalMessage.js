@@ -11,37 +11,37 @@ const ModalMessage = ({ modalType = '', modalVisible }) => {
   const selectType = () => {
     switch (modalType) {
       case "error":
-        setImageUrl("lost-compass.gif")
+        // setImageUrl("lost-compass.gif")
         setTitle("OOPS !")
         setText("Tu essayes d'ajouter une de tes propres expériences à ta bucket list...")
         break;
       case "missing":
-        setImageUrl("lost-compass.gif")
+        // setImageUrl("lost-compass.gif")
         setTitle("OOPS !")
         setText("Tous les champs sont obligatoires.")
         break;
       case "stop":
-        setImageUrl("icons/stop.gif")
+        // setImageUrl("icons/stop.gif")
         setTitle("OOPS !")
         setText("Tu ne peux pas liker une expérience dans ta to do now.")
         break;
         case "superliked":
-        setImageUrl("icons/todonow.gif")
+        // setImageUrl("icons/todonow.gif")
         setTitle("YAY !")
         setText("Expérience ajoutée à ta to do now !")
         break;
       case "unsuperlike":
-        setImageUrl("icons/stop.gif")
+        // setImageUrl("icons/stop.gif")
         setTitle("OOPS !")
         setText("Cette expérience est déjà dans ta To Do Now. Tu ne peux pas la supprimer si facilement.")
         break;
       case "liked":
-        setImageUrl("liked.gif")
+        // setImageUrl("liked.gif")
         setTitle("YAY !")
         setText("Expérience ajoutée à ta bucket list !")
         break;
       case "unliked":
-        setImageUrl("unliked.gif")
+        // setImageUrl("unliked.gif")
         setTitle("OH ...")
         setText("Expérience supprimée de ta bucket list.")
         break;
@@ -62,7 +62,7 @@ const ModalMessage = ({ modalType = '', modalVisible }) => {
       <View style={styles.container}>
         <View style={styles.modalView}>
           <View style={styles.image}>
-            {imageUrl && <Image style={styles.icon} source={require(`../../assets/${imageUrl}`)} />}
+            {/* {imageUrl && <Image style={styles.icon} source={require(`../../assets/${imageUrl}`)} />} */}
           </View>
           <View style={styles.text}>
             <Text style={{ fontWeight: 'bold', paddingBottom: 5 }}>{title}</Text>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     elevation: 5,
-    justifySelf: "center",
+
     alignSelf: 'center',
     textAlign: "center",
     backgroundColor: "white",

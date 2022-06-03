@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     elevation: 5,
-    justifySelf: "center",
+
     alignSelf: "center",
     textAlign: "center",
     backgroundColor: "white",
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   close: {
-    alignSelf: "end",
+    alignSelf: "flex-end",
     height: 24,
     width: 24,
     margin: 5,

@@ -58,6 +58,7 @@ function BucketList({navigation, user, deleteId,}) {
 
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  const encodedBase64 = user.avatar;
 
 
   
@@ -76,21 +77,25 @@ function BucketList({navigation, user, deleteId,}) {
            
               <>    
                  <View style={styles.box}>
-                  <BlocInterest navigation={navigation} interest={interest} experience={interest.experience} user={user}/>
-                  
+                    <View style= {styles.blocText}>
+                      <Text style={{fontWeight: "bold"}}>{interest.title}</Text>
+                      <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
+                        <Text>{user.login}</Text>
+                        <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }}  /> 
+                    </TouchableOpacity>
+                  </View>
+                 
+
                   <View style={styles.blocActions}>
-                  <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
-                  <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>
-                  </TouchableOpacity>
-                  <View style={styles.blocText}>
-                    <Text style={{fontWeight: "bold"}}>{interest.title}</Text>
-                    <Text style={{fontWeight: "bold"}}>{new Date(interest.date).toLocaleDateString()}</Text>
-                 </View>
+                  
+                    <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}/>
                     <Text onClick={() => deleteId(interest.id)} key={interest.id} >
-                      <Image style={{ width: 25, height: 25 }} source={require('../../../assets/icons/bucket-red.png')}  />
+                        <Image style={{ width: 25, height: 25 }} source={require('../../../assets/icons/bucket-red.png')}  />
                     </Text>
+                    <View style={styles.blocText}>
+                        <Text style={{fontWeight: "bold"}}>{new Date(interest.date).toLocaleDateString()}</Text>
+                    </View>
+                   
                   </View>
                  
                 </View>
@@ -116,6 +121,7 @@ function ToDoNow({navigation, user, deleteId}) {
   
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  const encodedBase64 = interest.user.avatar
 
   return (
     <View style={styles.container}>
@@ -128,46 +134,39 @@ function ToDoNow({navigation, user, deleteId}) {
          user.interests && user.interests.map(interest => 
          
              interest.plan == 1 && 
+             
              <>
-                <View style={styles.box}>                  
-                  <View style={styles.blocActions}>
-                  <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
-                  <Avatar.Image style={styles.avatar} size={24} color="white" source={require('../../../assets/profil.png')} />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}>     
-                  </TouchableOpacity>
+                <View style={styles.box}>      
                   <View style={styles.blocText}>
-                    <Text style={{fontWeight: "bold"}}>{interest.title}</Text>
-                    <Text style={{fontWeight: "bold"}}>{new Date(interest.date).toLocaleDateString()}</Text>
-                 </View>
-  
-   
- 
-                    
+                      <Text style={{fontWeight: "bold"}}>{interest.title}</Text>
+                      <Text style={{fontWeight: "bold"}}>{new Date(interest.date).toLocaleDateString()}</Text>
+                      <Text>{user.login}</Text>
+                      <TouchableOpacity onPress={() => { navigation.navigate('User', { id: user.id }) }}>
+                      <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }}  /> 
+                    </TouchableOpacity>
+                  </View>
+                  
+                  <View style={styles.blocActions}>
+                  
+                    <TouchableOpacity style={styles.blocExperience} onPress={() => { navigation.navigate('Experience', { id: experience.id }) }}/>     
                       <Text onClick={() => deleteId(interest.id)} key={interest.id} >
                         <Image style={{ width: 25, height: 25 }} source={require('../../../assets/heart-red.png')}  />
                       </Text>
-
                       <TouchableOpacity>
-                   
-                      
-                                {
-                                interest.accepted == 0 &&
-                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/attente.png')}  />
-                              
-                            }
+                          {
+                            interest.accepted == 0 &&
+                            <Image style={{ width: 25, height: 25 }} source={require('../../../assets/attente.png')}  />
+                          }
 
-                                 {
-                                interest.accepted == 1 &&
-                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
-                              
-                            }
+                          {
+                            interest.accepted == 1 &&
+                            <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
+                          }
 
-                              {
-                                interest.accepted == 2 &&
-                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
-                              
-                            }
+                          {
+                            interest.accepted == 2 &&
+                            <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
+                          }
                       </TouchableOpacity>
 
                   </View>
@@ -223,6 +222,12 @@ const styles = StyleSheet.create({
     borderLeftColor: "#f14d53",
     justifyContent: "space-between"
   }, 
+
+  experiencePicture: {
+    height: 32,
+    width: 32,
+  },
+  
 });
 
 

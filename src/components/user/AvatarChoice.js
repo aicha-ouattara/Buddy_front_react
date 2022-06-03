@@ -115,7 +115,6 @@ function AvatarChoice ({navigation}) {
        
         justifyContent: "center",
         alignItems: "center",
-         opacity: 'none',
       },
 
  

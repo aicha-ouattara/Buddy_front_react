@@ -35,7 +35,10 @@ const PhoneModal = () => {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                <Image style={{ width: 20, height: 20 }} source={require('../../../assets/close.png')}  />
+                     <Image
+                      style={styles.close}
+                      source={require(`../../../assets/icons/close.png`)}
+                    />
             </Pressable>
 
             <Text style={styles.modalText}>Écrire une biographie</Text>
@@ -60,18 +63,25 @@ const styles = StyleSheet.create({
   },
   
   modalView: {
-    backgroundColor: "#f2f2f2",
-    borderRadius: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
+    margin: 20,
+    width: "70vw",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignContent: "center",
+    elevation: 5,
+
+    alignSelf: "center",
+    textAlign: "center",
+    backgroundColor: "white",
   },
+
+  close: {
+    alignSelf: "flex-end",
+    height: 24,
+    width: 24,
+    margin: 5,
+  },
+  
   button: {
     borderRadius: 20,
     padding: 10,
