@@ -38,7 +38,7 @@ console.log('hh')
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
+        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/attente.png')}  />
       </Pressable>
 
   
@@ -87,8 +87,8 @@ console.log('hh')
          
     <SelectDropdown
               data={[
-                { hours: "Accepter", data: 1 },
-                { hours: "Refuser", data: 1.5 },
+                { status: "Accepter", data: 2 },
+                { status: "Refuser", data: 1 },
           
               ]}
               onSelect={(selectedItem) => {
@@ -98,7 +98,7 @@ console.log('hh')
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem.data;
               }}
-              rowTextForSelection={(item, index) => item.hours}
+              rowTextForSelection={(item, index) => item.status}
               buttonStyle={styles.dropdown}
             />
     </View>

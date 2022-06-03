@@ -150,21 +150,24 @@ function ToDoNow({navigation, user, deleteId}) {
 
                       <TouchableOpacity>
                    
-                            {(
-                              interest &&(
-                                interest.plan == 1 &&
-                                interest.accepted == 0 && 
-                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
-                                )
-                            )}
                       
-                            {(
-                              interest &&(
-                                interest.plan == 1 &&
-                                interest.accepted == 1 && 
+                                {
+                                interest.accepted == 0 &&
+                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/attente.png')}  />
+                              
+                            }
+
+                                 {
+                                interest.accepted == 1 &&
+                                <Image style={{ width: 25, height: 25 }} source={require('../../../assets/refused.png')}  />
+                              
+                            }
+
+                              {
+                                interest.accepted == 2 &&
                                 <Image style={{ width: 25, height: 25 }} source={require('../../../assets/accepted.png')}  />
-                              )
-                            )}
+                              
+                            }
                       </TouchableOpacity>
 
                   </View>
