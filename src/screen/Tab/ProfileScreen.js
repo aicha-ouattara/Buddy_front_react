@@ -293,11 +293,10 @@ function AllInteractions({ navigation, user }) {
                     experience={experience}
                     user={user}
                   />
-                  <InteractionStatusModal key={interest} interest={interest} />
 
                   <View style={styles.blocText}>
                     <Text>{interest.message}</Text>
-                    <Text>{interest.date}</Text>
+                    <Text>{new Date(interest.date).toLocaleDateString()}</Text>
                   </View>
 
                   <View style={styles.blocActions}>
@@ -315,14 +314,21 @@ function AllInteractions({ navigation, user }) {
                     </TouchableOpacity>
 
                     <View>
-                      {interest && interest.accepted == 1 && (
+                      {interest.accepted == 0 && (
+                        <InteractionStatusModal
+                          key={interest}
+                          interest={interest}
+                        />
+                      )}
+
+                      {interest.accepted == 1 && (
                         <Image
                           style={{ width: 25, height: 25 }}
                           source={require("../../../assets/refused.png")}
                         />
                       )}
 
-                      {interest && interest.accepted == 2 && (
+                      {interest.accepted == 2 && (
                         <Image
                           style={{ width: 25, height: 25 }}
                           source={require("../../../assets/accepted.png")}

@@ -13,6 +13,7 @@ function InteractionStatusModal ({navigation, interest}) {
   const [user, setUser] = useState(0);
   const [accepted, setAccepted] = useState();
   const { token, idUser } = useSelector(authState);
+
   const handleSubmitButton = () => {
     
     const body = JSON.stringify({
@@ -21,12 +22,7 @@ function InteractionStatusModal ({navigation, interest}) {
     PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, body) 
     .then(json => { console.log(json); } ) 
     .catch((error) => {console.error("error" , error)})
-    fetchExperience();
-    console.log('ok')
-
-
-console.log('hh')
-    
+    fetchUser();
 
 };
 
@@ -59,11 +55,12 @@ console.log('hh')
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                <Image style={{ width: 20, height: 20 }} source={require('../../../assets/close.png')}  />
+                  <Image
+                      style={styles.close}
+                      source={require(`../../../assets/icons/close.png`)}
+                    />
             </Pressable>
             </View>
-
-            <Text style={styles.modalText}>Modifier le statut</Text>
 
                   
 
@@ -94,9 +91,9 @@ console.log('hh')
               onSelect={(selectedItem) => {
                 setAccepted(selectedItem.data);
               }}
-              defaultButtonText={interest.accepted}
+              defaultButtonText='Modifie le statut'
               buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem.data;
+                return selectedItem.status;
               }}
               rowTextForSelection={(item, index) => item.status}
               buttonStyle={styles.dropdown}
@@ -134,31 +131,32 @@ const styles = StyleSheet.create({
     width: "70vw",
     borderRadius: 20,
   },
-  
+
   modalView: {
-    backgroundColor: "#f2f2f2",
-    borderRadius: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
+    margin: 20,
+    width: "70vw",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignContent: "center",
+    elevation: 5,
+    
+    alignSelf: "center",
+    textAlign: "center",
+    backgroundColor: "white",
   },
+
   button: {
     borderRadius: 20,
     padding: 10,
     elevation: 2
   },
 
-  buttonClose:{
-      justifyContent: 'flex-end',
-      backgroundColor: 'red',
+ close: {
+    alignSelf: "flex-end",
+    height: 24,
+    width: 24,
+    margin: 5,
   },
-
 
   textStyle: {
     color: "white",
