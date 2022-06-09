@@ -432,7 +432,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     elevation: 5,
-    justifySelf: "center",
     alignSelf: "center",
     textAlign: "center",
     backgroundColor: "white",
@@ -441,7 +440,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   close: {
-    alignSelf: "end",
+    alignSelf: "flex-end",
     height: 24,
     width: 24,
     margin: 5,
@@ -462,7 +461,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 10,
-    border: "2px solid rgba(0,0,0,0.3)",
+    borderWidth: 2,
+    borderColor: "rgba(0,0,0,0.3)",
   },
   buttonStyle: {
     backgroundColor: "#f14d53",

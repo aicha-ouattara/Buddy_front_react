@@ -37,7 +37,7 @@ const BlocExperience = ({
           }
           setInterestId(interest.id);
         } else {
-          console.log(interest.user, idUser);
+          // console.log(interest.user, idUser);
         }
       });
   }, []);

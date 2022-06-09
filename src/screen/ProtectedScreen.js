@@ -32,11 +32,11 @@ function ProtectedScreen() {
             style={{
               width: 25,
               height: 25,
-              // tintColor: focused ? '#e32f45' : '#748c94',
+              opacity: focused ? 1 : 0.3,
             }}/>
           </View>
 
-        ),
+        ), title: "Fil"
 
       }} />
 
@@ -51,15 +51,15 @@ function ProtectedScreen() {
             style={{
               width: 25,
               height: 25,
-              // tintColor: focused ? '#e32f45' : '#748c94',
+              opacity: focused ? 1 : 0.3,
             }}/>
           </View>
-        ),
+        ), title: "Recherche"
       })}
        />
 
 
-      <Tab.Screen name="Créer une expérience" component={AddScreen} options= {{
+      <Tab.Screen name="Experience" component={AddScreen} options= {{
         tabBarIcon: ({focused}) => (
           <View>
             <Image
@@ -68,12 +68,13 @@ function ProtectedScreen() {
             style={{
               width: 25,
               height: 25,
-              // tintColor: focused ? '#e32f45' : '#748c94',
+              opacity: focused ? 1 : 0.3,
             }}/>
           </View>
         ),
+        title: "Expérience"
       }} />  
-      <Tab.Screen name="Mes listes" component={FavoritesScreen} options= {{
+      <Tab.Screen name="Favorites" component={FavoritesScreen} options= {{
         tabBarIcon: ({focused}) => (
           <View>
             <Image
@@ -82,10 +83,10 @@ function ProtectedScreen() {
             style={{
               width: 25,
               height: 25,
-              // tintColor: focused ? '#e32f45' : '#748c94',
+              opacity: focused ? 1 : 0.3,
             }}/>
           </View>
-        ),
+        ), title: "Listes"
       }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options= {{
         tabBarIcon: ({focused}) => (
@@ -96,10 +97,10 @@ function ProtectedScreen() {
             style={{
               width: 25,
               height: 25,
-              // tintColor: focused ? '#e32f45' : '#748c94',
+              opacity: focused ? 1 : 0.3,
             }}/>
           </View>
-        ),
+        ), title: "Profil"
       }} />
     </Tab.Navigator>     
     )

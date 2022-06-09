@@ -22,7 +22,7 @@ function UserScreen({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState([]);
   const [isMe, setIsMe] = useState(false);
-  const [reviews, setReviews] = useState({length: 0, average: 0});
+  const [reviews, setReviews] = useState({ length: 0, average: 0 });
 
   const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/${route.params.id}`, "GET", token)
@@ -50,8 +50,10 @@ function UserScreen({ navigation, route }) {
         )
       : [];
 
-    const average = (reviews.reduce((a, b) => a + b, 0) / reviews.length).toFixed(2);
-    setReviews({length: reviews.length, average: average});
+    const average = (
+      reviews.reduce((a, b) => a + b, 0) / reviews.length
+    ).toFixed(2);
+    setReviews({ length: reviews.length, average: average });
   }, [user?.experiences]);
 
   return isLoading ? (
@@ -150,12 +152,28 @@ function UserProfileInfos({ user, reviews, isMe, navigation }) {
           </TouchableOpacity>
         )}
         <Text>{reviews.length} avis</Text>
-        <Text>{reviews.average} étoiles</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text>{reviews.average}</Text>
+          <Image
+            style={{ height: 24, width: 24 }}
+            source={require(`../../assets/icons/star-filled.png`)}
+          />
+        </View>
       </View>
       <Divider />
-      <View style={{marginTop: 10}}>
-        <Text style={{fontWeight: "bold", marginBottom: 5}}>A propos</Text>
-       {user?.biography ? <Text>{user?.biography}</Text> : <Text style={{color: "grey"}}> Pas encore de biographie</Text>} 
+      <View style={{ marginTop: 10 }}>
+        <Text style={{ fontWeight: "bold", marginBottom: 5 }}>A propos</Text>
+        {user?.biography ? (
+          <Text>{user?.biography}</Text>
+        ) : (
+          <Text style={{ color: "grey" }}> Pas encore de biographie</Text>
+        )}
       </View>
     </View>
   );
@@ -170,7 +188,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: "2em",
+    fontSize: 16,
   },
   profil: { flexDirection: "column", marginBottom: 5 },
   button: {
@@ -178,7 +196,8 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     marginBottom: 10,
-    border: "2px solid #f14d53",
+    borderWidth: 2,
+    borderColor: "#f14d53",
     borderRadius: 20,
     width: "fit-content",
   },
