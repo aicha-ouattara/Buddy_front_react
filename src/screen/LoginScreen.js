@@ -42,6 +42,9 @@ function LoginScreen({ navigation }) {
       setErrortext("Vous n'avez pas ajouter de password");
       return;
     }
+    if (!token) {
+      setErrortext("Votre mot de passe ou votre login n'est pas correct");
+    }
     const body = JSON.stringify({
       login: userLogin,
       password: userPassword,
@@ -54,9 +57,6 @@ function LoginScreen({ navigation }) {
     if (isLoggedIn && token) {
       navigation.navigate("Protected");
     }
-    // else {
-    //   setErrortext("votre mot de passe ou votre login n'est pas correct");
-    // }
   }, [isLoggedIn, token]);
 
   return (
