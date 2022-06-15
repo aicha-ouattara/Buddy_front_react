@@ -62,7 +62,7 @@ const TestSlider = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: { alignItems: "center", justifyContent: "center" },
   scroll: { width, height },
   image: { width, height, resizeMode: "cover", borderRadius: 20 },
   pagination: {

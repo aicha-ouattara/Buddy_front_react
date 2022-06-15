@@ -200,7 +200,7 @@ function AddScreen({ navigation }) {
                 setDuration(selectedItem.data);
               }}
               // value={selectedItem.data}
-              defaultButtonText={"Duration"}
+              defaultButtonText={"Durée"}
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem.data;
               }}
@@ -225,9 +225,10 @@ function AddScreen({ navigation }) {
 export default AddScreen;
 const styles = StyleSheet.create({
   textAreaContainer: {
-    borderColor: "gray",
+    borderColor: "white",
     borderWidth: 1,
-    padding: 5,
+    padding: 1,
+    borderRadius: 20,
   },
   textArea: {
     height: 150,
