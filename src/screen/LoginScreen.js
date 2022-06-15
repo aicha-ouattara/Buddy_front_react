@@ -53,9 +53,10 @@ function LoginScreen({ navigation }) {
   useEffect(() => {
     if (isLoggedIn && token) {
       navigation.navigate("Protected");
-    } else {
-      setErrortext("votre mot de passe ou votre login n'est pas correct");
     }
+    // else {
+    //   setErrortext("votre mot de passe ou votre login n'est pas correct");
+    // }
   }, [isLoggedIn, token]);
 
   return (
