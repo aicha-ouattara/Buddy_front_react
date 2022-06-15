@@ -35,11 +35,11 @@ function LoginScreen({ navigation }) {
   const handleSubmitPress = () => {
     setErrortext("");
     if (!userLogin) {
-      setErrortext("Please fill login");
+      setErrortext("Vous n'avez pas ajouter de login");
       return;
     }
     if (!userPassword) {
-      setErrortext("Please fill password");
+      setErrortext("Vous n'avez pas ajouter de password");
       return;
     }
     const body = JSON.stringify({
@@ -53,6 +53,8 @@ function LoginScreen({ navigation }) {
   useEffect(() => {
     if (isLoggedIn && token) {
       navigation.navigate("Protected");
+    } else {
+      setErrortext("votre mot de passe ou votre login n'est pas correct");
     }
   }, [isLoggedIn, token]);
 

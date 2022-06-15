@@ -11,6 +11,7 @@ import {
 } from "react-native";
 
 import TestSlider from "../components/TestSlider";
+// import AddScreen from "./Tab/AddScreen";
 
 function HomeScreen({ navigation }) {
   return (
