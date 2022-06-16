@@ -148,7 +148,6 @@ function BucketList({ navigation, user, deleteId }) {
 function ToDoNow({ navigation, user, deleteId }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
-  const encodedBase64 = interest?.user.avatar;
 
   return (
     <View style={styles.container}>
@@ -175,7 +174,7 @@ function ToDoNow({ navigation, user, deleteId }) {
                           >
                             <Image
                               style={styles.experiencePicture}
-                              source={{ uri: encodedBase64 }}
+                              source={{ uri: interest.user.avatar }}
                             />
                           </TouchableOpacity>
                         </View>
