@@ -121,8 +121,8 @@ function AddScreen({ navigation }) {
       >
         <Text
           style={{
-            marginTop: 80,
-            fontSize: 25,
+            marginTop: 8,
+            fontSize: 20,
             fontWeight: "bold",
             justifyContent: "center",
             alignItems: "center",
@@ -136,18 +136,19 @@ function AddScreen({ navigation }) {
           &#x2295;
         </Text>
         {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
+        {image && (
+          <Image
+            source={{ uri: image }}
+            style={{
+              width: 50,
+              height: 50,
+              marginLeft: 0,
+              marginRight: 0,
+            }}
+          />
+        )}
       </View>
-      {image && (
-        <Image
-          source={{ uri: image }}
-          style={{
-            width: 50,
-            height: 50,
-            marginLeft: 0,
-            marginRight: 0,
-          }}
-        />
-      )}
+
       <View
         style={{
           marginTop: 10,
@@ -299,10 +300,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#f14d53",
     borderRadius: 10,
     paddingLeft: 175,
-    paddingBottom: 25,
+    paddingBottom: 10,
     paddingRight: 175,
-    paddingTop: 25,
-    marginTop: 10,
+    paddingTop: 10,
+    marginTop: 5,
   },
   inputStyle: {
     // flex: 1,
@@ -326,7 +327,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
-    marginTop: 20,
     marginBottom: 25,
   },
   buttonTextStyle: {
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 40,
-    marginTop: 10,
+    marginTop: 5,
     marginLeft: 35,
     marginRight: 35,
     // margin: 10,
