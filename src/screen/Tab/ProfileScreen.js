@@ -153,7 +153,7 @@ function Profile({ navigation, route }) {
 
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text> Loading ... </Text>{" "}
+      <Text> Loading ... </Text>
     </View>
   ) : (
     <Tabs style={{ backgroundColor: "white" }}>
@@ -368,7 +368,7 @@ function UserProfileInfos({ navigation, user }) {
       <View style={styles.infosProfil}>
         <View style={styles.login}>
           <Text style={{ padding: 20, fontWeight: "bold", fontSize: 25 }}>
-            {user.login}{" "}
+            {user.login}
           </Text>
           <LoginModal />
         </View>
@@ -392,7 +392,7 @@ function UserProfileInfos({ navigation, user }) {
 
         <View>
           <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-            Membre depuis le {new Date(user.created_at).toLocaleDateString()}{" "}
+            Membre depuis le {new Date(user.created_at).toLocaleDateString()}
           </Text>
         </View>
       </View>

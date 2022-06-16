@@ -67,7 +67,7 @@ const BlocReview = ({ review, experience, navigation }) => {
         {new Date(review.date).toLocaleDateString() ===
         new Date().toLocaleDateString() ? (
           <Text style={{ color: "grey" }}>
-            à{" "}
+            à
             {new Date(review.date).toLocaleTimeString("fr-FR", {
               hour: "numeric",
               minute: "numeric",

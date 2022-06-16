@@ -136,7 +136,7 @@ function UserProfileInfos({ user, reviews, isMe, navigation }) {
       </View>
       <View style={styles.profil}>
         <Text style={{ color: "grey" }}>
-          Membre depuis{" "}
+          Membre depuis
           {new Date(user.created_at).toLocaleDateString("fr-FR", {
             month: "long",
             year: "numeric",

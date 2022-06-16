@@ -62,7 +62,7 @@ const ModalMessage = ({ modalType = '', modalVisible }) => {
       <View style={styles.container}>
         <View style={styles.modalView}>
           <View style={styles.image}>
-            {imageUrl && <Image style={styles.icon} source={imageUrl} />}
+            {imageUrl ? <Image style={styles.icon} source={imageUrl} /> : null}
           </View>
           <View style={styles.text}>
             <Text style={{ fontWeight: 'bold', paddingBottom: 5 }}>{title}</Text>

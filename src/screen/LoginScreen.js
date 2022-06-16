@@ -98,9 +98,9 @@ function LoginScreen({ navigation }) {
                 returnKeyType="next"
               />
             </View>
-            {errortext != "" && (
+            {errortext != "" ? (
               <Text style={styles.errorTextStyle}>{errortext}</Text>
-            )}
+            ) : null}
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
