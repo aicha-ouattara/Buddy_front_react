@@ -35,12 +35,15 @@ function LoginScreen({ navigation }) {
   const handleSubmitPress = () => {
     setErrortext("");
     if (!userLogin) {
-      setErrortext("Please fill login");
+      setErrortext("Vous n'avez pas ajouter de login");
       return;
     }
     if (!userPassword) {
-      setErrortext("Please fill password");
+      setErrortext("Vous n'avez pas ajouter de password");
       return;
+    }
+    if (!token) {
+      setErrortext("Votre mot de passe ou votre login n'est pas correct");
     }
     const body = JSON.stringify({
       login: userLogin,
@@ -95,9 +98,9 @@ function LoginScreen({ navigation }) {
                 returnKeyType="next"
               />
             </View>
-            {errortext != "" && (
+            {errortext != "" ? (
               <Text style={styles.errorTextStyle}>{errortext}</Text>
-            )}
+            ) : null}
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}

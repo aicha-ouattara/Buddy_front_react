@@ -63,7 +63,8 @@ function RegisterScreen({ navigation }) {
     }
 
     // don't remember from where i copied this code, but this works.
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(userEmail)) {
       const body = JSON.stringify({
         login: userLogin,
@@ -103,7 +104,7 @@ function RegisterScreen({ navigation }) {
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
-            />{" "}
+            />
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
@@ -115,8 +116,8 @@ function RegisterScreen({ navigation }) {
               autoCapitalize="sentences"
               returnKeyType="next"
               blurOnSubmit={false}
-            />{" "}
-          </View>{" "}
+            />
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -127,8 +128,8 @@ function RegisterScreen({ navigation }) {
               autoCapitalize="sentences"
               returnKeyType="next"
               blurOnSubmit={false}
-            />{" "}
-          </View>{" "}
+            />
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -139,8 +140,8 @@ function RegisterScreen({ navigation }) {
               keyboardType="email-address"
               returnKeyType="next"
               blurOnSubmit={false}
-            />{" "}
-          </View>{" "}
+            />
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -151,8 +152,8 @@ function RegisterScreen({ navigation }) {
               returnKeyType="next"
               secureTextEntry={true}
               blurOnSubmit={false}
-            />{" "}
-          </View>{" "}
+            />
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -163,20 +164,20 @@ function RegisterScreen({ navigation }) {
               keyboardType="numeric"
               returnKeyType="next"
               blurOnSubmit={false}
-            />{" "}
-          </View>{" "}
+            />
+          </View>
           {errortext != "" ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
-          ) : null}{" "}
+          ) : null}
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}
           >
-            <Text style={styles.buttonTextStyle}> S'INSCRIRE </Text>{" "}
-          </TouchableOpacity>{" "}
-        </KeyboardAvoidingView>{" "}
-      </ScrollView>{" "}
+            <Text style={styles.buttonTextStyle}> S'INSCRIRE </Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 }

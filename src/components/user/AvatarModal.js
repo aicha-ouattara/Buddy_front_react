@@ -23,11 +23,9 @@ function AvatarModal ({navigation}) {
       .then(json => json.json())
       .then(data => setUser(data))
       .catch(error => console.error(error))
-
   }
 
   useEffect(() => {
-
     fetchUser();
   }, [])
 

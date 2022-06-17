@@ -129,15 +129,14 @@ const BlocExperience = ({
         </View>
       </TouchableOpacity>
 
-      {/* Actions line display only with props hasActions */}
-      {hasActions && (
+      {hasActions ? (
         <View
           style={[
             styles.blocActions,
             { justifyContent: !hasAvatar ? "center" : "space-between" },
           ]}
         >
-          {hasAvatar && (
+          {hasAvatar ? (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("User", { id: user.id, name: user.login });
@@ -150,8 +149,8 @@ const BlocExperience = ({
                 source={require("../../assets/profil.png")}
               />
             </TouchableOpacity>
-          )}
-          {!superliked && (
+          ) : null}
+          {!superliked ? (
             <TouchableOpacity
               onPress={() => {
                 handleLike(experience);
@@ -159,8 +158,8 @@ const BlocExperience = ({
             >
               <Bucket liked={liked} />
             </TouchableOpacity>
-          )}
-          {superliked && (
+          ) : null}
+          {superliked ? (
             <TouchableOpacity
               onPress={() => {
                 handleSuperLike();
@@ -168,10 +167,10 @@ const BlocExperience = ({
             >
               <Now liked={true} />
             </TouchableOpacity>
-          )}
+          ) : null}
         </View>
-      )}
-      {modalVisible && modalType && <ModalMessage modalType={modalType} />}
+      ) : null}
+      {modalVisible ? <ModalMessage modalType={modalType} /> : null}
     </View>
   );
 };
