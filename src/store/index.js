@@ -14,6 +14,7 @@ const authPersistConfig = {
   storage: AsyncStorage,
 };
 
+
 const store = configureStore({
   reducer: {
     [authSlice.name]: persistReducer(authPersistConfig, authSlice.reducer),
@@ -22,3 +23,4 @@ const store = configureStore({
 });
 const persistor = persistStore(store);
 export { store, persistor };
+
