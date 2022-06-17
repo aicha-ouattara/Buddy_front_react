@@ -1,26 +1,14 @@
-import {
-  createSlice,
-  createAsyncThunk
-} from "@reduxjs/toolkit";
-import {
-  initialState,
-  sliceName
-} from "./constants";
-import {
-  API_URL
-} from "@env";
-import {
-  genericFetch
-} from "../../api/fetchApi";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { initialState, sliceName } from "./constants";
+import { API_URL } from "@env";
+import { genericFetch } from "../../api/fetchApi";
 import jwt_decode from "jwt-decode";
 
 //Fetch de l'api pour le login
 export const logIn = createAsyncThunk("auth/logIn", async (body, thunkAPI) => {
-  const response = await genericFetch(
-    `${API_URL}/login`,
-    "POST",
-    body
-  ).then((json) => json.json());
+  const response = await genericFetch(`${API_URL}/login`, "POST", body).then(
+    (json) => json.json()
+  );
   return response;
 });
 
@@ -50,12 +38,10 @@ export const authSlice = createSlice({
       // Add user to the state array
       state.isLoggedIn = true;
       state.token = action.payload.token;
-      state.idUser = jwt_decode(state.token).id
+      state.idUser = jwt_decode(state.token).id;
     });
   },
 });
 
-export const {
-  logOut
-} = authSlice.actions;
+export const { logOut } = authSlice.actions;
 export default authSlice.reducer;
