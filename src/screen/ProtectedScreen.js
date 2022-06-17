@@ -61,7 +61,7 @@ function ProtectedScreen() {
       }} />
 
 
-      <Tab.Screen name="Add" component={AddScreen} options= {{
+      <Tab.Screen name="Experience" component={AddScreen} options= {{
         tabBarIcon: ({focused}) => (
           <View>
             <Image

@@ -119,6 +119,7 @@ function UserProfileInfos({navigation, user}) {
   const index = useTabIndex();
 
   return (
+<<<<<<< Updated upstream
     <View style={{ flex:1, backgroundColor: 'white' }}>
       
       <Title style={{textAlign: 'center', paddingTop: 10}}>PROFILE INFOS</Title>
@@ -135,6 +136,46 @@ function UserProfileInfos({navigation, user}) {
              <Text>Date d'inscription {user.created_at} </Text>
           </View>
          
+=======
+    <View style={styles.container}>
+      <View style={styles.image}>
+        <Text style={styles.title}>Bonjour, je m'appelle {user.login} </Text>
+        <Image
+          style={{ width: 100, height: 100 }}
+          source={require("../../assets/profil.png")}
+        />
+      </View>
+      <View style={styles.profil}>
+        <Text style={{ color: "grey" }}>
+          Membre depuis{" "}
+          {new Date(user.created_at).toLocaleDateString("fr-FR", {
+            month: "long",
+            year: "numeric",
+          })}
+        </Text>
+        {isMe && (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Profile");
+            }}
+          >
+            <Text style={styles.button}>Modifier le profil</Text>
+          </TouchableOpacity>
+        )}
+        <Text>{reviews.length} avis</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text>{reviews.average}</Text>
+          <Image
+            style={{ height: 24, width: 24 }}
+            source={require(`../../assets/icons/star-filled.png`)}
+          />
+>>>>>>> Stashed changes
         </View>
     
         <View>

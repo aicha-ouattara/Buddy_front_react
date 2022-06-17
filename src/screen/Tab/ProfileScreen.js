@@ -63,10 +63,37 @@ console.log(user)
       (
     <Tabs style={{backgroundColor: 'white'}}>
 
+<<<<<<< Updated upstream
       <TabScreen label="Experiences"  >
           <AllExperiences user={user} navigation={navigation} deleteId={(id, interestLength) => {deleteId(id, interestLength); fetchUser()}}/>
       </TabScreen >
       
+=======
+  return isLoading ? (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text> Loading ... </Text>{" "}
+    </View>
+  ) : (
+    <Tabs style={{ backgroundColor: "white" }}>
+      <TabScreen label="Experiences">
+        <AllExperiences
+          user={user}
+          navigation={navigation}
+          handleVisible={(experience) => {
+            handleVisible(experience);
+            fetchUser();
+          }}
+          deleteId={(id, interestLength) => {
+            deleteId(id, interestLength);
+            fetchUser();
+          }}
+          handleStateExperience={(interest) => {
+            handleStateExperience(interest);
+            fetchUser();
+          }}
+        />
+      </TabScreen>
+>>>>>>> Stashed changes
 
       <TabScreen label="Interactions">
       <AllInteractions user={user} navigation={navigation} />
@@ -159,6 +186,7 @@ function UserProfileInfos({navigation, user}) {
   const index = useTabIndex();
 
   return (
+<<<<<<< Updated upstream
     <View style={{ flex:1, backgroundColor: 'white' }}>
       
       <Title style={{textAlign: 'center', paddingTop: 10}}>PROFILE INFOS</Title>
@@ -175,6 +203,33 @@ function UserProfileInfos({navigation, user}) {
              <Text>Date d'inscription {user.created_at} </Text>
           </View>
          
+=======
+    <View style={styles.container}>
+      <View style={styles.avatarProfil}>
+        <Image
+          style={styles.experiencePicture}
+          source={{ uri: encodedBase64 }}
+        />
+        <AvatarModal />
+      </View>
+
+      <View style={styles.infosProfil}>
+        <View style={styles.login}>
+          <Text style={{ padding: 20, fontWeight: "bold", fontSize: 25 }}>
+            {user.login}{" "}
+          </Text>
+          <LoginModal />
+        </View>
+
+        <View style={styles.biographie}>
+          <Text style={{ fontSize: 20 }}>{user.biography}</Text>
+          <BiographyModal />
+        </View>
+
+        <View style={styles.phone}>
+          <Text style={{ fontSize: 15 }}>{user.telephone}</Text>
+          <PhoneModal />
+>>>>>>> Stashed changes
         </View>
     
         <View>
@@ -182,7 +237,13 @@ function UserProfileInfos({navigation, user}) {
         </View>
 
         <View>
+<<<<<<< Updated upstream
           <FormModal/>
+=======
+          <Text style={{ fontWeight: "bold", fontSize: 12 }}>
+            Membre depuis le {new Date(user.created_at).toLocaleDateString()}{" "}
+          </Text>
+>>>>>>> Stashed changes
         </View>
        
       </View>

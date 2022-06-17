@@ -106,7 +106,7 @@ function RegisterScreen({ navigation }) {
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
-            />
+            />{" "}
           </View>
 
           <View style={styles.SectionStyle}>
@@ -119,8 +119,8 @@ function RegisterScreen({ navigation }) {
               autoCapitalize="sentences"
               returnKeyType="next"
               blurOnSubmit={false}
-            />
-          </View>
+            />{" "}
+          </View>{" "}
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -131,8 +131,8 @@ function RegisterScreen({ navigation }) {
               autoCapitalize="sentences"
               returnKeyType="next"
               blurOnSubmit={false}
-            />
-          </View>
+            />{" "}
+          </View>{" "}
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -143,8 +143,8 @@ function RegisterScreen({ navigation }) {
               keyboardType="email-address"
               returnKeyType="next"
               blurOnSubmit={false}
-            />
-          </View>
+            />{" "}
+          </View>{" "}
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -155,8 +155,8 @@ function RegisterScreen({ navigation }) {
               returnKeyType="next"
               secureTextEntry={true}
               blurOnSubmit={false}
-            />
-          </View>
+            />{" "}
+          </View>{" "}
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -167,20 +167,32 @@ function RegisterScreen({ navigation }) {
               keyboardType="numeric"
               returnKeyType="next"
               blurOnSubmit={false}
-            />
-          </View>
+            />{" "}
+          </View>{" "}
           {errortext != "" ? (
+<<<<<<< Updated upstream
             <Text style={styles.errorTextStyle}>{errortext}</Text>
           ) : null}
+=======
+            <Text style={styles.errorTextStyle}> {errortext} </Text>
+          ) : null}{" "}
+>>>>>>> Stashed changes
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}
           >
+<<<<<<< Updated upstream
             <Text style={styles.buttonTextStyle}>REGISTER</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
+=======
+            <Text style={styles.buttonTextStyle}> S'INSCRIRE </Text>{" "}
+          </TouchableOpacity>{" "}
+        </KeyboardAvoidingView>{" "}
+      </ScrollView>{" "}
+>>>>>>> Stashed changes
     </View>
   );
 }
