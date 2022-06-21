@@ -49,7 +49,7 @@ function Profile({ navigation, route }) {
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
-  }, []);
+  }, [route]);
 
   // SUPPRESSION EXPERIENCE
   const deleteId = (id, interestLength) => {

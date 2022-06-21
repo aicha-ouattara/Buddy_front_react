@@ -38,7 +38,9 @@ function AddScreen({ navigation }) {
     setLocation("");
     setDuration(0);
     setImage(null);
-    navigation.navigate("Feed");
+    navigation.navigate("Feed", {
+      refresh: true,
+    });
   };
   const handleSubmitPress = () => {
     const bodyExperience = JSON.stringify({

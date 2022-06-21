@@ -35,11 +35,11 @@ function LoginScreen({ navigation }) {
   const handleSubmitPress = () => {
     setErrortext("");
     if (!userLogin) {
-      setErrortext("Vous n'avez pas ajouter de login");
+      setErrortext("Vous n'avez pas ajouté de login");
       return;
     }
     if (!userPassword) {
-      setErrortext("Vous n'avez pas ajouter de password");
+      setErrortext("Vous n'avez pas ajouté de password");
       return;
     }
     if (!token) {

@@ -27,9 +27,12 @@ function FeedScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetchExperiences();
-  }, [token]);
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoading(true);
+      fetchExperiences();
+    });
+    return unsubscribe;
+  }, [navigation, token]);
 
   return (
     <View style={styles.mainBody}>

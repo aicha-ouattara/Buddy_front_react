@@ -9,41 +9,41 @@ const ModalMessage = ({ modalType = "", modalVisible }) => {
   const selectType = () => {
     switch (modalType) {
       case "error":
-        setImageUrl("../../assets/lost-compass.gif");
+        setImageUrl(require("../../assets/lost-compass.gif"));
         setTitle("OOPS !");
         setText(
           "Tu essayes d'ajouter une de tes propres expériences à ta bucket list..."
         );
         break;
       case "missing":
-        setImageUrl("../../assets/lost-compass.gif");
+        setImageUrl(require("../../assets/lost-compass.gif"));
         setTitle("OOPS !");
         setText("Tous les champs sont obligatoires.");
         break;
       case "stop":
-        setImageUrl("../../assets/icons/stop.gif");
+        setImageUrl(require("../../assets/icons/stop.gif"));
         setTitle("OOPS !");
         setText("Tu ne peux pas liker une expérience dans ta to do now.");
         break;
       case "superliked":
-        setImageUrl("../../assets/icons/todonow.gif");
+        setImageUrl(require("../../assets/icons/todonow.gif"));
         setTitle("YAY !");
         setText("Expérience ajoutée à ta to do now !");
         break;
       case "unsuperlike":
-        setImageUrl("../../assets/icons/stop.gif");
+        setImageUrl(require("../../assets/icons/stop.gif"));
         setTitle("OOPS !");
         setText(
           "Cette expérience est déjà dans ta To Do Now. Tu ne peux pas la supprimer si facilement."
         );
         break;
       case "liked":
-        setImageUrl("../../assets/liked.gif");
+        setImageUrl(require("../../assets/liked.gif"));
         setTitle("YAY !");
         setText("Expérience ajoutée à ta bucket list !");
         break;
       case "unliked":
-        setImageUrl("../../assets/unliked.gif");
+        setImageUrl(require("../../assets/unliked.gif"));
         setTitle("OH ...");
         setText("Expérience supprimée de ta bucket list.");
         break;
@@ -64,9 +64,7 @@ const ModalMessage = ({ modalType = "", modalVisible }) => {
       <View style={styles.container}>
         <View style={styles.modalView}>
           <View style={styles.image}>
-            {imageUrl ? (
-              <Image style={styles.icon} source={{ uri: imageUrl }} />
-            ) : null}
+            {imageUrl ? <Image style={styles.icon} source={imageUrl} /> : null}
           </View>
           <View style={styles.text}>
             <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>

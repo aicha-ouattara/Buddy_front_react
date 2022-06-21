@@ -26,6 +26,9 @@ const BlocReview = ({ review, experience, navigation }) => {
     fetchUser(userId);
   }, [review]);
 
+  const avatar = user.avatar;
+  const encodedBase64 = experience.image;
+
   return isLoading ? (
     <View style={{ padding: 10 }}>
       <Loading />
@@ -41,7 +44,7 @@ const BlocReview = ({ review, experience, navigation }) => {
           <Avatar.Image
             size={50}
             color="white"
-            source={require("../../assets/profil.png")}
+            source={{ uri: avatar } ?? require("../../assets/profil.png")}
           />
         </TouchableOpacity>
         <View style={{ paddingLeft: 10 }}>
@@ -53,12 +56,13 @@ const BlocReview = ({ review, experience, navigation }) => {
             <Text style={styles.link}>{user.login}</Text>
           </TouchableOpacity>
           <View style={{ flex: 1, flexDirection: "row" }}>
-            {Array(review?.rating).fill(
+            {Array(review?.rating).map((review, i) => (
               <Image
+                key={i}
                 style={{ height: 24, width: 24 }}
                 source={require(`../../assets/icons/star-filled.png`)}
               />
-            )}
+            ))}
           </View>
           <Text style={{ paddingTop: 5 }}>{review.message}</Text>
         </View>
@@ -75,7 +79,10 @@ const BlocReview = ({ review, experience, navigation }) => {
           </Text>
         ) : (
           <Text style={{ color: "grey" }}>
-            le {new Date(review.date).toLocaleDateString()}
+            le{" "}
+            {new Date(review.date).toLocaleDateString("fr-FR", {
+              month: "long",  day: 'numeric', 
+            })}
           </Text>
         )}
         {experience?.title ? (
@@ -89,9 +96,14 @@ const BlocReview = ({ review, experience, navigation }) => {
           >
             <Image
               style={styles.experiencePicture}
-              source={require(`../../assets/exemple_ville.jpeg`)}
+              source={
+                { uri: encodedBase64 } ??
+                require(`../../assets/exemple_ville.jpeg`)
+              }
             />
-            <Text style={{ fontWeight: "bold", color: "grey" }}>
+            <Text
+              style={{ fontWeight: "bold", color: "grey", textAlign: "right" }}
+            >
               {experience.title}
             </Text>
           </TouchableOpacity>
@@ -123,6 +135,11 @@ const styles = StyleSheet.create({
   link: {
     color: "#f14d53",
     fontWeight: "bold",
+  },
+  experiencePicture: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
   },
 });
 

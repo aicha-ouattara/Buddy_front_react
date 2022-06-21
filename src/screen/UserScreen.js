@@ -16,6 +16,9 @@ import { genericFetchWithToken } from "../api/fetchApiWithToken";
 import { authState } from "../store/auth/selectors";
 import { useSelector } from "react-redux";
 import { Divider } from "react-native-paper";
+import moment from "moment";
+
+moment.locale("fr");
 
 function UserScreen({ navigation, route }) {
   const { token, idUser } = useSelector(authState);
@@ -41,7 +44,7 @@ function UserScreen({ navigation, route }) {
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
-  }, [token]);
+  }, [token, route]);
 
   useEffect(() => {
     const reviews = user?.experiences
@@ -125,22 +128,20 @@ function AllUserReviews({ navigation, user }) {
 }
 
 function UserProfileInfos({ user, reviews, isMe, navigation }) {
+  const avatar = user.avatar;
   return (
     <View style={styles.container}>
       <View style={styles.image}>
         <Text style={styles.title}>Bonjour, je m'appelle {user.login} </Text>
         <Image
           style={{ width: 100, height: 100 }}
-          source={require("../../assets/profil.png")}
+          source={{ uri: avatar } ?? require("../../assets/profil.png")}
         />
       </View>
       <View style={styles.profil}>
         <Text style={{ color: "grey" }}>
           Membre depuis
-          {new Date(user.created_at).toLocaleDateString("fr-FR", {
-            month: "long",
-            year: "numeric",
-          })}
+          {moment(new Date(user.created_at)).format("MMMM YYYY")}
         </Text>
         {isMe && (
           <TouchableOpacity
@@ -152,19 +153,21 @@ function UserProfileInfos({ user, reviews, isMe, navigation }) {
           </TouchableOpacity>
         )}
         <Text>{reviews.length} avis</Text>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text>{reviews.average}</Text>
-          <Image
-            style={{ height: 24, width: 24 }}
-            source={require(`../../assets/icons/star-filled.png`)}
-          />
-        </View>
+        {reviews.length != 0 ? (
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Text>{reviews.average}</Text>
+            <Image
+              style={{ height: 24, width: 24 }}
+              source={require(`../../assets/icons/star-filled.png`)}
+            />
+          </View>
+        ) : null}
       </View>
       <Divider />
       <View style={{ marginTop: 10 }}>
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#f14d53",
     borderRadius: 20,
-    width: "fit-content",
+    width: 100,
   },
 });
 

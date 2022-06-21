@@ -64,7 +64,7 @@ const BlocExperience = ({
         setTimeout(() => {
           setModalVisible(false);
         }, 1000))
-      : experience.user.id != idUser //if not your own experience
+      : user.id != idUser //if not your own experience
       ? (genericFetchWithTokenBody(
           `${API_URL}/interests`,
           "POST",
@@ -93,6 +93,7 @@ const BlocExperience = ({
         }, 2000));
   };
   const encodedBase64 = experience.image;
+  const avatar = user.avatar;
 
   const handleSuperLike = () => {
     setModalVisible(true),
@@ -146,7 +147,7 @@ const BlocExperience = ({
                 style={styles.avatar}
                 size={24}
                 color="white"
-                source={require("../../assets/profil.png")}
+                source={{ uri: avatar } ?? require("../../assets/profil.png")}
               />
             </TouchableOpacity>
           ) : null}

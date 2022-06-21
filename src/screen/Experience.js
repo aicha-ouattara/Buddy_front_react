@@ -26,6 +26,7 @@ import SpotsModal from "../components/event/SpotsModal";
 import ContentModal from "../components/event/ContentModal";
 import LieuModal from "../components/event/LieuModal";
 import ImageModal from "../components/event/ImageModal";
+import moment from "moment";
 
 const Experience = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +61,7 @@ const Experience = ({ route, navigation }) => {
   useEffect(() => {
     experience &&
       experience?.interests &&
-      experience.interests.map(function(interest) {
+      experience.interests.map(function (interest) {
         //set interest id and liked if it exists
         if (interest.user == `/api/users/${idUser}`) {
           if (interest.plan === false || interest.plan === 0) {
@@ -164,7 +165,8 @@ const Experience = ({ route, navigation }) => {
     }
   };
 
-  const submitSuperLike = (message) => {
+  const submitSuperLike = () => {
+    console.log(content);
     if (superLiked === false) {
       if (experience.user.id != idUser) {
         //if not your own experience
@@ -182,7 +184,7 @@ const Experience = ({ route, navigation }) => {
             plan: true,
             experience: `api/experiences/${experience.id}`,
             title: experience.title,
-            message: message,
+            message: content,
           });
           if (liked === false) {
             genericFetchWithTokenBody(
@@ -244,8 +246,9 @@ const Experience = ({ route, navigation }) => {
       console.log("hello");
   }, [experience]);
 
-  console.log("image", experience.image);
-  const encodedBase64 = experience.image;
+  // console.log("image", experience.image);
+  const encodedBase64 = experience?.image;
+  const avatar = experience?.user?.avatar;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -257,7 +260,10 @@ const Experience = ({ route, navigation }) => {
             <View style={styles.views}>
               <Image
                 style={styles.experiencePicture}
-                source={{ uri: encodedBase64 }}
+                source={
+                  { uri: encodedBase64 } ??
+                  require(`../../assets/exemple_ville.jpeg`)
+                }
               />
               {editableModal && <ImageModal experience={experience} />}
             </View>
@@ -293,7 +299,7 @@ const Experience = ({ route, navigation }) => {
                 {editableModal && <LieuModal experience={experience} />}
 
                 <Text>
-                  {new Date(experience.created_at).toLocaleDateString()}
+                  {moment(new Date(experience.created_at)).format("D/MM/YYYY")}
                 </Text>
               </View>
             </View>
@@ -302,7 +308,10 @@ const Experience = ({ route, navigation }) => {
             <View style={styles.views}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("User", { id: experience.user.id, name: experience.user.login });
+                  navigation.navigate("User", {
+                    id: experience.user.id,
+                    name: experience.user.login,
+                  });
                 }}
               >
                 <View style={{ flew: 1, flexDirection: "row" }}>
@@ -310,12 +319,14 @@ const Experience = ({ route, navigation }) => {
                     style={styles.avatar}
                     size={24}
                     color="white"
-                    source={require("../../assets/profil.png")}
+                    source={
+                      { uri: avatar } ?? require("../../assets/profil.png")
+                    }
                   />
-                  <Text>{experience.user.login}</Text>
+                  <Text style={{ marginLeft: 3 }}>{experience.user.login}</Text>
                 </View>
               </TouchableOpacity>
-              <Text>{experience.reviews.length} commentaires</Text>
+              <Text>{experience.reviews.length} commentaire.s</Text>
               <Text>durée : {experience.duration} </Text>
               {editableModal && <DureeModal experience={experience} />}
               <Text>{experience.spots} places</Text>
@@ -364,14 +375,14 @@ const Experience = ({ route, navigation }) => {
                       placeholder="Salut ! Je serai de passage dans ton coin du xx au xx, j'aimerais beaucoup participer à ton expérience..."
                       style={styles.input}
                       value={content}
-                      onChange={(e) => setContent(e.target.value)}
+                      onChangeText={(newText) => setContent(newText)}
                       numberOfLines={6}
                       multiline
                       editable
                     />
                     <TouchableOpacity
                       style={styles.buttonStyle}
-                      onPress={() => submitSuperLike(content)}
+                      onPress={() => submitSuperLike()}
                     >
                       <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
                     </TouchableOpacity>
@@ -427,7 +438,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    width: "70vw",
+    marginLeft: 10,
+    marginRight: 10,
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
