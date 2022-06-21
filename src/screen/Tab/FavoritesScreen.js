@@ -92,25 +92,54 @@ function BucketList({ navigation, user, deleteId }) {
                 (interest) =>
                   interest.plan == 0 && (
                     <>
-                      <View style={styles.box}>
+                      <View style={styles.box} key={interest.id} >
+                      <View style={styles.views}>
+                      <TouchableOpacity
+                            style={styles.blocExperience}
+                            onPress={() => {
+                              navigation.navigate("Experience", {
+                                id: experience.id,
+                              });
+                            }}
+                          />
+                             <TouchableOpacity
+                            onClick={() => deleteId(interest.id)}
+                            key={interest.id}
+                          >
+                            <Image
+                              style={{ width: 40, height: 40 }}
+                              source={require("../../../assets/icons/bucket-red.png")}
+                            />
+                          </TouchableOpacity>
+            </View>
                         <View style={styles.blocText}>
                           <Text style={{ fontWeight: "bold" }}>
                             {interest.title}
                           </Text>
-                          <TouchableOpacity
-                            onPress={() => {
-                              navigation.navigate("User", { id: user.id });
-                            }}
-                          >
-                            <Text>{user.login}</Text>
-                            <Image
-                              style={styles.experiencePicture}
-                              source={{ uri: encodedBase64 }}
-                            />
-                          </TouchableOpacity>
+                        
+                        
+                            <Text style={{ fontWeight: "bold" }}>
+                              {new Date(interest.date).toLocaleDateString()}
+                            </Text>
+                     
+                       
                         </View>
 
                         <View style={styles.blocActions}>
+                        <TouchableOpacity
+                            onPress={() => {
+                              navigation.navigate("User", { id: interest.user.id });
+                            }}
+                          >
+                           
+                           <Avatar.Image
+                        style={styles.avatar}
+                        size={24}
+                        color="white"
+                        source={require("../../../assets/profil.png")}
+                      />
+                      
+                          </TouchableOpacity>
                           <TouchableOpacity
                             style={styles.blocExperience}
                             onPress={() => {
@@ -119,20 +148,8 @@ function BucketList({ navigation, user, deleteId }) {
                               });
                             }}
                           />
-                          <Text
-                            onClick={() => deleteId(interest.id)}
-                            key={interest.id}
-                          >
-                            <Image
-                              style={{ width: 25, height: 25 }}
-                              source={require("../../../assets/icons/bucket-red.png")}
-                            />
-                          </Text>
-                          <View style={styles.blocText}>
-                            <Text style={{ fontWeight: "bold" }}>
-                              {new Date(interest.date).toLocaleDateString()}
-                            </Text>
-                          </View>
+                      
+                        
                         </View>
                       </View>
                     </>
@@ -158,29 +175,9 @@ function ToDoNow({ navigation, user, deleteId }) {
                 (interest) =>
                   interest.plan == 1 && (
                     <>
-                      <View style={styles.box}>
-                        <View style={styles.blocText}>
-                          <Text style={{ fontWeight: "bold" }}>
-                            {interest.title}
-                          </Text>
-                          <Text style={{ fontWeight: "bold" }}>
-                            {new Date(interest.date).toLocaleDateString()}
-                          </Text>
-                          <Text>{user.login}</Text>
-                          <TouchableOpacity
-                            onPress={() => {
-                              navigation.navigate("User", { id: user.id });
-                            }}
-                          >
-                            <Image
-                              style={styles.experiencePicture}
-                              source={{ uri: interest.user.avatar }}
-                            />
-                          </TouchableOpacity>
-                        </View>
-
-                        <View style={styles.blocActions}>
-                          <TouchableOpacity
+                      <View style={styles.box} key={interest.id} >
+                      <View style={styles.views}>
+                      <TouchableOpacity
                             style={styles.blocExperience}
                             onPress={() => {
                               navigation.navigate("Experience", {
@@ -188,15 +185,43 @@ function ToDoNow({ navigation, user, deleteId }) {
                               });
                             }}
                           />
-                          <Text
+                          <TouchableOpacity
                             onClick={() => deleteId(interest.id)}
                             key={interest.id}
                           >
                             <Image
-                              style={{ width: 25, height: 25 }}
-                              source={require("../../../assets/heart-red.png")}
+                              style={{ width: 40, height: 40 }}
+                              source={require("../../../assets/icons/now-red.png")}
                             />
+                          </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.blocText}>
+                          <Text style={{ fontWeight: "bold" }}>
+                            {interest.title}
                           </Text>
+                          <Text style={{ fontWeight: "bold" }}>
+                            {new Date(interest.date).toLocaleDateString()}
+                          </Text>
+                          <Text>{interest.message}</Text>
+                      
+                        </View>
+
+                        <View style={styles.blocActions}>
+                        <TouchableOpacity
+                            onPress={() => {
+                              navigation.navigate("User", { id: interest.user.id });
+                            }}
+                          >
+                            <Avatar.Image
+                        style={styles.avatar}
+                        size={24}
+                        color="white"
+                        source={require("../../../assets/profil.png")}
+                      />
+                      
+                          </TouchableOpacity>
+                      
                           <TouchableOpacity>
                             {interest.accepted == 0 ? (
                               <Image
@@ -262,12 +287,27 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderLeftWidth: 3,
     borderLeftColor: "#f14d53",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+  },
+
+  blocText: {
+    flex: 1,
+    width: "100%",
+    marginLeft: 10,
+    marginRight: 10,
+    flexDirection: "column",
+    justifyContent: "space-around",
   },
 
   experiencePicture: {
     height: 32,
     width: 32,
+  },
+
+  views: {
+    padding: 10,
+    flex: 0.5,
+    justifyContent: "space-around",
   },
 });
 

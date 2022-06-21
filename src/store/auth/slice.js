@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { initialState, sliceName } from "./constants";
-import { API_URL } from "@env";
+import {API_URL} from '@env';
 import { genericFetch } from "../../api/fetchApi";
 import jwt_decode from "jwt-decode";
 
