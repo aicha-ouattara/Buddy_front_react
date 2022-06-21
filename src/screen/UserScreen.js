@@ -18,8 +18,6 @@ import { useSelector } from "react-redux";
 import { Divider } from "react-native-paper";
 import moment from "moment";
 
-moment.locale("fr");
-
 function UserScreen({ navigation, route }) {
   const { token, idUser } = useSelector(authState);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,12 +31,13 @@ function UserScreen({ navigation, route }) {
       .then((data) => setUser(data))
       .catch((error) => console.error(error))
       .finally(() => setIsLoading(false));
+
+      setIsMe(route.params.id === idUser);
   };
 
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
-    setIsMe(route.params.id === idUser);
   }, []);
 
   useEffect(() => {
