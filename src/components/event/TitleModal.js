@@ -131,17 +131,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     marginTop: 22,
-    width: "70vw",
+   
     borderRadius: 20,
   },
   modalView: {
     margin: 20,
-    width: "70vw",
+    marginLeft: 10,
+    marginRight: 10,
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
     elevation: 5,
- 
     alignSelf: "center",
     textAlign: "center",
     backgroundColor: "white",

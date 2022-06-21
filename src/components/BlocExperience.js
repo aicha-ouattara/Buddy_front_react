@@ -205,7 +205,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: "column",
+    justifyContent: "space-around",
   },
+  
   blocActions: {
     paddingLeft: 10,
     borderLeftWidth: 3,

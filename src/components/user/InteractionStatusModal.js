@@ -9,10 +9,23 @@ import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
 function InteractionStatusModal ({navigation, interest}) {
   const [modalVisible, setModalVisible] = useState(false);
-
   const [user, setUser] = useState(0);
   const [accepted, setAccepted] = useState();
   const { token, idUser } = useSelector(authState);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUser();
+  }, []);
 
   const handleSubmitButton = () => {
     
@@ -26,7 +39,11 @@ function InteractionStatusModal ({navigation, interest}) {
 
 };
 
-  return (
+return isLoading ? (
+  <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <Text> Loading ... </Text>
+  </View>
+) : (
     <View>
 
 {/* sur la page profil affichage */}
@@ -85,7 +102,7 @@ function InteractionStatusModal ({navigation, interest}) {
     <SelectDropdown
               data={[
                 { status: "Accepter", data: 2 },
-                { status: "Refuser", data: 1 },
+                { status: "Refuser", data: 1}
           
               ]}
               onSelect={(selectedItem) => {
@@ -128,18 +145,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     marginTop: 22,
-    width: "70vw",
     borderRadius: 20,
   },
 
   modalView: {
     margin: 20,
-    width: "70vw",
+    marginLeft: 10,
+    marginRight: 10,
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
     elevation: 5,
-    
     alignSelf: "center",
     textAlign: "center",
     backgroundColor: "white",
@@ -168,14 +184,14 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }, 
 
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: "#A3DEF8",
-    alignContent: 'center',
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
-},
+//   mainBody: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     backgroundColor: "#A3DEF8",
+//     alignContent: 'center',
+//     borderBottomEndRadius: 20,
+//     borderBottomStartRadius: 20,
+// },
 
 SectionStyle: {
     flexDirection: 'row',

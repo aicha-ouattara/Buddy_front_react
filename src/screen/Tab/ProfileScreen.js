@@ -7,8 +7,9 @@ import {
   Image,
   ScrollView,
   Button,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
+import { Divider } from "react-native-paper";
 import {
   Tabs,
   TabScreen,
@@ -35,6 +36,7 @@ function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
+
 
   //CONNEXION À L'UTILISATEUR PRÉCIS
 
@@ -147,6 +149,7 @@ function Profile({ navigation, route }) {
         .then((json) => json.json())
         .catch((error) => console.error(error));
       fetchUser();
+      
       console.log("intérêt refusé !");
     }
   };
@@ -285,26 +288,22 @@ function AllInteractions({ navigation, user }) {
           {user.experiences &&
             user.experiences.map((experience) =>
               experience.interests.map((interest) => (
-                <View style={styles.box}>
-                  <BlocInterest
-                    navigation={navigation}
-                    key={interest.id}
-                    interest={interest}
-                    experience={experience}
-                    user={user}
-                  />
+                <View style={styles.box} key={interest.id} >
+              
 
                   <View style={styles.blocText}>
-                    <Text>{interest.message}</Text>
-                    <Text>{new Date(interest.date).toLocaleDateString()}</Text>
+                   <Text>  <Text style={{ fontWeight: "bold" }}>{interest.title}</Text> |  <Text>{new Date(interest.date).toLocaleDateString()}</Text> </Text>
+                   <Text>{interest.message}</Text>
+                   <Text>{interest.user.telephone}</Text>
                   </View>
 
                   <View style={styles.blocActions}>
                     <TouchableOpacity
                       onPress={() => {
-                        navigation.navigate("User", { id: user.id });
+                        navigation.navigate("User", { id: interest.user.id });
                       }}
                     >
+                      <Text>{interest.user.id}</Text>
                       <Avatar.Image
                         style={styles.avatar}
                         size={24}
@@ -319,7 +318,9 @@ function AllInteractions({ navigation, user }) {
                           key={interest}
                           interest={interest}
                         />
-                      )}
+                       
+                      )} 
+
 
                       {interest.accepted == 1 && (
                         <Image
@@ -342,6 +343,8 @@ function AllInteractions({ navigation, user }) {
         </View>
       </ScrollView>
     </View>
+
+    
   );
 }
 
@@ -350,59 +353,69 @@ function UserProfileInfos({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
   const dispatch = useDispatch();
-  const encodedBase64 = user.avatar;
+  const encodedBase64 = user?.avatar;
   const onLogOut = () => {
     dispatch(logOut());
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.avatarProfil}>
-        <Image
-          style={styles.experiencePicture}
-          source={{ uri: encodedBase64 }}
-        />
-        <AvatarModal />
-      </View>
 
-      <View style={styles.infosProfil}>
-        <View style={styles.login}>
-          <Text style={{ padding: 20, fontWeight: "bold", fontSize: 25 }}>
-            {user.login}
-          </Text>
-          <LoginModal />
+    <View style={styles.containerProfil}>
+      
+      <View style={styles.image}>
+
+        <View style={styles.avatarProfil}>
+          {user?.avatar ?( <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }} /> ): (
+            <Image style={styles.experiencePicture}  source={require("../../../assets/monkey.png")} />
+          )}
+            <AvatarModal />
         </View>
 
-        <View style={styles.biographie}>
-          <Text style={{ fontSize: 20 }}>{user.biography}</Text>
+        <View style= {styles.infosProfil}>
+            <Text style={styles.title}>Bonjour, {user.login} </Text>
+            <LoginModal />
+        </View>
+       
+    </View>
+   
+    <View style={styles.profil}>
+      <Text style={{ color: "grey" }}>
+        Membre depuis {new Date( user.created_at).toLocaleDateString("fr-FR", { month: "long", year: "numeric",})}
+      </Text>
+    </View>
+
+    <Divider />
+
+      <View style = {styles.bioprincipale}>
+          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>A propos</Text>
+          <View style={styles.biographie}>
+          {user?.biography ? (
+            <Text>{user?.biography}</Text>
+          ) : (
+            <Text style={{ color: "grey" }}> Pas encore de biographie</Text>
+          )}
           <BiographyModal />
         </View>
+    </View>
+
+    <View style={styles.phone}>
+      <Text style={{ fontSize: 15 }}>Mon numéro : {user.telephone}</Text>
+      <PhoneModal />
+    </View>
 
         <View style={styles.phone}>
-          <Text style={{ fontSize: 15 }}>{user.telephone}</Text>
-          <PhoneModal />
-        </View>
-
-        <View>
-          <Text style={{ fontSize: 20 }}>
+          <Text>
             Mot de passe caché{user.password}
           </Text>
           <PasswordModal />
         </View>
 
-        <View>
-          <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-            Membre depuis le {new Date(user.created_at).toLocaleDateString()}
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.actionsProfil}>
+    <View style={styles.actionsProfil}>
         <TouchableOpacity onPress={onLogOut} style={styles.deconnexion}>
-          <Text style={{ color: "white", fontSize: 10 }}>DÉCONNEXION</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+           <Text style={{ color: "white", fontSize: 15, fontWeight: 'bold' }}>DÉCONNEXION</Text>
+         </TouchableOpacity>
+       </View>
+  </View>
   );
 }
 
@@ -437,12 +450,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: "column",
+    justifyContent: "space-around",
   },
   blocActions: {
     paddingLeft: 10,
     borderLeftWidth: 3,
     borderLeftColor: "#f14d53",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
 
   container: {
@@ -451,6 +465,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignContent: "center",
     backgroundColor: "#f2f2f2",
+  
+  },
+
+  containerProfil: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignContent: "center",
+    backgroundColor: "#f2f2f2",
+    padding: 20,
   },
 
   actionsProfil: {
@@ -461,16 +485,14 @@ const styles = StyleSheet.create({
   },
 
   avatarProfil: {
-    flex: 0.2,
     justifyContent: "center",
     alignItems: "center",
     opacity: 1,
+    flexDirection: 'row'
   },
 
   infosProfil: {
-    flex: 0.7,
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: "row",
     alignItems: "center",
   },
 
@@ -478,13 +500,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#F14D53",
     justifyContent: "center",
     alignItems: "center",
+    padding: 5,
+    fontSize: 15,
+  },
+
+  bioprincipale:{
+    flexDirection: 'column',
   },
 
   biographie: {
-    padding: 40,
-    backgroundColor: "#FFFACD",
-    borderRadius: 20,
     flexDirection: "row",
+    marginTop: 10,
   },
 
   login: {
@@ -494,6 +520,30 @@ const styles = StyleSheet.create({
   phone: {
     flexDirection: "row",
   },
+
+  image: {
+    flex: 0.3,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 16,
+    marginTop: 40,
+  },
+  profil: { flexDirection: "column", marginBottom: 5 },
+  button: {
+    color: "#f14d53",
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: "#f14d53",
+    borderRadius: 20,
+    width: "fit-content",
+  },
+
 });
 
 export default Profile;

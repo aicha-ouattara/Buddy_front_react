@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    width: "70vw",
+   
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
