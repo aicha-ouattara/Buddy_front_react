@@ -12,14 +12,12 @@ import UserScreen from "../screen/UserScreen";
 import { useSelector } from "react-redux";
 import { authState } from "../store/auth/selectors";
 
-
 export default function Nav() {
   //Permet de créer un groupe de screens
   const Stack = createNativeStackNavigator();
 
   //Permet de récupérer les données des states
   const { token, isLoggedIn } = useSelector(authState);
-
 
   return (
     <NavigationContainer>
@@ -41,13 +39,14 @@ export default function Nav() {
                 headerTitle: () => (
                   <View
                     style={{
-                      marginLeft: 173,
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
                     <Image
                       style={{
-                        width: 50,
-                        height: 50,
+                        width: 40,
+                        height: 40,
 
                         // backgroundColor: "#F14D53",
                       }}
@@ -57,12 +56,20 @@ export default function Nav() {
                 ),
               }}
             />
-            <Stack.Screen name="Experience" component={Experience} options={({ route }) => ({
-    title: route.params.name,
-  })}/>
-            <Stack.Screen name="User" component={UserScreen} options={({ route }) => ({
-    title: route.params.name,
-  })}/>
+            <Stack.Screen
+              name="Experience"
+              component={Experience}
+              options={({ route }) => ({
+                title: route.params.name,
+              })}
+            />
+            <Stack.Screen
+              name="User"
+              component={UserScreen}
+              options={({ route }) => ({
+                title: route.params.name,
+              })}
+            />
           </>
         )}
       </Stack.Navigator>
