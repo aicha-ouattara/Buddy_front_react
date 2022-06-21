@@ -9,6 +9,7 @@ import {
   View,
   Button,
   Image,
+  KeyboardAvoidingView,
 } from "react-native";
 import NumberPlease from "react-native-number-please";
 import SelectDropdown from "react-native-select-dropdown";
@@ -24,7 +25,12 @@ import { calendarFormat } from "moment";
 function AddScreen({ navigation }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [spots, setSpots] = useState({ id: "spots", value: 0 });
+  const spotNumbers = [
+    { id: "spots", label: "Disponibilité (s)", min: 0, max: 15 },
+  ];
+  const initialValues = [{ id: "spots", value: 0 }];
+  const [spotsValue, setSpotsValue] = useState(initialValues);
+  const [spots, setSpots] = useState(0);
   const [location, setLocation] = useState("");
   const [duration, setDuration] = useState(0);
   const { token } = useSelector(authState);
@@ -34,7 +40,7 @@ function AddScreen({ navigation }) {
   const cleanForm = () => {
     setTitle("");
     setContent("");
-    setSpots({ id: "spots", value: 0 });
+    setSpots(0);
     setLocation("");
     setDuration(0);
     setImage(null);
@@ -46,8 +52,8 @@ function AddScreen({ navigation }) {
     const bodyExperience = JSON.stringify({
       title,
       content,
+      spots,
       image,
-      spots: spots.value,
       location,
       duration,
     });
@@ -104,165 +110,213 @@ function AddScreen({ navigation }) {
       setImage(result.uri);
     }
   };
-  return (
-    <View
-      style={
-        {
-          // flex: 1,
-          // alignItems: "center",
-          // justifyContent: "center",
-          // backgroundColor: "#f14d53",
-        }
-      }
-    >
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            marginTop: 8,
-            fontSize: 20,
-            fontWeight: "bold",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          Deviens un local buddy !
-        </Text>
-      </View>
-      <View style={styles.camera}>
-        <Text style={styles.plus} onPress={pickImage}>
-          &#x2295;
-        </Text>
-        {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
-        {image && (
-          <Image
-            source={{ uri: image }}
-            style={{
-              width: 50,
-              height: 50,
-              marginLeft: 0,
-              marginRight: 0,
-            }}
-          />
-        )}
-      </View>
 
-      <View
-        style={{
-          marginTop: 10,
-        }}
-      >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={
+  return (
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{
+        flex: 1,
+        justifyContent: "center",
+        alignContent: "center",
+      }}
+    >
+      <KeyboardAvoidingView enabled>
+        <View
+          style={
             {
               // flex: 1,
+              // alignItems: "center",
               // justifyContent: "center",
-              // alignContent: "center",
+              // backgroundColor: "#f14d53",
             }
           }
         >
           <View
             style={{
-              backgroundColor: "#f14d53",
-              padding: 40,
-              borderRadius: 10,
-              flex: 1,
-              alignItems: "center",
               justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                placeholder="Titre"
-                value={title}
-                onChangeText={(title) => setTitle(title)}
-                placeholderTextColor="white"
-                autoCapitalize="none"
-                keyboardType="default"
-                returnKeyType="next"
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
+            <Text
+              style={{
+                marginTop: 8,
+                fontSize: 20,
+                fontWeight: "bold",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Deviens un local buddy !
+            </Text>
+          </View>
+          <View style={styles.camera}>
+            <Text style={styles.plus} onPress={pickImage}>
+              &#x2295;
+            </Text>
+            {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{
+                  width: 50,
+                  height: 50,
+                  marginLeft: 0,
+                  marginRight: 0,
+                }}
               />
-            </View>
+            )}
+          </View>
 
-            <View style={styles.textAreaContainer}>
-              <TextInput
-                style={styles.textArea}
-                multiline={true}
-                numberOfLines={10}
-                placeholder="Description"
-                value={content}
-                onChangeText={(content) => setContent(content)}
-                placeholderTextColor="white"
-                autoCapitalize="none"
-                keyboardType="default"
-                returnKeyType="next"
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-              />
-            </View>
+          <View
+            style={{
+              marginTop: 10,
+            }}
+          >
+            <ScrollView
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={
+                {
+                  // flex: 1,
+                  // justifyContent: "center",
+                  // alignContent: "center",
+                }
+              }
+            >
+              <View
+                style={{
+                  backgroundColor: "#f14d53",
+                  padding: 40,
+                  borderRadius: 10,
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <View style={styles.SectionStyle}>
+                  <TextInput
+                    style={styles.inputStyle}
+                    placeholder="Titre"
+                    value={title}
+                    onChangeText={(title) => setTitle(title)}
+                    placeholderTextColor="white"
+                    autoCapitalize="none"
+                    keyboardType="default"
+                    returnKeyType="next"
+                    underlineColorAndroid="#f000"
+                    blurOnSubmit={false}
+                  />
+                </View>
 
-            <NumberPlease
+                <View style={styles.textAreaContainer}>
+                  <TextInput
+                    style={styles.textArea}
+                    multiline={true}
+                    numberOfLines={10}
+                    placeholder="Description"
+                    value={content}
+                    onChangeText={(content) => setContent(content)}
+                    placeholderTextColor="white"
+                    autoCapitalize="none"
+                    keyboardType="default"
+                    returnKeyType="next"
+                    underlineColorAndroid="#f000"
+                    blurOnSubmit={false}
+                  />
+                </View>
+
+                {/* <NumberPlease
               digits={[
                 { id: "spots", label: "Disponibilité (s)", min: 0, max: 15 },
               ]}
               values={spots}
               onChange={(values) => setSpots(values)}
               buttonStyle={styles.number}
-            />
+            /> */}
+                {/* 
+              <NumberPlease
+                digits={spotNumbers}
+                values={spots}
+                onChange={(values) => setSpots(values)}
+                buttonStyle={styles.number}
+              /> */}
+                <SelectDropdown
+                  data={[
+                    { hours: "1 places ", data: 1 },
+                    { hours: "2 places", data: 2 },
+                    { hours: "3 places", data: 3 },
+                    { hours: "4 places", data: 4 },
+                    { hours: "5 places", data: 5 },
+                    { hours: "6 places", data: 6 },
+                    { hours: "7 places", data: 7 },
+                    { hours: "8 places", data: 8 },
+                    { hours: "9 places", data: 9 },
+                    { hours: "10 places", data: 10 },
+                    { hours: "11 places", data: 11 },
+                    { hours: "12 places", data: 12 },
+                    { hours: "13 places", data: 12 },
+                    { hours: "14 places", data: 12 },
+                    { hours: "15 places", data: 12 },
+                  ]}
+                  onSelect={(selectedItem) => {
+                    setSpots(selectedItem.data);
+                  }}
+                  // value={selectedItem.data}
+                  defaultButtonText={"Nombres de place"}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem.data;
+                  }}
+                  rowTextForSelection={(item, index) => item.hours}
+                  buttonStyle={styles.dropdownNumber}
+                />
 
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                placeholder="Localisation"
-                value={location}
-                onChangeText={(location) => setLocation(location)}
-                placeholderTextColor="white"
-                autoCapitalize="none"
-                keyboardType="default"
-                returnKeyType="next"
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-              />
-            </View>
-            <SelectDropdown
-              data={[
-                { hours: "< 1", data: 1 },
-                { hours: "1-2 heures", data: 1.5 },
-                { hours: "demie journée", data: 12 },
-                { hours: "journée", data: 24 },
-              ]}
-              onSelect={(selectedItem) => {
-                setDuration(selectedItem.data);
-              }}
-              // value={selectedItem.data}
-              defaultButtonText={"Durée"}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem.data;
-              }}
-              rowTextForSelection={(item, index) => item.hours}
-              buttonStyle={styles.dropdown}
-            />
-            {errortext != "" && (
-              <Text style={styles.errorTextStyle}>{errortext}</Text>
-            )}
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleSubmitPress}
-            >
-              <Text style={styles.buttonTextStyle}>Envoyez</Text>
-            </TouchableOpacity>
+                <View style={styles.SectionStyle}>
+                  <TextInput
+                    style={styles.inputStyle}
+                    placeholder="Localisation"
+                    value={location}
+                    onChangeText={(location) => setLocation(location)}
+                    placeholderTextColor="white"
+                    autoCapitalize="none"
+                    keyboardType="default"
+                    returnKeyType="next"
+                    underlineColorAndroid="#f000"
+                    blurOnSubmit={false}
+                  />
+                </View>
+                <SelectDropdown
+                  data={[
+                    { hours: "< 1", data: 1 },
+                    { hours: "1-2 heures", data: 2 },
+                    { hours: "demie journée", data: 12 },
+                    { hours: "journée", data: 24 },
+                  ]}
+                  onSelect={(selectedItem) => {
+                    setDuration(selectedItem.data);
+                  }}
+                  // value={selectedItem.data}
+                  defaultButtonText={"Durée"}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem.data;
+                  }}
+                  rowTextForSelection={(item, index) => item.hours}
+                  buttonStyle={styles.dropdown}
+                />
+                {errortext != "" && (
+                  <Text style={styles.errorTextStyle}>{errortext}</Text>
+                )}
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  activeOpacity={0.5}
+                  onPress={handleSubmitPress}
+                >
+                  <Text style={styles.buttonTextStyle}>Envoyez</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
-    </View>
+        </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
@@ -271,15 +325,13 @@ const styles = StyleSheet.create({
   textAreaContainer: {
     borderColor: "white",
     borderWidth: 1,
-    padding: 1,
     borderRadius: 30,
-    paddingLeft: 80,
-    paddingRight: 80,
+    paddingLeft: 85,
+    paddingRight: 85,
   },
   textArea: {
     height: 100,
     justifyContent: "flex-start",
-    fontSize: 20,
   },
   number: {
     backgroundColor: "black",
@@ -288,8 +340,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dropdown: {
+    borderColor: "white",
+    borderWidth: 1,
     borderRadius: 30,
-    height: 40,
+    height: 37,
+    marginBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: "transparent",
+  },
+  dropdownNumber: {
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 30,
+    height: 35,
+    marginTop: 15,
     backgroundColor: "transparent",
   },
   plus: {
@@ -301,23 +366,22 @@ const styles = StyleSheet.create({
   camera: {
     backgroundColor: "#f14d53",
     borderRadius: 10,
-    paddingLeft: 175,
     paddingBottom: 10,
-    paddingRight: 175,
     paddingTop: 10,
     marginTop: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputStyle: {
-    // flex: 1,
-    color: "black",
-    fontSize: 20,
-    borderRadius: 30,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    paddingLeft: 15,
+    paddingRight: 15,
     borderWidth: 1,
-    borderBottomColor: "white",
+    borderRadius: 30,
     borderColor: "white",
-    paddingLeft: 100,
-    paddingRight: 100,
-    marginBottom: 10,
   },
   buttonStyle: {
     backgroundColor: "black",
@@ -341,10 +405,10 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 40,
-    marginTop: 5,
+    marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
-    // margin: 10,
+    margin: 10,
   },
   errorTextStyle: {
     color: "white",
