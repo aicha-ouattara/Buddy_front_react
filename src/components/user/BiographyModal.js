@@ -1,69 +1,60 @@
-import React, { useReducer, useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdateBiography from "./BiographyUpdate";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
 
+const BiographyModal = ({ handleSubmitButton, open, setOpen, userBiography, setUserBiography, user }) => {
 
-
-const BiographyModal = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View>
-
-{/* sur la page profil affichage */}
-      <Pressable
-          style={styles.buttonOpen}
-          onPress={() => setModalVisible(true)}
-        >
-        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
-      </Pressable>
-
-  
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-              <View style={styles.closeButton}>
-            <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                     <Image
-                      style={styles.close}
-                      source={require(`../../../assets/icons/close.png`)}
-                    />
-            </Pressable>
-            </View>
-
-            <Text style={styles.modalText}>Écrire une biographie</Text>
-
-                    <UpdateBiography/>
-          
-          </View>
-        </View>
-      </Modal>
-  
+    <Modal
+    presentationStyle="overFullScreen"
+    animationType="fade"
+    transparent={true}
+    visible={open}
+  >
+    <View style={styles.container}>
+      <View style={styles.modalView}>
+      <TouchableOpacity onPress={() => setOpen(false)}>
+                  <Image
+                    style={styles.close}
+                    source={require(`../../../assets/icons/close.png`)}
+                  />
+                </TouchableOpacity>
+              
+                <View style={styles.text}>
+                  <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+                    Ecris au Local Buddy
+                  </Text>
+                  <TextInput
+                    placeholder="Salut ! Je serai de passage dans ton coin du xx au xx, j'aimerais beaucoup participer à ton expérience..."
+                    style={styles.input}
+                    onChangeText={(userBiography) => setUserBiography(userBiography)}
+                    keepDefaultValues={user.biography}
+                    numberOfLines={6}
+                    multiline
+                    editable
+                  />
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => handleSubmitButton()}
+                  >
+                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
+                  </TouchableOpacity>
+                </View>
+       
+      </View>
     </View>
+  </Modal>
   );
 };
 
+export default BiographyModal;
+
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: 22,
-   
-    borderRadius: 20,
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
   },
-  
   modalView: {
     margin: 20,
     marginLeft: 10,
@@ -76,28 +67,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "white",
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+  image: {
+    padding: 20,
   },
-
-  close: {
-    alignSelf: "flex-end",
-    height: 24,
-    width: 24,
-    margin: 5,
+  icon: {
+    width: 72,
+    height: 72,
+    alignSelf: "center",
+    marginBottom: 10,
   },
-
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+  text: {
+    backgroundColor: "#f2f2f2",
+    padding: 15,
+    borderRadius: 10,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
 });
-
-export default BiographyModal;

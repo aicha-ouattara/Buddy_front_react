@@ -8,10 +8,13 @@ import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
 function ContentModal ({navigation, experience}) {
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const [content, setContent] = useState("");
   const { token, idUser } = useSelector(authState);
+
+
+
   const handleSubmitButton = () => {
     
     const body = JSON.stringify({
@@ -37,7 +40,7 @@ console.log('hh')
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
+        <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -69,20 +72,20 @@ console.log('hh')
 
                   
 
-    <View style={styles.mainBody}>
+    <View>
    
     {
         
         experience && ( 
             <Text key={experience.id}>
                 <Text key={experience.title}></Text>
-
+{/* 
                 <ScrollView
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{
             justifyContent: 'center',
             alignContent: 'center',
-            }}>
+            }}> */}
     <KeyboardAvoidingView enabled>
 
     <View style={styles.SectionStyle}>
@@ -110,7 +113,7 @@ console.log('hh')
             <Text style={styles.buttonTextStyle}>MODIFIER</Text>
         </TouchableOpacity>
     </KeyboardAvoidingView>
-    </ScrollView>
+    {/* </ScrollView> */}
      </Text> )
     
     

@@ -78,7 +78,8 @@ function AvatarChoice({ navigation }) {
       <Text> Loading ... </Text>
     </View>
   ) : (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,  alignItems: "center", justifyContent: "center"  }}>
+      <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-around"  }}>
       {avatars &&
         avatars.map((avatar) => {
           const encodedBase64 = avatar.image;
@@ -95,12 +96,13 @@ function AvatarChoice({ navigation }) {
             </View>
           );
         })}
+        </View>
       <TouchableOpacity
         style={styles.buttonStyle}
         activeOpacity={0.5}
         onPress={handleSubmitButton}
       >
-        <Text style={styles.buttonTextStyle}>MODIFIER</Text>
+        <Text style={styles.buttonTextStyle}>Envoyer</Text>
       </TouchableOpacity>
     </View>
   );
@@ -117,7 +119,18 @@ const styles = StyleSheet.create({
   avatarProfil: {
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
+
+  buttonStyle: {
+    backgroundColor: "#f14d53",
+    height: 40,
+    alignItems: "center",
+   padding: 10,
+    justifyContent: "center",
+    marginTop: 20,
+  },
+
 });
 
 export default AvatarChoice;

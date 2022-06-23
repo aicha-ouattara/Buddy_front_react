@@ -23,6 +23,7 @@ import { genericFetchWithToken } from "../../api/fetchApiWithToken";
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 
+
 function FavoritesScreen({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);

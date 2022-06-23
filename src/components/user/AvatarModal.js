@@ -49,13 +49,11 @@ console.log('hh')
 
   return (
     <View>
-
-{/* sur la page profil affichage */}
       <Pressable
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
+        <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -64,6 +62,7 @@ console.log('hh')
         animationType="slide"
         transparent={true}
         visible={modalVisible}
+        presentationStyle="overFullScreen"
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
@@ -83,11 +82,11 @@ console.log('hh')
             </Pressable>
             </View>
 
-            <Text style={styles.modalText}>Modifier le titre</Text>
+            <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>Modifier votre avatar </Text>
 
                   
 
-    <View style={styles.mainBody}>
+    <View style={styles.container}>
    
     {
         
@@ -95,38 +94,15 @@ console.log('hh')
             <Text key={user.id}>
              
 
-                <ScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{
-            justifyContent: 'center',
-            alignContent: 'center',
-            }}>
-    <KeyboardAvoidingView enabled>
     <View style={styles.camera}>
-    {/* <SelectDropdown
-              data={[
-                { hours: "< 1", data: 1 },
-                { hours: "1-2 heures", data: 1.5 },
-                { hours: "demie journée", data: 12 },
-                { hours: "journée", data: 24 },
-              ]}
-              onSelect={(selectedItem) => {
-                setAvatar(selectedItem.data);
-              }}
-              defaultButtonText='Selectionne ton avatar !'
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem.data;
-              }}
-              rowTextForSelection={(item, index) => item.hours}
-              buttonStyle={styles.dropdown}
-            /> */}
+   
             <AvatarChoice/>
 
       </View>
      
    
-    </KeyboardAvoidingView>
-    </ScrollView>
+
+  
      </Text> )
     
     
@@ -142,19 +118,51 @@ console.log('hh')
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  experiencePicture: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: 22,
-   
-    borderRadius: 20,
+    height: 300,
+    width: 300,
+    resizeMode: "cover",
   },
-  
+
+  title: {
+    flex: 1,
+    flexWrap: "wrap",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+
+  avatar: {
+    backgroundColor: "white",
+  },
+
+  blocActions: {
+    marginLeft: 10,
+    paddingLeft: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: "#f14d53",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  views: {
+    padding: 10,
+    flex: 0.5,
+    justifyContent: "space-around",
+  },
+
+  container: {
+    flex: 0.7,
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+    paddingTop: 20,
+
+  },
+
   modalView: {
     margin: 20,
-    marginLeft: 10,
-    marginRight: 10,
+   
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
@@ -163,85 +171,36 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "white",
   },
-
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+  image: {
+    padding: 20,
   },
-
- close: {
+  close: {
     alignSelf: "flex-end",
     height: 24,
     width: 24,
     margin: 5,
   },
-
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+  icon: {
+    width: 72,
+    height: 72,
+    alignSelf: "center",
+    marginBottom: 10,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }, 
-
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: "#A3DEF8",
-    alignContent: 'center',
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
-},
-
-SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
-},
-
-buttonStyle: {
-    backgroundColor: 'black',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: 'white',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
-},
-
-buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
-},
-
-inputStyle: {
-    flex: 1,
-    color: 'black',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: 'black',
-},
+  text: {
+    backgroundColor: "#f2f2f2",
+    padding: 15,
+    borderRadius: 10,
+  },
+  input: {
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "rgba(0,0,0,0.2)",
+  },
 
 
-successTextStyle: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 18,
-    padding: 30,
-},
 });
 
 export default AvatarModal;

@@ -4,7 +4,7 @@ import { API_URL } from "@env" ;
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-
+import Loading from "../../components/Loading";
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
 function UpdateLogin({navigation}) {
@@ -44,10 +44,14 @@ function UpdateLogin({navigation}) {
     }
     
 return (
-    <View style={styles.mainBody}>
+    <View style={styles.container}>
    
-    {isLoading ? <Text> Loading ... </Text> : 
-        (
+   return isLoading ? (
+    <View style={{ padding: 10 }}>
+      <Loading />
+    </View>
+  ) : (
+      <View>
         
         user && ( 
             <Text key={user.id}>
@@ -74,9 +78,7 @@ return (
             blurOnSubmit={false}
         />
     </View>
-    {errortext != "" && (
-              <Text style={styles.errorTextStyle}>{errortext}</Text>
-            )}
+  
         <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
@@ -87,68 +89,103 @@ return (
     </ScrollView>
      </Text> )
     
-    
-      )}
+     </View>
+      )
 </View>
 );
 };
 export default UpdateLogin
 
 const styles = StyleSheet.create({
-
-    mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: "#A3DEF8",
-    alignContent: 'center',
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
-},
-
-SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
-},
-
-buttonStyle: {
-    backgroundColor: 'black',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: 'white',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
-},
-
-buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
-},
-
-inputStyle: {
-    flex: 1,
-    color: 'black',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: 'black',
-},
-
-
-successTextStyle: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 18,
-    padding: 30,
-},
+    experiencePicture: {
+        flex: 1,
+        height: 300,
+        width: 300,
+        resizeMode: "cover",
+      },
+    
+      title: {
+        flex: 1,
+        flexWrap: "wrap",
+        fontSize: 30,
+        fontWeight: "bold",
+      },
+    
+      avatar: {
+        backgroundColor: "white",
+      },
+    
+      blocActions: {
+        marginLeft: 10,
+        paddingLeft: 10,
+        borderLeftWidth: 3,
+        borderLeftColor: "#f14d53",
+        flexDirection: "row",
+        alignItems: "center",
+      },
+    
+      views: {
+        padding: 10,
+        flex: 0.5,
+        justifyContent: "space-around",
+      },
+    
+      container: {
+        flex: 0.7,
+        justifyContent: "center",
+        alignContent: "space-around",
+        backgroundColor: "rgba(0,0,0,0.3)",
+        paddingTop: 20,
+        paddingLeft: 5,
+    
+      },
+    
+      modalView: {
+        margin: 20,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignContent: "center",
+        elevation: 5,
+        alignSelf: "center",
+        textAlign: "center",
+        backgroundColor: "white",
+      },
+      image: {
+        padding: 20,
+      },
+      close: {
+        alignSelf: "flex-end",
+        height: 24,
+        width: 24,
+        margin: 5,
+      },
+      icon: {
+        width: 72,
+        height: 72,
+        alignSelf: "center",
+        marginBottom: 10,
+      },
+      text: {
+        backgroundColor: "#f2f2f2",
+        padding: 15,
+        borderRadius: 10,
+      },
+      input: {
+        padding: 10,
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: "rgba(0,0,0,0.1)",
+      },
+    
+      buttonStyle: {
+        backgroundColor: "#f14d53",
+        height: 40,
+        alignItems: "center",
+       padding: 10,
+        justifyContent: "center",
+        marginTop: 70,
+      },
+    
 });

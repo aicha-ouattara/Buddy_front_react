@@ -7,7 +7,9 @@ import {
   Image,
   ScrollView,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput,
+  Modal
 } from "react-native";
 import { Divider } from "react-native-paper";
 import {
@@ -15,6 +17,7 @@ import {
   TabScreen,
   useTabIndex,
   useTabNavigation,
+ 
 } from "react-native-paper-tabs";
 import BlocInterest from "../../components/BlocInterest";
 import LoginModal from "../../components/user/LoginModal";
@@ -36,6 +39,10 @@ function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
+  const [userBiography, setUserBiography] = useState('');
+
+
+
 
 
   //CONNEXION À L'UTILISATEUR PRÉCIS
@@ -154,6 +161,9 @@ function Profile({ navigation, route }) {
     }
   };
 
+
+
+
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text> Loading ... </Text>
@@ -176,6 +186,7 @@ function Profile({ navigation, route }) {
             handleStateExperience(interest);
             fetchUser();
           }}
+
         />
       </TabScreen>
 
@@ -184,7 +195,11 @@ function Profile({ navigation, route }) {
       </TabScreen>
 
       <TabScreen label="Profil">
-        <UserProfileInfos user={user} navigation={navigation} />
+        <UserProfileInfos
+        user={user} 
+        navigation={navigation} 
+      
+          />
       </TabScreen>
     </Tabs>
   );
@@ -280,6 +295,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
 function AllInteractions({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  
 
   return (
     <View style={styles.container}>
@@ -349,7 +365,7 @@ function AllInteractions({ navigation, user }) {
 }
 
 //LE PROFIL PRIVÉ DE L'UTILISATEUR
-function UserProfileInfos({ navigation, user }) {
+function UserProfileInfos({ navigation, route }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
   const dispatch = useDispatch();
@@ -357,6 +373,40 @@ function UserProfileInfos({ navigation, user }) {
   const onLogOut = () => {
     dispatch(logOut());
   };
+  const [userBiography, setUserBiography] = useState('');
+  const { token, idUser } = useSelector(authState);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(0);
+  const[open, setOpen] = useState(false)
+
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUser();
+  }, [route]);
+ 
+  const handleSubmitButton = () => {
+    const body = JSON.stringify({
+      "biography": userBiography
+  });
+
+  PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+  .then(json => { console.log(json); } ) 
+  .catch((error) => {console.error("error" , error)})
+  fetchUser();
+  console.log('ok')
+  setOpen(false)
+
+ 
+
+};
 
   return (
 
@@ -394,7 +444,16 @@ function UserProfileInfos({ navigation, user }) {
           ) : (
             <Text style={{ color: "grey" }}> Pas encore de biographie</Text>
           )}
-          <BiographyModal />
+           <TouchableOpacity onPress={ () => setOpen(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+          
+       
+
+       {open && <BiographyModal handleSubmitButton = {handleSubmitButton} open = {open} setOpen= {setOpen} userBiography={userBiography} setUserBiography={setUserBiography} user={user}/>}
+
+      
+          
         </View>
     </View>
 
@@ -404,8 +463,9 @@ function UserProfileInfos({ navigation, user }) {
     </View>
 
         <View style={styles.phone}>
+        <Image style={{ height: 15, width: 15 }} source={require("../../../assets/mdp.png")} />
           <Text>
-            Mot de passe caché{user.password}
+            Mot de passe {user.password}
           </Text>
           <PasswordModal />
         </View>
