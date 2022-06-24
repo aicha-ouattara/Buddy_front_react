@@ -1,42 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList, TextInput } from "react-native";
 import ContainerFeedExperience from "../../components/ContainerFeedExperience";
-import { genericFetch } from "../../api/fetchApi";
 import { genericFetchWithToken } from "../../api/fetchApiWithToken";
 import { API_URL } from "@env";
 import { URL, URLSearchParams } from "react-native-url-polyfill";
 import Loading from "../../components/Loading";
 import { useDebounce } from "use-debounce/lib";
-import jwt_decode from "jwt-decode";
+import { authState } from "../../store/auth/selectors";
+import { useSelector } from "react-redux";
 
 const entryPoint = new URL(`${API_URL}/experiences`);
 const searchParams = new URLSearchParams(entryPoint.search);
 
 function SearchScreen({ navigation, route }) {
-  //
+  const { token } = useSelector(authState);
 
-  const [token, setToken] = useState("");
-  const [userId, setUserId] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [debouncedTitle] = useDebounce(title, 1000);
   const [location, setLocation] = useState("");
   const [debouncedLocation] = useDebounce(location, 1000);
   const [searchParamsToString, setSearchParamsToString] = useState("");
   const [experiences, setExperiences] = useState([]);
-
-  /*récupère token automatiquement */
-  const body = JSON.stringify({
-    login: "test",
-    password: "test",
-  });
-
-  useEffect(() => {
-    genericFetch(`${API_URL}/login`, "POST", body)
-      .then((json) => json.json())
-      .then((data) => setToken(data.token))
-      .catch((error) => console.error(error));
-  }, []);
 
   //récupère ville sélectionnée dans le feed
   useEffect(() => {
@@ -68,7 +53,7 @@ function SearchScreen({ navigation, route }) {
   //requête de résultats
   useEffect(() => {
     setIsLoading(true);
-    token.length > 0 && setUserId(jwt_decode(token).id); //get user Id from Token
+
     if (searchParamsToString.length > 0) {
       console.log("fetch results");
       genericFetchWithToken(
@@ -113,22 +98,20 @@ function SearchScreen({ navigation, route }) {
           Résultat.s de recherche : {experiences.length}
         </Text>
       </View>
-      {
-        isLoading ? (
-          <View style={styles.centered}>
-            <Loading />
-          </View>
-        ) : (
-          <FlatList
+      {isLoading ? (
+        <View style={styles.centered}>
+          <Loading />
+        </View>
+      ) : (
+        <FlatList
           ListHeaderComponent={
             <ContainerFeedExperience
-            experiences={experiences}
-            navigation={navigation}
-            userId={userId}
-          />
-          }/>
-        )
-      }
+              experiences={experiences}
+              navigation={navigation}
+            />
+          }
+        />
+      )}
     </View>
   );
 }

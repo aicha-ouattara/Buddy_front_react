@@ -35,9 +35,10 @@ function HomeScreen({ navigation }) {
             fontSize: 20,
             color: "white",
             marginTop: 30,
+            marginBottom: 30,
           }}
         >
-          Partagez votre expérience
+          Partage ton expérience !
         </Text>
 
         <TouchableHighlight
@@ -45,16 +46,7 @@ function HomeScreen({ navigation }) {
             navigation.navigate("Login");
           }}
         >
-          <View style={styles.button}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "white",
-              }}
-            >
-              Commencer
-            </Text>
-          </View>
+          <Text style={styles.button}>Commencer</Text>
         </TouchableHighlight>
       </View>
     </ImageBackground>
@@ -85,13 +77,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    alignItems: "center",
+    textAlign: "center",
     backgroundColor: "#F14D53",
     padding: 10,
     width: 150,
     color: "white",
-    marginTop: 30,
     borderRadius: 10,
+    fontSize: 20,
+    color: "white",
   },
   countContainer: {
     alignItems: "center",
