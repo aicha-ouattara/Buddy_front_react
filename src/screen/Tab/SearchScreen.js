@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList, TextInput } from "react-native";
 import ContainerFeedExperience from "../../components/ContainerFeedExperience";
 import { genericFetchWithToken } from "../../api/fetchApiWithToken";
-import { API_URL } from "@env";
+import { API_URL} from '@env';
 import { URL, URLSearchParams } from "react-native-url-polyfill";
 import Loading from "../../components/Loading";
 import { useDebounce } from "use-debounce/lib";

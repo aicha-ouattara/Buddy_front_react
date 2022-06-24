@@ -241,7 +241,7 @@ function AddScreen({ navigation }) {
               /> */}
                 <SelectDropdown
                   data={[
-                    { hours: "1 places ", data: 1 },
+                    { hours: "1 place ", data: 1 },
                     { hours: "2 places", data: 2 },
                     { hours: "3 places", data: 3 },
                     { hours: "4 places", data: 4 },
@@ -261,7 +261,7 @@ function AddScreen({ navigation }) {
                     setSpots(selectedItem.data);
                   }}
                   // value={selectedItem.data}
-                  defaultButtonText={"Nombres de place"}
+                  defaultButtonText={"Nombres de places"}
                   buttonTextAfterSelection={(selectedItem, index) => {
                     return selectedItem.data;
                   }}

@@ -14,7 +14,7 @@ const PhoneModal = () => {
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-         <Image style={{ width: 20, height: 20 }} source={require('../../../assets/edit.png')}  />
+         <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   

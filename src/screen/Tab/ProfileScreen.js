@@ -7,7 +7,9 @@ import {
   Image,
   ScrollView,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput,
+  Modal
 } from "react-native";
 import { Divider } from "react-native-paper";
 import {
@@ -15,6 +17,7 @@ import {
   TabScreen,
   useTabIndex,
   useTabNavigation,
+ 
 } from "react-native-paper-tabs";
 import BlocInterest from "../../components/BlocInterest";
 import LoginModal from "../../components/user/LoginModal";
@@ -31,11 +34,16 @@ import PasswordModal from "../../components/user/PasswordModal";
 import InteractionStatusModal from "../../components/user/InteractionStatusModal";
 import AvatarChoice from "../../components/user/AvatarChoice";
 import AvatarModal from "../../components/user/AvatarModal";
+import Loading from "../../components/Loading";
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
+  const [userBiography, setUserBiography] = useState('');
+
+
+
 
 
   //CONNEXION À L'UTILISATEUR PRÉCIS
@@ -154,6 +162,9 @@ function Profile({ navigation, route }) {
     }
   };
 
+
+
+
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text> Loading ... </Text>
@@ -176,6 +187,7 @@ function Profile({ navigation, route }) {
             handleStateExperience(interest);
             fetchUser();
           }}
+
         />
       </TabScreen>
 
@@ -184,7 +196,11 @@ function Profile({ navigation, route }) {
       </TabScreen>
 
       <TabScreen label="Profil">
-        <UserProfileInfos user={user} navigation={navigation} />
+        <UserProfileInfos
+        user={user} 
+        navigation={navigation} 
+      
+          />
       </TabScreen>
     </Tabs>
   );
@@ -280,6 +296,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
 function AllInteractions({ navigation, user }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  
 
   return (
     <View style={styles.container}>
@@ -349,7 +366,7 @@ function AllInteractions({ navigation, user }) {
 }
 
 //LE PROFIL PRIVÉ DE L'UTILISATEUR
-function UserProfileInfos({ navigation, user }) {
+function UserProfileInfos({ navigation, route }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
   const dispatch = useDispatch();
@@ -357,9 +374,46 @@ function UserProfileInfos({ navigation, user }) {
   const onLogOut = () => {
     dispatch(logOut());
   };
+  const [userBiography, setUserBiography] = useState('');
+  const { token, idUser } = useSelector(authState);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(0);
+  const[open, setOpen] = useState(false)
+
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUser();
+  }, [route]);
+ 
+  const handleSubmitButton = () => {
+    const body = JSON.stringify({
+      "biography": userBiography
+  });
+
+  PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+  .then(json => { console.log(json); } ) 
+  .catch((error) => {console.error("error" , error)})
+  fetchUser();
+  console.log('ok')
+  setOpen(false)
+
+ 
+
+};
 
   return (
-
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    {isLoading ? (
+      <Loading />
+    ) :(
     <View style={styles.containerProfil}>
       
       <View style={styles.image}>
@@ -372,7 +426,7 @@ function UserProfileInfos({ navigation, user }) {
         </View>
 
         <View style= {styles.infosProfil}>
-            <Text style={styles.title}>Bonjour, {user.login} </Text>
+            <Text style={styles.title}>{user.login} </Text>
             <LoginModal />
         </View>
        
@@ -387,34 +441,51 @@ function UserProfileInfos({ navigation, user }) {
     <Divider />
 
       <View style = {styles.bioprincipale}>
-          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>A propos</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20 }}>A propos</Text>
           <View style={styles.biographie}>
           {user?.biography ? (
             <Text>{user?.biography}</Text>
           ) : (
             <Text style={{ color: "grey" }}> Pas encore de biographie</Text>
           )}
-          <BiographyModal />
+           <TouchableOpacity onPress={ () => setOpen(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+          
+       
+
+       {open && <BiographyModal handleSubmitButton = {handleSubmitButton} open = {open} setOpen= {setOpen} userBiography={userBiography} setUserBiography={setUserBiography} user={user}/>}
+
+      
+          
         </View>
     </View>
 
+<View style = {styles.phonemdp}>
     <View style={styles.phone}>
-      <Text style={{ fontSize: 15 }}>Mon numéro : {user.telephone}</Text>
-      <PhoneModal />
+      <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Téléphone</Text>
+      <View style = {{flexDirection: 'row'}}>
+        <Text style={{ fontSize: 15 }}>{user.telephone}</Text>
+        <PhoneModal />
+      </View>
     </View>
 
-        <View style={styles.phone}>
-          <Text>
-            Mot de passe caché{user.password}
-          </Text>
-          <PasswordModal />
-        </View>
+    <View style={styles.mdp}>
+        <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Mot de passe</Text>
+         <View style = {{flexDirection: 'row'}}>
+            <Text style = {{fontWeight: 'bold' }}>.............</Text>
+            <PasswordModal />
+          </View>
+          </View>  
+  </View>
 
-    <View style={styles.actionsProfil}>
+    <View style={styles.button}>
         <TouchableOpacity onPress={onLogOut} style={styles.deconnexion}>
            <Text style={{ color: "white", fontSize: 15, fontWeight: 'bold' }}>DÉCONNEXION</Text>
          </TouchableOpacity>
        </View>
+  </View>
+  )}
   </View>
   );
 }
@@ -474,7 +545,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignContent: "center",
     backgroundColor: "#f2f2f2",
-    padding: 20,
+
   },
 
   actionsProfil: {
@@ -506,6 +577,8 @@ const styles = StyleSheet.create({
 
   bioprincipale:{
     flexDirection: 'column',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   biographie: {
@@ -518,7 +591,14 @@ const styles = StyleSheet.create({
   },
 
   phone: {
-    flexDirection: "row",
+    flexDirection: "column",
+    paddingRight: 100,
+    alignItems: "flex-start",
+  },
+
+  mdp: {
+    flexDirection: "column",
+    alignItems: "flex-end",
   },
 
   image: {
@@ -529,19 +609,33 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 40,
+    fontWeight: 'bold', 
+    fontSize: 20,
   },
-  profil: { flexDirection: "column", marginBottom: 5 },
+  profil: { 
+    flexDirection: "column", 
+  marginBottom: 5,
+  alignItems: "center",
+  justifyContent: "center",
+ },
+
+ phonemdp:{
+  flexDirection: "row", 
+  marginBottom: 5,
+  alignItems: "center",
+  justifyContent: "space-around",
+ },
+
+
   button: {
     color: "#f14d53",
     padding: 10,
     marginTop: 10,
     marginBottom: 10,
-    borderWidth: 2,
+    // borderWidth: 2,
     borderColor: "#f14d53",
-    borderRadius: 20,
-    width: "fit-content",
+    borderRadius: 40,
+    // width: "fit-content",
   },
 
 });

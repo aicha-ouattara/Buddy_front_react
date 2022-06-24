@@ -329,7 +329,7 @@ const Experience = ({ route, navigation }) => {
               <Text>{experience.reviews.length} commentaire.s</Text>
               <Text>durée : {experience.duration} </Text>
               {editableModal && <DureeModal experience={experience} />}
-              <Text>{experience.spots} places</Text>
+              <Text>{experience.spots} place(s)</Text>
               {editableModal && <SpotsModal experience={experience} />}
             </View>
             <Divider />
