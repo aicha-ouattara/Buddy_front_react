@@ -10,10 +10,6 @@ import AddScreen from './Tab/AddScreen';
 import FavoritesScreen from './Tab/FavoritesScreen';
 
 function ProtectedScreen() {
-
-    
-
-
     //Permet de créer un groupe de screen avec une navbar en bas
     const Tab = createBottomTabNavigator();
 

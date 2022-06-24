@@ -34,6 +34,7 @@ import PasswordModal from "../../components/user/PasswordModal";
 import InteractionStatusModal from "../../components/user/InteractionStatusModal";
 import AvatarChoice from "../../components/user/AvatarChoice";
 import AvatarModal from "../../components/user/AvatarModal";
+import Loading from "../../components/Loading";
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -409,7 +410,10 @@ function UserProfileInfos({ navigation, route }) {
 };
 
   return (
-
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    {isLoading ? (
+      <Loading />
+    ) :(
     <View style={styles.containerProfil}>
       
       <View style={styles.image}>
@@ -422,7 +426,7 @@ function UserProfileInfos({ navigation, route }) {
         </View>
 
         <View style= {styles.infosProfil}>
-            <Text style={styles.title}>Bonjour, {user.login} </Text>
+            <Text style={styles.title}>{user.login} </Text>
             <LoginModal />
         </View>
        
@@ -437,7 +441,7 @@ function UserProfileInfos({ navigation, route }) {
     <Divider />
 
       <View style = {styles.bioprincipale}>
-          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>A propos</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20 }}>A propos</Text>
           <View style={styles.biographie}>
           {user?.biography ? (
             <Text>{user?.biography}</Text>
@@ -457,24 +461,31 @@ function UserProfileInfos({ navigation, route }) {
         </View>
     </View>
 
+<View style = {styles.phonemdp}>
     <View style={styles.phone}>
-      <Text style={{ fontSize: 15 }}>Mon numéro : {user.telephone}</Text>
-      <PhoneModal />
+      <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Téléphone</Text>
+      <View style = {{flexDirection: 'row'}}>
+        <Text style={{ fontSize: 15 }}>{user.telephone}</Text>
+        <PhoneModal />
+      </View>
     </View>
 
-        <View style={styles.phone}>
-        <Image style={{ height: 15, width: 15 }} source={require("../../../assets/mdp.png")} />
-          <Text>
-            Mot de passe {user.password}
-          </Text>
-          <PasswordModal />
-        </View>
+    <View style={styles.mdp}>
+        <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Mot de passe</Text>
+         <View style = {{flexDirection: 'row'}}>
+            <Text style = {{fontWeight: 'bold' }}>.............</Text>
+            <PasswordModal />
+          </View>
+          </View>  
+  </View>
 
-    <View style={styles.actionsProfil}>
+    <View style={styles.button}>
         <TouchableOpacity onPress={onLogOut} style={styles.deconnexion}>
            <Text style={{ color: "white", fontSize: 15, fontWeight: 'bold' }}>DÉCONNEXION</Text>
          </TouchableOpacity>
        </View>
+  </View>
+  )}
   </View>
   );
 }
@@ -534,7 +545,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignContent: "center",
     backgroundColor: "#f2f2f2",
-    padding: 20,
+
   },
 
   actionsProfil: {
@@ -566,6 +577,8 @@ const styles = StyleSheet.create({
 
   bioprincipale:{
     flexDirection: 'column',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   biographie: {
@@ -578,7 +591,14 @@ const styles = StyleSheet.create({
   },
 
   phone: {
-    flexDirection: "row",
+    flexDirection: "column",
+    paddingRight: 100,
+    alignItems: "flex-start",
+  },
+
+  mdp: {
+    flexDirection: "column",
+    alignItems: "flex-end",
   },
 
   image: {
@@ -589,19 +609,33 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 40,
+    fontWeight: 'bold', 
+    fontSize: 20,
   },
-  profil: { flexDirection: "column", marginBottom: 5 },
+  profil: { 
+    flexDirection: "column", 
+  marginBottom: 5,
+  alignItems: "center",
+  justifyContent: "center",
+ },
+
+ phonemdp:{
+  flexDirection: "row", 
+  marginBottom: 5,
+  alignItems: "center",
+  justifyContent: "space-around",
+ },
+
+
   button: {
     color: "#f14d53",
     padding: 10,
     marginTop: 10,
     marginBottom: 10,
-    borderWidth: 2,
+    // borderWidth: 2,
     borderColor: "#f14d53",
-    borderRadius: 20,
-    width: "fit-content",
+    borderRadius: 40,
+    // width: "fit-content",
   },
 
 });

@@ -2,7 +2,6 @@ import React from "react";
 import { Image, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import HomeScreen from "../screen/HomeScreen";
 import ProtectedScreen from "../screen/ProtectedScreen";
 import LoginScreen from "../screen/LoginScreen";
@@ -47,8 +46,6 @@ export default function Nav() {
                       style={{
                         width: 40,
                         height: 40,
-
-                        // backgroundColor: "#F14D53",
                       }}
                       source={require("../../assets/logo.png")}
                     />
