@@ -32,19 +32,14 @@ import BiographyModal from "../../components/user/BiographyModal";
 import PhoneModal from "../../components/user/PhoneModal";
 import PasswordModal from "../../components/user/PasswordModal";
 import InteractionStatusModal from "../../components/user/InteractionStatusModal";
-import AvatarChoice from "../../components/user/AvatarChoice";
-import AvatarModal from "../../components/user/AvatarModal";
+// import AvatarModal from "../../components/user/AvatarModal";
 import Loading from "../../components/Loading";
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
-  const [userBiography, setUserBiography] = useState('');
-
-
-
-
+ 
 
   //CONNEXION À L'UTILISATEUR PRÉCIS
 
@@ -166,17 +161,13 @@ function Profile({ navigation, route }) {
 
 
   return isLoading ? (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text> Loading ... </Text>
-    </View>
+    <Loading />
   ) : (
     <Tabs style={{ backgroundColor: "white" }}>
       <TabScreen label="Experiences">
-        <AllExperiences
-          user={user}
-          navigation={navigation}
-          handleVisible={(experience) => {
-            handleVisible(experience);
+        <AllExperiences user={user} navigation={navigation}
+           handleVisible={(experience) => {
+           handleVisible(experience);
             fetchUser();
           }}
           deleteId={(id, interestLength) => {
@@ -375,6 +366,9 @@ function UserProfileInfos({ navigation, route }) {
     dispatch(logOut());
   };
   const [userBiography, setUserBiography] = useState('');
+  const [userLogin, setUserLogin] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [userPhone, setUserPhone] = useState('');
   const { token, idUser } = useSelector(authState);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
@@ -393,7 +387,7 @@ function UserProfileInfos({ navigation, route }) {
     fetchUser();
   }, [route]);
  
-  const handleSubmitButton = () => {
+  const handleSubmitButtonBiography = () => {
     const body = JSON.stringify({
       "biography": userBiography
   });
@@ -402,16 +396,51 @@ function UserProfileInfos({ navigation, route }) {
   .then(json => { console.log(json); } ) 
   .catch((error) => {console.error("error" , error)})
   fetchUser();
-  console.log('ok')
   setOpen(false)
-
- 
-
 };
 
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-    {isLoading ? (
+
+const handleSubmitButtonLogin = () => {
+  const body = JSON.stringify({
+    "login": userLogin
+});
+
+PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+.then(json => { console.log(json); } ) 
+.catch((error) => {console.error("error" , error)})
+fetchUser();
+setOpen(false)
+};
+
+const handleSubmitButtonPassword = () => {
+  const body = JSON.stringify({
+    "password": userPassword
+});
+
+PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+.then(json => { console.log(json); } ) 
+.catch((error) => {console.error("error" , error)})
+fetchUser();
+setOpen(false)
+};
+
+
+const handleSubmitButtonPhone = () => {
+  const body = JSON.stringify({
+    "telephone": userPhone
+});
+
+PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
+.then(json => { console.log(json); } ) 
+.catch((error) => {console.error("error" , error)})
+fetchUser();
+setOpen(false)
+};
+
+
+
+
+  return  isLoading ? (
       <Loading />
     ) :(
     <View style={styles.containerProfil}>
@@ -422,12 +451,16 @@ function UserProfileInfos({ navigation, route }) {
           {user?.avatar ?( <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }} /> ): (
             <Image style={styles.experiencePicture}  source={require("../../../assets/monkey.png")} />
           )}
-            <AvatarModal />
+            {/* <AvatarModal /> */}
         </View>
 
         <View style= {styles.infosProfil}>
             <Text style={styles.title}>{user.login} </Text>
-            <LoginModal />
+            <TouchableOpacity onPress={ () => setOpen(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+
+       {open && <LoginModal handleSubmitButtonLogin = {handleSubmitButtonLogin} open = {open} setOpen= {setOpen} userLogin={userLogin} setUserLogin={setUserLogin} user={user}/>}
         </View>
        
     </View>
@@ -451,12 +484,8 @@ function UserProfileInfos({ navigation, route }) {
            <TouchableOpacity onPress={ () => setOpen(true)}>
              <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
-          
-       
 
-       {open && <BiographyModal handleSubmitButton = {handleSubmitButton} open = {open} setOpen= {setOpen} userBiography={userBiography} setUserBiography={setUserBiography} user={user}/>}
-
-      
+       {open && <BiographyModal handleSubmitButtonBiography = {handleSubmitButtonBiography} open = {open} setOpen= {setOpen} userBiography={userBiography} setUserBiography={setUserBiography} user={user}/>}
           
         </View>
     </View>
@@ -466,7 +495,12 @@ function UserProfileInfos({ navigation, route }) {
       <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Téléphone</Text>
       <View style = {{flexDirection: 'row'}}>
         <Text style={{ fontSize: 15 }}>{user.telephone}</Text>
-        <PhoneModal />
+        <TouchableOpacity onPress={ () => setOpen(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+
+       {open && <PhoneModal handleSubmitButtonPhone = {handleSubmitButtonPhone} open = {open} setOpen= {setOpen} userPhone={userPhone} setUserPhone={setUserPhone} user={user}/>}
+          
       </View>
     </View>
 
@@ -474,7 +508,12 @@ function UserProfileInfos({ navigation, route }) {
         <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Mot de passe</Text>
          <View style = {{flexDirection: 'row'}}>
             <Text style = {{fontWeight: 'bold' }}>.............</Text>
-            <PasswordModal />
+            <TouchableOpacity onPress={ () => setOpen(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+
+       {open && <PasswordModal handleSubmitButtonPassword = {handleSubmitButtonPassword} open = {open} setOpen= {setOpen} userPassword={userPassword} setUserPassword={setUserPassword} user={user}/>}
+          
           </View>
           </View>  
   </View>
@@ -485,9 +524,7 @@ function UserProfileInfos({ navigation, route }) {
          </TouchableOpacity>
        </View>
   </View>
-  )}
-  </View>
-  );
+  )
 }
 
 //FRONT

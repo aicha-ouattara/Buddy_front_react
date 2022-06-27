@@ -68,9 +68,6 @@ function AvatarChoice({ navigation }) {
         console.error("error", error);
       });
     fetchUser();
-    console.log("ok");
-
-    console.log("hh");
   };
 
   return isLoading ? (

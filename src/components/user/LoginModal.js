@@ -1,156 +1,60 @@
-import React, { useReducer, useState, useEffect } from "react";
-import { KeyboardAvoidingView, TouchableOpacity, Keyboard, ScrollView, Alert, Modal, Text, Pressable, View, Image, StyleSheet, TextInput } from "react-native";
-import { API_URL } from "@env" ;
-import { authState } from "../../store/auth/selectors";
-import { useDispatch, useSelector } from "react-redux";
-import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import Loading from "../../components/Loading";
-import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
 
+const LoginModal = ({ handleSubmitButtonLogin, open, setOpen, userLogin, setUserLogin, user }) => {
 
-
-function LoginModal(){
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(0);
-  const { token, idUser } = useSelector(authState);
-  const [userLogin, setUserLogin] = useState("");
-  const [errortext, setErrortext] = useState("");
-
-  const fetchUser = () => {
-    genericFetchWithToken(`${API_URL}/users/${idUser}`, 'GET', token)
-      .then(json => json.json())
-      .then(data => setUser(data))
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false))
-  }
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetchUser();
-  }, [])
-
-const handleSubmitButton = () => {
-        
-        const body = JSON.stringify({
-            "login": userLogin
-        })
- 
-        PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body)
-        .then(json => { console.log(json); } ) 
-        .catch((error) => {console.error("error" , error)})
-        fetchUser();
-        console.log('ok')
-  
-
-    console.log('hh')
-
-}
   return (
-    <View>
-
-{/* sur la page profil affichage */}
-      <Pressable
-          style={styles.buttonOpen}
-          onPress={() => setModalVisible(true)}
-        >
-        <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
-      </Pressable>
-
-  
-
-      <Modal
-        animationType="slide"
-        presentationStyle="overFullScreen"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+    <Modal
+    presentationStyle="overFullScreen"
+    animationType="fade"
+    transparent={true}
+    visible={open}
+  >
+    <View style={styles.container}>
+      <View style={styles.modalView}>
+      <TouchableOpacity onPress={() => setOpen(false)}>
+                  <Image
+                    style={styles.close}
+                    source={require(`../../../assets/icons/close.png`)}
+                  />
+                </TouchableOpacity>
               
-            <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                     <Image
-                      style={styles.close}
-                      source={require(`../../../assets/icons/close.png`)}
-                    />
-            </Pressable>
-
-            <Text style={styles.modalText}>Modifier Login</Text>
-
-            <View style={styles.container}>
-   
-   return isLoading ? (
-    <View style={{ padding: 10 }}>
-      <Loading />
+                <View style={styles.text}>
+                  <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+                    Ecris au Local Buddy
+                  </Text>
+                  <TextInput
+                    placeholder={user.login}
+                    style={styles.input}
+                    onChangeText={(userLogin) => setUserLogin(userLogin)}
+                    keepDefaultValues={user.login}
+                    numberOfLines={6}
+                    multiline
+                    editable
+                  />
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => handleSubmitButtonLogin()}
+                  >
+                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
+                  </TouchableOpacity>
+                </View>
+       
+      </View>
     </View>
-  ) : (
-      <View>
-        
-        user && ( 
-            <Text key={user.id}>
-
-        <ScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{
-            justifyContent: 'center',
-            alignContent: 'center',
-            }}>
-    <KeyboardAvoidingView enabled>
-
-    <View style={styles.SectionStyle}>
-         
-        <TextInput
-            style={styles.inputStyle}
-            onChangeText={(UserLogin) => setUserLogin(UserLogin)}
-            underlineColorAndroid="#f000"
-            placeholder={user.login}
-            placeholderTextColor="black"
-            autoCapitalize="sentences"
-            returnKeyType="next"
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={false}
-        />
-    </View>
-  
-        <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>MODIFIER</Text>
-        </TouchableOpacity>
-    </KeyboardAvoidingView>
-    </ScrollView>
-     </Text> )
-    
-     </View>
-      )
-</View>
-          
-          </View>
-        </View>
-      </Modal>
-  
-    </View>
+  </Modal>
   );
 };
 
+export default LoginModal;
+
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-   
-    borderRadius: 20,
+    alignContent: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
   },
-  
   modalView: {
     margin: 20,
     marginLeft: 10,
@@ -163,27 +67,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "white",
   },
-  
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+  image: {
+    padding: 20,
   },
-  close: {
-    alignSelf: "flex-end",
-    height: 24,
-    width: 24,
-    margin: 5,
+  icon: {
+    width: 72,
+    height: 72,
+    alignSelf: "center",
+    marginBottom: 10,
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+  text: {
+    backgroundColor: "#f2f2f2",
+    padding: 15,
+    borderRadius: 10,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
 });
-
-export default LoginModal;

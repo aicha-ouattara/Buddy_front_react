@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
 
-const BiographyModal = ({ handleSubmitButton, open, setOpen, userBiography, setUserBiography, user }) => {
+const BiographyModal = ({ handleSubmitButtonBiography, open, setOpen, userBiography, setUserBiography, user }) => {
 
   return (
     <Modal
@@ -24,7 +24,7 @@ const BiographyModal = ({ handleSubmitButton, open, setOpen, userBiography, setU
                     Ecris au Local Buddy
                   </Text>
                   <TextInput
-                    placeholder="Salut ! Je serai de passage dans ton coin du xx au xx, j'aimerais beaucoup participer à ton expérience..."
+                    placeholder="N'hésite pas à te présenter à tes nouveaux buddies !"
                     style={styles.input}
                     onChangeText={(userBiography) => setUserBiography(userBiography)}
                     keepDefaultValues={user.biography}
@@ -34,7 +34,7 @@ const BiographyModal = ({ handleSubmitButton, open, setOpen, userBiography, setU
                   />
                   <TouchableOpacity
                     style={styles.buttonStyle}
-                    onPress={() => handleSubmitButton()}
+                    onPress={() => handleSubmitButtonBiography()}
                   >
                     <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
                   </TouchableOpacity>

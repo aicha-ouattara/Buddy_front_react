@@ -161,7 +161,7 @@ const Experience = ({ route, navigation }) => {
       setTimeout(() => {
         setModalVisible(false);
       }, 3000);
-      console.log(`To Do Now can't be deleted so easily`);
+      console.log(`Experience Now can't be deleted so easily`);
     }
   };
 

@@ -22,6 +22,7 @@ import { API_URL } from "@env";
 import { genericFetchWithToken } from "../../api/fetchApiWithToken";
 import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 
 
 function FavoritesScreen({ navigation, route }) {
@@ -50,7 +51,7 @@ function FavoritesScreen({ navigation, route }) {
 
   return isLoading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text> Loading ... </Text>
+      <Loading/>
     </View>
   ) : (
     <Tabs style={{ backgroundColor: "white" }}>

@@ -23,18 +23,18 @@ const ModalMessage = ({ modalType = "", modalVisible }) => {
       case "stop":
         setImageUrl(require("../../assets/icons/stop.gif"));
         setTitle("OOPS !");
-        setText("Tu ne peux pas liker une expérience dans ta to do now.");
+        setText("Tu ne peux pas liker une expérience dans ton Experience now.");
         break;
       case "superliked":
         setImageUrl(require("../../assets/icons/todonow.gif"));
         setTitle("YAY !");
-        setText("Expérience ajoutée à ta to do now !");
+        setText("Expérience ajoutée à ton Experience now !");
         break;
       case "unsuperlike":
         setImageUrl(require("../../assets/icons/stop.gif"));
         setTitle("OOPS !");
         setText(
-          "Cette expérience est déjà dans ta To Do Now. Tu ne peux pas la supprimer si facilement."
+          "Cette expérience est déjà dans ton Experience now. Tu ne peux pas la supprimer si facilement."
         );
         break;
       case "liked":

@@ -1,67 +1,60 @@
-import React, { useReducer, useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from "react-native";
-import UpdatePhone from "./PhoneUpdate";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
 
+const PhoneModal = ({ handleSubmitButtonPhone, open, setOpen, userPhone, setUserPhone, user }) => {
 
-
-const PhoneModal = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View>
-
-{/* sur la page profil affichage */}
-      <Pressable
-          style={styles.buttonOpen}
-          onPress={() => setModalVisible(true)}
-        >
-         <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
-      </Pressable>
-
-  
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+    <Modal
+    presentationStyle="overFullScreen"
+    animationType="fade"
+    transparent={true}
+    visible={open}
+  >
+    <View style={styles.container}>
+      <View style={styles.modalView}>
+      <TouchableOpacity onPress={() => setOpen(false)}>
+                  <Image
+                    style={styles.close}
+                    source={require(`../../../assets/icons/close.png`)}
+                  />
+                </TouchableOpacity>
               
-            <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                     <Image
-                      style={styles.close}
-                      source={require(`../../../assets/icons/close.png`)}
-                    />
-            </Pressable>
-
-            <Text style={styles.modalText}>Écrire une biographie</Text>
-
-                   <UpdatePhone/>         
-          </View>
-        </View>
-      </Modal>
-  
+                <View style={styles.text}>
+                  <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+                    Ecris au Local Buddy
+                  </Text>
+                  <TextInput
+                    placeholder={user.telephone}
+                    style={styles.input}
+                    onChangeText={(userPhone) => setUserPhone(userPhone)}
+                    keepDefaultValues={user.telephone}
+                    numberOfLines={6}
+                    multiline
+                    editable
+                  />
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => handleSubmitButtonPhone()}
+                  >
+                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
+                  </TouchableOpacity>
+                </View>
+       
+      </View>
     </View>
+  </Modal>
   );
 };
 
+export default PhoneModal;
+
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  
-    borderRadius: 20,
+    alignContent: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
   },
-  
   modalView: {
     margin: 20,
     marginLeft: 10,
@@ -74,28 +67,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "white",
   },
-
-  close: {
-    alignSelf: "flex-end",
-    height: 24,
-    width: 24,
-    margin: 5,
+  image: {
+    padding: 20,
   },
-  
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+  icon: {
+    width: 72,
+    height: 72,
+    alignSelf: "center",
+    marginBottom: 10,
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+  text: {
+    backgroundColor: "#f2f2f2",
+    padding: 15,
+    borderRadius: 10,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
 });
-
-export default PhoneModal;
