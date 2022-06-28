@@ -40,6 +40,11 @@ const Experience = ({ route, navigation }) => {
   const [formOpen, setFormOpen] = useState(false);
   const [content, setContent] = useState("");
   const [editableModal, setEditableModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
+  const [openTitle, setOpenTitle] = useState(false);
+  const [openContent, setOpenContent] = useState(false);
+  const [openLieu, setOpenLieu] = useState(false);
 
   const fetchExperience = () => {
     genericFetchWithToken(
@@ -246,6 +251,44 @@ const Experience = ({ route, navigation }) => {
       console.log("hello");
   }, [experience]);
 
+  const handleSubmitButtonTitle = () => {
+    
+    const body = JSON.stringify({
+      "title": title
+    })
+    PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, body) 
+    .then(json => { console.log(json); } ) 
+    .catch((error) => {console.error("error" , error)})
+    fetchExperience();
+    setOpenTitle(false)
+};
+
+const handleSubmitButtonContent = () => {
+    
+  const body = JSON.stringify({
+    "content": content
+  })
+  PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, body) 
+  .then(json => { console.log(json); } ) 
+  .catch((error) => {console.error("error" , error)})
+  fetchExperience();
+  setOpenContent(false)
+};
+
+const handleSubmitButtonLieu = () => {
+    
+  const body = JSON.stringify({
+    "location": location
+  })
+  PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, body) 
+  .then(json => { console.log(json); } ) 
+  .catch((error) => {console.error("error" , error)})
+  fetchExperience();
+  setOpenLieu(false)
+};
+
+
+
   // console.log("image", experience.image);
   const encodedBase64 = experience?.image;
   const avatar = experience?.user?.avatar;
@@ -278,8 +321,18 @@ const Experience = ({ route, navigation }) => {
                 }}
               >
                 <Text style={styles.title}>{experience.title}</Text>
+                {experience &&
+                experience?.user?.id === idUser &&
+                <View>
+                <TouchableOpacity onPress={ () => setOpenTitle(true)}>
+                <Image style={{ height: 15, width: 15 }} source={require("../../assets/edit.png")} /> 
+             </TouchableOpacity> 
+                    {openTitle && <TitleModal handleSubmitButtonTitle = {handleSubmitButtonTitle} openTitle= {openTitle} setOpenTitle= {setOpenTitle} title={title} setTitle={setTitle} experience={experience}/>}
+                </View>
+                }
+               
 
-                {editableModal && <TitleModal experience={experience} />}
+          
 
                 <View style={styles.blocActions}>
                   <TouchableOpacity
@@ -296,7 +349,16 @@ const Experience = ({ route, navigation }) => {
               </View>
               <View>
                 <Text>{experience.location}</Text>
-                {editableModal && <LieuModal experience={experience} />}
+                {experience &&
+                experience?.user?.id === idUser &&
+                <View>
+                <TouchableOpacity onPress={ () => setOpenLieu(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+
+       {openLieu && <LieuModal handleSubmitButtonLieu = {handleSubmitButtonLieu} openLieu= {openLieu} setOpenLieu= {setOpenLieu} location={location} setLocation={setLocation} experience={experience}/>}
+       </View>
+                }
 
                 <Text>
                   {moment(new Date(experience.created_at)).format("D/MM/YYYY")}
@@ -343,7 +405,18 @@ const Experience = ({ route, navigation }) => {
               >
                 {experience.content}
               </Text>
-              {editableModal && <ContentModal experience={experience} />}
+
+              {experience &&
+                experience?.user?.id === idUser &&
+                <View>
+              <TouchableOpacity onPress={ () => setOpenContent(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+
+       {openContent && <ContentModal handleSubmitButtonContent = {handleSubmitButtonContent} openContent= {openContent} setOpenContent= {setOpenContent} content={content} setContent={setContent} experience={experience}/>}
+       </View>
+                }
+
               <Divider />
             </View>
 
