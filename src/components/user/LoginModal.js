@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
 
-const LoginModal = ({ handleSubmitButtonLogin, open, setOpen, userLogin, setUserLogin, user }) => {
+const LoginModal = ({ handleSubmitButtonLogin, openLogin, setOpenLogin, userLogin, setUserLogin, user }) => {
 
   return (
     <Modal
     presentationStyle="overFullScreen"
     animationType="fade"
     transparent={true}
-    visible={open}
+    visible={openLogin}
   >
     <View style={styles.container}>
       <View style={styles.modalView}>
-      <TouchableOpacity onPress={() => setOpen(false)}>
+      <TouchableOpacity onPress={() => setOpenLogin(false)}>
                   <Image
                     style={styles.close}
                     source={require(`../../../assets/icons/close.png`)}
@@ -21,7 +21,7 @@ const LoginModal = ({ handleSubmitButtonLogin, open, setOpen, userLogin, setUser
               
                 <View style={styles.text}>
                   <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
-                    Ecris au Local Buddy
+                  Change ton login ici !
                   </Text>
                   <TextInput
                     placeholder={user.login}
@@ -80,5 +80,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     padding: 15,
     borderRadius: 10,
+  },
+
+  buttonStyle: {
+    backgroundColor: "#f14d53",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    justifyContent: "center",
   },
 });

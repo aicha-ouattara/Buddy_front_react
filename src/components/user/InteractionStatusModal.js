@@ -1,15 +1,11 @@
 import React, { useEffect, useState, createRef} from 'react';
 import { StyleSheet, TextInput, View, Text, ScrollView, Image, Keyboard, TouchableOpacity, KeyboardAvoidingView, Pressable, Modal, Alert} from 'react-native';
 import SelectDropdown from "react-native-select-dropdown";
-import { API_URL } from "@env" ;
-import { authState } from "../../store/auth/selectors";
-import { useDispatch, useSelector } from "react-redux";
-import { genericFetchWithToken } from '../../api/fetchApiWithToken';
-import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
-function InteractionStatusModal ({navigation, interest}) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [user, setUser] = useState(0);
+
+const InteractionStatusModal = () => {
+
+  const [open, setOpen] = useState(false);
   const [accepted, setAccepted] = useState();
   const { token, idUser } = useSelector(authState);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +21,7 @@ function InteractionStatusModal ({navigation, interest}) {
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
-  }, []);
+  }, [route]);
 
   const handleSubmitButton = () => {
     
@@ -36,69 +32,37 @@ function InteractionStatusModal ({navigation, interest}) {
     .then(json => { console.log(json); } ) 
     .catch((error) => {console.error("error" , error)})
     fetchUser();
+    setOpenPhone(false)
 
 };
 
-return isLoading ? (
-  <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-    <Text> Loading ... </Text>
-  </View>
-) : (
-    <View>
-
-{/* sur la page profil affichage */}
-      <Pressable
-          style={styles.buttonOpen}
-          onPress={() => setModalVisible(true)}
-        >
-        <Image style={{ width: 20, height: 20 }} source={require('../../../assets/attente.png')}  />
-      </Pressable>
-
-
-                  
-
+return (
       <Modal
-        animationType="slide"
-        transparent={true}
-        presentationStyle="overFullScreen"
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
+     presentationStyle="overFullScreen"
+     animationType="fade"
+     transparent={true}
+     visible={open}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-              <View style={styles.closeButton}>
-            <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
+        
+          <TouchableOpacity onPress={() => setOpen(false)}>
                   <Image
-                      style={styles.close}
-                      source={require(`../../../assets/icons/close.png`)}
-                    />
-            </Pressable>
-            </View>
-            <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>Accepter/Refuser Interaction </Text>
-
+                    style={styles.close}
+                    source={require(`../../../assets/icons/close.png`)}
+                  />
+                </TouchableOpacity>
                   
 
-    <View style={styles.container}>
+    <View style={styles.text}>
    
-    {
+    <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+                  Change ton login ici !
+                  </Text>
         
-        interest && ( 
-            <Text key={interest.id}>
+       
                 
 
-                <ScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{
-            justifyContent: 'center',
-            alignContent: 'center',
-            }}>
-    <KeyboardAvoidingView enabled>
 
     <View style={styles.SectionStyle}>
          
@@ -126,20 +90,20 @@ return isLoading ? (
             onPress={handleSubmitButton}>
             <Text style={styles.buttonTextStyle}>Envoyer</Text>
         </TouchableOpacity>
-    </KeyboardAvoidingView>
-    </ScrollView>
-     </Text> )
+
+    
+     
     
     
-      }
+      
 </View>
           
           </View>
         </View>
       </Modal>
   
-    </View>
-  );
+);
+
 };
 
 const styles = StyleSheet.create({

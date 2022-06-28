@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
 
-const PhoneModal = ({ handleSubmitButtonPhone, openPhone, setOpenPhone, userPhone, setUserPhone, user }) => {
+const InteractionModal = ({ handleSubmitButton, open, setOpen, accepted, setAccepted, interest }) => {
 
   return (
     <Modal
     presentationStyle="overFullScreen"
     animationType="fade"
     transparent={true}
-    visible={openPhone}
+    visible={open}
   >
     <View style={styles.container}>
       <View style={styles.modalView}>
-      <TouchableOpacity onPress={() => setOpenPhone(false)}>
+      <TouchableOpacity onPress={() => setOpen(false)}>
                   <Image
                     style={styles.close}
                     source={require(`../../../assets/icons/close.png`)}
@@ -21,21 +22,27 @@ const PhoneModal = ({ handleSubmitButtonPhone, openPhone, setOpenPhone, userPhon
               
                 <View style={styles.text}>
                   <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
-                    Un nouveau numéro de téléphone?
+                  Change ton login ici !
                   </Text>
-                  <TextInput
-                    placeholder="telephone"
-                    style={styles.input}
-                    onChangeText={(userPhone) => setUserPhone(userPhone)}
-                    keepDefaultValues={user.telephone}
-                    keyboardType="numeric"
-                    numberOfLines={6}
-                    multiline
-                    editable
-                  />
+                  <SelectDropdown
+              data={[
+                { status: "Accepter", data: 2 },
+                { status: "Refuser", data: 1}
+          
+              ]}
+              onSelect={(selectedItem) => {
+                setAccepted(selectedItem.data);
+              }}
+              defaultButtonText='Modifie le statut'
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem.status;
+              }}
+              rowTextForSelection={(item, index) => item.status}
+              buttonStyle={styles.dropdown}
+            />
                   <TouchableOpacity
                     style={styles.buttonStyle}
-                    onPress={() => handleSubmitButtonPhone()}
+                    onPress={() => handleSubmitButton()}
                   >
                     <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
                   </TouchableOpacity>
@@ -47,7 +54,7 @@ const PhoneModal = ({ handleSubmitButtonPhone, openPhone, setOpenPhone, userPhon
   );
 };
 
-export default PhoneModal;
+export default InteractionModal;
 
 const styles = StyleSheet.create({
   container: {

@@ -49,11 +49,9 @@ function FavoritesScreen({ navigation, route }) {
     console.log("intéret supprimé !");
   };
 
-  return isLoading ? (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Loading/>
-    </View>
-  ) : (
+  return (
+  
+ 
     <Tabs style={{ backgroundColor: "white" }}>
       <TabScreen label="BucketList">
         <BucketList

@@ -1,30 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
 
-const AvatarModal = ({ handleSubmitButtonLogin, open, setOpen, userLogin, setUserLogin, user }) => {
-  const [avatars, setAvatars] = useState(null);
-  const fetchAvatars = () => {
-    genericFetchWithToken(`${API_URL}/avatars`, "GET", token)
-      .then((json) => json.json())
-      .then((data) => setAvatars(data))
-      .catch((error) => console.error(error))
-      .finally(() => setIsLoading(false));
-  };
-  useEffect(() => {
-    setIsLoading(true);
-    fetchAvatars();
-  }, [token]);
+const AvatarModal = ({ handleSubmitButtonAvatar, openAvatar, setOpenAvatar, avatar, setAvatar, user, avatars, setAvatars }) => {
+
+
 
   return (
     <Modal
     presentationStyle="overFullScreen"
     animationType="fade"
     transparent={true}
-    visible={open}
+    visible={openAvatar}
   >
     <View style={styles.container}>
-      <View style={styles.modalView}>
-      <TouchableOpacity onPress={() => setOpen(false)}>
+      <View >
+      <TouchableOpacity onPress={() => setOpenAvatar(false)}>
                   <Image
                     style={styles.close}
                     source={require(`../../../assets/icons/close.png`)}
@@ -33,19 +23,20 @@ const AvatarModal = ({ handleSubmitButtonLogin, open, setOpen, userLogin, setUse
               
                 <View style={styles.text}>
                   <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
-                    Ecris au Local Buddy
+                    Change ton avatar !
                   </Text>
                       <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-around"  }}>
                           {avatars &&
                             avatars.map((avatar) => {
-                              const encodedBase64 = avatar.image;
+                         
+                              
                               return (
                                 <View style={styles.container} key={avatar.id}>
-                                  <View style={styles.avatarProfil}>
+                                  <View style={styles.modalView}>
                                     <TouchableOpacity onPress={() => setAvatar(avatar.image)}>
                                       <Image
-                                        style={styles.experiencePicture}
-                                        source={{ uri: encodedBase64 }}
+                                        style={{ width: 72, height: 72,}}
+                                        source={{ uri: avatar.image }}
                                       />
                                     </TouchableOpacity>
                                   </View>
@@ -55,7 +46,7 @@ const AvatarModal = ({ handleSubmitButtonLogin, open, setOpen, userLogin, setUse
                       </View>
                   <TouchableOpacity
                     style={styles.buttonStyle}
-                    onPress={() => handleSubmitButtonLogin()}
+                    onPress={() => handleSubmitButtonAvatar()}
                   >
                     <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
                   </TouchableOpacity>
@@ -75,6 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     backgroundColor: "rgba(0,0,0,0.7)",
+    
   },
   modalView: {
     margin: 20,
@@ -86,7 +78,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     alignSelf: "center",
     textAlign: "center",
-    backgroundColor: "white",
+ 
   },
   image: {
     padding: 20,
@@ -101,5 +93,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     padding: 15,
     borderRadius: 10,
+  },
+
+  buttonStyle: {
+    backgroundColor: "#f14d53",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    justifyContent: "center",
+  },
+
+ avatarProfil: {
+    width: 72,
+    height: 72,
+    borderRadius: 10,
+    marginRight: 500,
   },
 });

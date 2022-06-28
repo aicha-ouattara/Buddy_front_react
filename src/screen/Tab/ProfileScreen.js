@@ -34,6 +34,10 @@ import PasswordModal from "../../components/user/PasswordModal";
 import InteractionStatusModal from "../../components/user/InteractionStatusModal";
 // import AvatarModal from "../../components/user/AvatarModal";
 import Loading from "../../components/Loading";
+import SelectDropdown from "react-native-select-dropdown";
+import InteractionModal from "../../components/user/InteractionModal";
+import AvatarModal from "../../components/user/AvatarModal";
+
 
 function Profile({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -160,9 +164,8 @@ function Profile({ navigation, route }) {
 
 
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  return (
+
     <Tabs style={{ backgroundColor: "white" }}>
       <TabScreen label="Experiences">
         <AllExperiences user={user} navigation={navigation}
@@ -195,12 +198,13 @@ function Profile({ navigation, route }) {
       </TabScreen>
     </Tabs>
   );
-}
+
 
 //TOUTES LES EXPERIENCES
-function AllExperiences({ navigation, user, deleteId, handleVisible }) {
+function AllExperiences({ navigation, user, deleteId, handleVisible, route }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  
 
   return (
     <View style={styles.container}>
@@ -284,12 +288,45 @@ function AllExperiences({ navigation, user, deleteId, handleVisible }) {
 }
 
 // TOUTES LES INTERACTIONS
-function AllInteractions({ navigation, user }) {
+function AllInteractions({ navigation, user, route, fetchUser }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  const [open, setOpen] = useState(false);
+  const [accepted, setAccepted] = useState();
+  const { token, idUser } = useSelector(authState);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // const fetchUser = () => {
+  //   genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
+  //     .then((json) => json.json())
+  //     .then((data) => setUser(data))
+  //     .catch((error) => console.error(error))
+  //     .finally(() => setIsLoading(false));
+  // };
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   fetchUser();
+  // }, [route]);
+
+//   const handleSubmitButton = () => {
+    
+//     const body = JSON.stringify({
+//       "accepted": accepted
+//     })
+//     PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, body) 
+//     .then(json => { console.log(json); } ) 
+//     .catch((error) => {console.error("error" , error)})
+//     fetchUser();
+//     setOpenPhone(false)
+
+// };
   
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
+
     <View style={styles.container}>
       <ScrollView>
         <View>
@@ -321,14 +358,67 @@ function AllInteractions({ navigation, user }) {
                     </TouchableOpacity>
 
                     <View>
-                      {interest.accepted == 0 && (
-                        <InteractionStatusModal
-                          key={interest}
-                          interest={interest}
-                        />
-                       
-                      )} 
+                     
+                     
+                        {/* <View>
+                        <TouchableOpacity onPress={ () => setOpen(true)}>
+                        <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+                     </TouchableOpacity> 
+           
+                 {open && <InteractionModal handleSubmitButton = {handleSubmitButton} open = {open} setOpen= {setOpen} accepted={accepted} setAccepted={setAccepted} user={user} interest={interest}/>}
+                     </View>
+                        */}
+                 
 
+           
+          
+
+{/* <Modal
+    presentationStyle="overFullScreen"
+    animationType="fade"
+    transparent={true}
+    visible={open}
+  >
+    <View style={styles.container}>
+      <View style={styles.modalView}>
+      <TouchableOpacity onPress={() => setOpen(false)}>
+                  <Image
+                    style={styles.close}
+                    source={require(`../../../assets/icons/close.png`)}
+                  />
+                </TouchableOpacity>
+              
+                <View style={styles.text}>
+                  <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+                  Change ton login ici !
+                  </Text>
+                  <SelectDropdown
+              data={[
+                { status: "Accepter", data: 2 },
+                { status: "Refuser", data: 1}
+          
+              ]}
+              onSelect={(selectedItem) => {
+                setAccepted(selectedItem.data);
+              }}
+              defaultButtonText='Modifie le statut'
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem.status;
+              }}
+              rowTextForSelection={(item, index) => item.status}
+              buttonStyle={styles.dropdown}
+            />
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => handleSubmitButton()}
+                  >
+                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
+                  </TouchableOpacity>
+                </View>
+       
+      </View>
+    </View>
+  </Modal> */}
 
                       {interest.accepted == 1 && (
                         <Image
@@ -372,7 +462,15 @@ function UserProfileInfos({ navigation, route }) {
   const { token, idUser } = useSelector(authState);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
-  const[open, setOpen] = useState(false)
+  const[openBio, setOpenBio] = useState(false);
+  const[openLogin, setOpenLogin] = useState(false);
+  const[openPass, setOpenPass] = useState(false);
+  const[openPhone, setOpenPhone] = useState(false);
+  const [avatar, setAvatar] = useState("");
+  const[openAvatar, setOpenAvatar] = useState(false);
+  const [avatars, setAvatars] = useState(null);
+
+
 
   const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
@@ -396,7 +494,7 @@ function UserProfileInfos({ navigation, route }) {
   .then(json => { console.log(json); } ) 
   .catch((error) => {console.error("error" , error)})
   fetchUser();
-  setOpen(false)
+  setOpenBio(false)
 };
 
 
@@ -409,7 +507,7 @@ PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body)
 .then(json => { console.log(json); } ) 
 .catch((error) => {console.error("error" , error)})
 fetchUser();
-setOpen(false)
+setOpenLogin(false)
 };
 
 const handleSubmitButtonPassword = () => {
@@ -421,46 +519,80 @@ PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body)
 .then(json => { console.log(json); } ) 
 .catch((error) => {console.error("error" , error)})
 fetchUser();
-setOpen(false)
+setOpenPass(false)
 };
 
 
 const handleSubmitButtonPhone = () => {
   const body = JSON.stringify({
-    "telephone": userPhone
+    telephone: parseInt(userPhone)
 });
 
 PatchWithTokenBody(`${API_URL}/users/${idUser}`, 'PATCH', token, body) 
 .then(json => { console.log(json); } ) 
 .catch((error) => {console.error("error" , error)})
 fetchUser();
-setOpen(false)
+setOpenPhone(false)
 };
 
+const fetchAvatars = () => {
+  genericFetchWithToken(`${API_URL}/avatars`, "GET", token)
+    .then((json) => json.json())
+    .then((data) => setAvatars(data))
+    .catch((error) => console.error(error))
+    .finally(() => setIsLoading(false));
+};
+useEffect(() => {
+  setIsLoading(true);
+  fetchAvatars();
+}, [token]);
 
+const handleSubmitButtonAvatar = () => {
+  const body = JSON.stringify({
+    avatar: avatar,
+  });
 
+  PatchWithTokenBody(`${API_URL}/users/${idUser}`, "PATCH", token, body)
+  .then(json => { console.log(json); } ) 
+.catch((error) => {console.error("error" , error)})
+fetchUser();
+setOpenAvatar(false)
+};
 
   return  isLoading ? (
-      <Loading />
-    ) :(
+    <Loading />
+  ) : (
+
     <View style={styles.containerProfil}>
       
       <View style={styles.image}>
 
         <View style={styles.avatarProfil}>
-          {user?.avatar ?( <Image style={styles.experiencePicture} source={{ uri: encodedBase64 }} /> ): (
-            <Image style={styles.experiencePicture}  source={require("../../../assets/monkey.png")} />
-          )}
-            {/* <AvatarModal /> */}
+         
+   
+        <Image
+                        style={styles.experiencePicture}
+                        source={
+                          { uri: user.avatar } ??
+                          require(`../../../assets/exemple_ville.jpeg`)
+                        }
+                      />
+        
+                  <TouchableOpacity onPress={ () => setOpenAvatar(true)}>
+             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+          </TouchableOpacity> 
+
+       {openAvatar && <AvatarModal handleSubmitButtonAvatar = {handleSubmitButtonAvatar} openAvatar = {openAvatar} setOpenAvatar= {setOpenAvatar} avatar={avatar} setAvatar={setAvatar} user={user} avatars={avatars}/>}
+        
         </View>
 
         <View style= {styles.infosProfil}>
             <Text style={styles.title}>{user.login} </Text>
-            <TouchableOpacity onPress={ () => setOpen(true)}>
+            <TouchableOpacity onPress={ () => setOpenLogin(true)}>
              <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
-       {open && <LoginModal handleSubmitButtonLogin = {handleSubmitButtonLogin} open = {open} setOpen= {setOpen} userLogin={userLogin} setUserLogin={setUserLogin} user={user}/>}
+       {openLogin && <LoginModal handleSubmitButtonLogin = {handleSubmitButtonLogin} openLogin = {openLogin} setOpenLogin= {setOpenLogin} userLogin={userLogin} setUserLogin={setUserLogin} user={user}/>}
         </View>
        
     </View>
@@ -473,7 +605,7 @@ setOpen(false)
 
     <Divider />
 
-      <View style = {styles.bioprincipale}>
+       <View style = {styles.bioprincipale}>
           <Text style={{fontWeight: 'bold', fontSize: 20 }}>A propos</Text>
           <View style={styles.biographie}>
           {user?.biography ? (
@@ -481,25 +613,25 @@ setOpen(false)
           ) : (
             <Text style={{ color: "grey" }}> Pas encore de biographie</Text>
           )}
-           <TouchableOpacity onPress={ () => setOpen(true)}>
+           <TouchableOpacity onPress={ () => setOpenBio(true)}>
              <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
-       {open && <BiographyModal handleSubmitButtonBiography = {handleSubmitButtonBiography} open = {open} setOpen= {setOpen} userBiography={userBiography} setUserBiography={setUserBiography} user={user}/>}
+       {openBio && <BiographyModal handleSubmitButtonBiography = {handleSubmitButtonBiography} openBio = {openBio} setOpenBio= {setOpenBio} userBiography={userBiography} setUserBiography={setUserBiography} user={user}/>}
           
         </View>
-    </View>
+    </View> 
 
-<View style = {styles.phonemdp}>
+ <View style = {styles.phonemdp}>
     <View style={styles.phone}>
       <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Téléphone</Text>
       <View style = {{flexDirection: 'row'}}>
         <Text style={{ fontSize: 15 }}>{user.telephone}</Text>
-        <TouchableOpacity onPress={ () => setOpen(true)}>
+        <TouchableOpacity onPress={ () => setOpenPhone(true)}>
              <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
-       {open && <PhoneModal handleSubmitButtonPhone = {handleSubmitButtonPhone} open = {open} setOpen= {setOpen} userPhone={userPhone} setUserPhone={setUserPhone} user={user}/>}
+       {openPhone && <PhoneModal handleSubmitButtonPhone = {handleSubmitButtonPhone} openPhone = {openPhone} setOpenPhone= {setOpenPhone} userPhone={userPhone} setUserPhone={setUserPhone} user={user}/>}
           
       </View>
     </View>
@@ -508,23 +640,24 @@ setOpen(false)
         <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Mot de passe</Text>
          <View style = {{flexDirection: 'row'}}>
             <Text style = {{fontWeight: 'bold' }}>.............</Text>
-            <TouchableOpacity onPress={ () => setOpen(true)}>
+            <TouchableOpacity onPress={ () => setOpenPass(true)}>
              <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
-       {open && <PasswordModal handleSubmitButtonPassword = {handleSubmitButtonPassword} open = {open} setOpen= {setOpen} userPassword={userPassword} setUserPassword={setUserPassword} user={user}/>}
+       {openPass && <PasswordModal handleSubmitButtonPassword = {handleSubmitButtonPassword} openPass = {openPass} setOpenPass= {setOpenPass} userPassword={userPassword} setUserPassword={setUserPassword} user={user}/>}
           
           </View>
           </View>  
-  </View>
+  </View> 
 
     <View style={styles.button}>
-        <TouchableOpacity onPress={onLogOut} style={styles.deconnexion}>
+        <TouchableOpacity onPress={onLogOut} style={styles.buttonStyle}>
            <Text style={{ color: "white", fontSize: 15, fontWeight: 'bold' }}>DÉCONNEXION</Text>
          </TouchableOpacity>
        </View>
   </View>
   )
+}
 }
 
 //FRONT
@@ -664,15 +797,12 @@ const styles = StyleSheet.create({
  },
 
 
-  button: {
-    color: "#f14d53",
-    padding: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    // borderWidth: 2,
-    borderColor: "#f14d53",
-    borderRadius: 40,
-    // width: "fit-content",
+    buttonStyle: {
+    backgroundColor: "#f14d53",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    justifyContent: "center",
   },
 
 });

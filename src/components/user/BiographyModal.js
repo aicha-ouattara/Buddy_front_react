@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Modal, Image, TouchableOpacity, TextInput } from "react-native";
 
-const BiographyModal = ({ handleSubmitButtonBiography, open, setOpen, userBiography, setUserBiography, user }) => {
+const BiographyModal = ({ handleSubmitButtonBiography, openBio, setOpenBio, userBiography, setUserBiography, user }) => {
 
   return (
     <Modal
     presentationStyle="overFullScreen"
     animationType="fade"
     transparent={true}
-    visible={open}
+    visible={openBio}
   >
     <View style={styles.container}>
       <View style={styles.modalView}>
-      <TouchableOpacity onPress={() => setOpen(false)}>
+      <TouchableOpacity onPress={() => setOpenBio(false)}>
                   <Image
                     style={styles.close}
                     source={require(`../../../assets/icons/close.png`)}
@@ -21,7 +21,7 @@ const BiographyModal = ({ handleSubmitButtonBiography, open, setOpen, userBiogra
               
                 <View style={styles.text}>
                   <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
-                    Ecris au Local Buddy
+                      Apprendre à te connaître !
                   </Text>
                   <TextInput
                     placeholder="N'hésite pas à te présenter à tes nouveaux buddies !"
@@ -80,5 +80,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     padding: 15,
     borderRadius: 10,
+  },
+
+  buttonStyle: {
+    backgroundColor: "#f14d53",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    justifyContent: "center",
   },
 });
