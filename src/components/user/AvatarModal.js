@@ -14,6 +14,7 @@ const AvatarModal = ({ handleSubmitButtonAvatar, openAvatar, setOpenAvatar, avat
   >
     <View style={styles.container}>
       <View >
+      <View style={styles.text}>
       <TouchableOpacity onPress={() => setOpenAvatar(false)}>
                   <Image
                     style={styles.close}
@@ -21,11 +22,11 @@ const AvatarModal = ({ handleSubmitButtonAvatar, openAvatar, setOpenAvatar, avat
                   />
                 </TouchableOpacity>
               
-                <View style={styles.text}>
+                
                   <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
                     Change ton avatar !
                   </Text>
-                      <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-around"  }}>
+                      <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-around", paddingBottom: 10  }}>
                           {avatars &&
                             avatars.map((avatar) => {
                          

@@ -579,7 +579,7 @@ setOpenAvatar(false)
                       />
         
                   <TouchableOpacity onPress={ () => setOpenAvatar(true)}>
-             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+             <Image style={{ height: 10, width: 10 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
        {openAvatar && <AvatarModal handleSubmitButtonAvatar = {handleSubmitButtonAvatar} openAvatar = {openAvatar} setOpenAvatar= {setOpenAvatar} avatar={avatar} setAvatar={setAvatar} user={user} avatars={avatars}/>}
@@ -589,7 +589,7 @@ setOpenAvatar(false)
         <View style= {styles.infosProfil}>
             <Text style={styles.title}>{user.login} </Text>
             <TouchableOpacity onPress={ () => setOpenLogin(true)}>
-             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+             <Image style={{ height: 10, width: 10 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
        {openLogin && <LoginModal handleSubmitButtonLogin = {handleSubmitButtonLogin} openLogin = {openLogin} setOpenLogin= {setOpenLogin} userLogin={userLogin} setUserLogin={setUserLogin} user={user}/>}
@@ -606,15 +606,15 @@ setOpenAvatar(false)
     <Divider />
 
        <View style = {styles.bioprincipale}>
-          <Text style={{fontWeight: 'bold', fontSize: 20 }}>A propos</Text>
+          <Text style={{fontWeight: 'bold', fontSize:15 }}>A propos</Text>
           <View style={styles.biographie}>
           {user?.biography ? (
-            <Text>{user?.biography}</Text>
+            <Text style={{fontSize:12 }}>{user?.biography}</Text>
           ) : (
             <Text style={{ color: "grey" }}> Pas encore de biographie</Text>
           )}
            <TouchableOpacity onPress={ () => setOpenBio(true)}>
-             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+             <Image style={{ height: 10, width: 10 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
        {openBio && <BiographyModal handleSubmitButtonBiography = {handleSubmitButtonBiography} openBio = {openBio} setOpenBio= {setOpenBio} userBiography={userBiography} setUserBiography={setUserBiography} user={user}/>}
@@ -624,11 +624,11 @@ setOpenAvatar(false)
 
  <View style = {styles.phonemdp}>
     <View style={styles.phone}>
-      <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Téléphone</Text>
+      <Text style = {{fontWeight: 'bold', fontSize: 15 }}>Téléphone</Text>
       <View style = {{flexDirection: 'row'}}>
-        <Text style={{ fontSize: 15 }}>{user.telephone}</Text>
+        <Text style={{ fontSize: 12 }}>{user.telephone}</Text>
         <TouchableOpacity onPress={ () => setOpenPhone(true)}>
-             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+             <Image style={{ height: 10, width: 10 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
        {openPhone && <PhoneModal handleSubmitButtonPhone = {handleSubmitButtonPhone} openPhone = {openPhone} setOpenPhone= {setOpenPhone} userPhone={userPhone} setUserPhone={setUserPhone} user={user}/>}
@@ -637,11 +637,11 @@ setOpenAvatar(false)
     </View>
 
     <View style={styles.mdp}>
-        <Text style = {{fontWeight: 'bold', fontSize: 20 }}>Mot de passe</Text>
+        <Text style = {{fontWeight: 'bold', fontSize: 15 }}>Mot de passe</Text>
          <View style = {{flexDirection: 'row'}}>
             <Text style = {{fontWeight: 'bold' }}>.............</Text>
             <TouchableOpacity onPress={ () => setOpenPass(true)}>
-             <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
+             <Image style={{ height: 10, width: 10 }} source={require("../../../assets/edit.png")} /> 
           </TouchableOpacity> 
 
        {openPass && <PasswordModal handleSubmitButtonPassword = {handleSubmitButtonPassword} openPass = {openPass} setOpenPass= {setOpenPass} userPassword={userPassword} setUserPassword={setUserPassword} user={user}/>}
@@ -715,7 +715,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignContent: "center",
     backgroundColor: "#f2f2f2",
-
+    padding: 20,
   },
 
   actionsProfil: {

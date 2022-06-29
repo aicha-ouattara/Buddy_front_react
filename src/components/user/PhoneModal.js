@@ -90,4 +90,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "center",
   },
+
+  input: {
+    marginBottom: 20,
+    marginTop: 20
+},
 });
