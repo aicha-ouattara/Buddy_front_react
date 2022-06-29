@@ -320,18 +320,19 @@ const handleSubmitButtonLieu = () => {
                   flexDirection: "row",
                 }}
               >
-                <Text style={styles.title}>{experience.title}</Text>
-                {experience &&
-                experience?.user?.id === idUser &&
-                <View>
-                <TouchableOpacity onPress={ () => setOpenTitle(true)}>
-                <Image style={{ height: 15, width: 15 }} source={require("../../assets/edit.png")} /> 
-             </TouchableOpacity> 
-                    {openTitle && <TitleModal handleSubmitButtonTitle = {handleSubmitButtonTitle} openTitle= {openTitle} setOpenTitle= {setOpenTitle} title={title} setTitle={setTitle} experience={experience}/>}
-                </View>
-                }
+              
+                  <Text style={styles.title}>{experience.title}</Text>
+                  {experience &&
+                  experience?.user?.id === idUser &&
+                  <View>
+                  <TouchableOpacity onPress={ () => setOpenTitle(true)}>
+                  <Image style={{ height: 10, width: 10 }}source={require("../../assets/edit.png")} /> 
+                </TouchableOpacity> 
+                      {openTitle && <TitleModal handleSubmitButtonTitle = {handleSubmitButtonTitle} openTitle= {openTitle} setOpenTitle= {setOpenTitle} title={title} setTitle={setTitle} experience={experience}/>}
+                  </View>
+                  }
                
-
+            
           
 
                 <View style={styles.blocActions}>
@@ -348,17 +349,20 @@ const handleSubmitButtonLieu = () => {
                 </View>
               </View>
               <View>
-                <Text>{experience.location}</Text>
-                {experience &&
-                experience?.user?.id === idUser &&
-                <View>
-                <TouchableOpacity onPress={ () => setOpenLieu(true)}>
-             <Image style={{ height: 15, width: 15 }} source={require("../../assets/edit.png")} /> 
-          </TouchableOpacity> 
 
-       {openLieu && <LieuModal handleSubmitButtonLieu = {handleSubmitButtonLieu} openLieu= {openLieu} setOpenLieu= {setOpenLieu} location={location} setLocation={setLocation} experience={experience}/>}
-       </View>
-                }
+              <View style={{flexDirection:'row'}}>
+                      <Text>{experience.location}</Text>
+                      {experience &&
+                      experience?.user?.id === idUser &&
+                      <View>
+                      <TouchableOpacity onPress={ () => setOpenLieu(true)}>
+                          <Image style={{ height: 10, width: 10 }} source={require("../../assets/edit.png")} /> 
+                      </TouchableOpacity> 
+
+                    {openLieu && <LieuModal handleSubmitButtonLieu = {handleSubmitButtonLieu} openLieu= {openLieu} setOpenLieu= {setOpenLieu} location={location} setLocation={setLocation} experience={experience}/>}
+            </View>
+                      }
+                </View>
 
                 <Text>
                   {moment(new Date(experience.created_at)).format("D/MM/YYYY")}
@@ -389,34 +393,43 @@ const handleSubmitButtonLieu = () => {
                 </View>
               </TouchableOpacity>
               <Text>{experience.reviews.length} commentaire.s</Text>
+
+            <View style={{flexDirection:'row'}}>
               <Text>durée : {experience.duration} </Text>
               {editableModal && <DureeModal experience={experience} />}
-              <Text>{experience.spots} place(s)</Text>
-              {editableModal && <SpotsModal experience={experience} />}
+            </View>
+
+            <View style={{flexDirection:'row'}}>
+                <Text>{experience.spots} place(s)</Text>
+                {editableModal && <SpotsModal experience={experience} />}
+            </View>
+             
             </View>
             <Divider />
             <View style={styles.views}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  textAlign: "justify",
-                  paddingBottom: 10,
-                }}
-              >
-                {experience.content}
-              </Text>
 
-              {experience &&
-                experience?.user?.id === idUser &&
-                <View>
-              <TouchableOpacity onPress={ () => setOpenContent(true)}>
-             <Image style={{ height: 15, width: 15 }} source={require("../../assets/edit.png")} /> 
-          </TouchableOpacity> 
+              <View style={{flexDirection:'row'}}>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      textAlign: "justify",
+                      paddingBottom: 10,
+                    }}
+                  >
+                    {experience.content}
+                  </Text>
 
-       {openContent && <ContentModal handleSubmitButtonContent = {handleSubmitButtonContent} openContent= {openContent} setOpenContent= {setOpenContent} content={content} setContent={setContent} experience={experience}/>}
-       </View>
-                }
+                    {experience &&
+                      experience?.user?.id === idUser &&
+                  <View>
+                    <TouchableOpacity onPress={ () => setOpenContent(true)}>
+                        <Image style={{ height: 10, width: 10 }} source={require("../../assets/edit.png")} /> 
+                    </TouchableOpacity> 
 
+                    {openContent && <ContentModal handleSubmitButtonContent = {handleSubmitButtonContent} openContent= {openContent} setOpenContent= {setOpenContent} content={content} setContent={setContent} experience={experience}/>}
+                  </View>
+                      }
+              </View>
               <Divider />
             </View>
 

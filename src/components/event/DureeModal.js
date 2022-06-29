@@ -33,18 +33,18 @@ console.log('hh')
   return (
     <View>
 
-{/* sur la page profil affichage */}
       <Pressable
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
+        <Image style={{ width: 10, height: 10}} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
 
       <Modal
-        animationType="slide"
+       presentationStyle="overFullScreen"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -52,39 +52,30 @@ console.log('hh')
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-              <View style={styles.closeButton}>
-            <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                     <Image
-                      style={styles.close}
-                      source={require(`../../../assets/icons/close.png`)}
-                    />
-            </Pressable>
-            </View>
+       
 
-            <Text style={styles.modalText}>Modifier le titre</Text>
 
                   
 
-    <View style={styles.mainBody}>
+
+    <View style={styles.container}>
+          <View style={styles.modalView}>
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <Image
+                    style={styles.close}
+                    source={require(`../../../assets/icons/close.png`)}
+                  />
+                </TouchableOpacity>
+                <View style={styles.text}>
+            <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+                 Change la durée de ton expérience !
+            </Text>
    
-    {
-        
-        experience && ( 
+    { experience && ( 
             <Text key={experience.id}>
                 <Text key={experience.title}></Text>
 
-                <ScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{
-            justifyContent: 'center',
-            alignContent: 'center',
-            }}>
-    <KeyboardAvoidingView enabled>
+              
 
     <View style={styles.SectionStyle}>
          
@@ -107,22 +98,22 @@ console.log('hh')
             />
     </View>
 
-        <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>MODIFIER</Text>
-        </TouchableOpacity>
-    </KeyboardAvoidingView>
-    </ScrollView>
+              <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => handleSubmitButton()}
+                  >
+                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
+                  </TouchableOpacity>
+  
      </Text> )
     
     
       }
+      </View>
 </View>
           
           </View>
-        </View>
+
       </Modal>
   
     </View>
@@ -130,15 +121,13 @@ console.log('hh')
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: 22,
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
 
-    borderRadius: 20,
   },
-  
   modalView: {
     margin: 20,
     marginLeft: 10,
@@ -150,86 +139,43 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "center",
     backgroundColor: "white",
+    
   },
-  
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+  image: {
+    padding: 20,
+  },
+  icon: {
+    width: 72,
+    height: 72,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+  text: {
+    backgroundColor: "#f2f2f2",
+    padding: 15,
+    borderRadius: 10,
+    flexDirection:'column'
+    
   },
 
-  close: {
-    alignSelf: "flex-end",
-    height: 24,
-    width: 24,
-    margin: 5,
+  buttonStyle: {
+    backgroundColor: "#f14d53",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    justifyContent: "center",
+    width: 100,
   },
 
-
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }, 
-
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: "#A3DEF8",
-    alignContent: 'center',
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
+  input: {
+    marginBottom: 20,
+    marginTop: 20
 },
 
 SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
-},
-
-buttonStyle: {
-    backgroundColor: 'black',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: 'white',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
-},
-
-buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
-},
-
-inputStyle: {
-    flex: 1,
-    color: 'black',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: 'black',
-},
-
-
-successTextStyle: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 18,
-    padding: 30,
+  flexDirection: "row",
+  marginLeft: 35,
+  marginRight: 35,
 },
 });
 

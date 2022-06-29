@@ -6,6 +6,7 @@ import { authState } from "../../store/auth/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
+import SelectDropdown from "react-native-select-dropdown";
 
 function SpotsModal ({navigation, experience}) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,12 +23,7 @@ function SpotsModal ({navigation, experience}) {
     .then(json => { console.log(json); } ) 
     .catch((error) => {console.error("error" , error)})
     fetchExperience();
-    console.log('ok')
-
-
-console.log('hh')
-    
-
+  
 };
 
   return (
@@ -38,13 +34,14 @@ console.log('hh')
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
+        <Image style={{ width: 10, height: 10 }} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
 
       <Modal
-        animationType="slide"
+       presentationStyle="overFullScreen"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -52,69 +49,77 @@ console.log('hh')
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-              <View style={styles.closeButton}>
-            <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                    <Image
-                      style={styles.close}
-                      source={require(`../../../assets/icons/close.png`)}
-                    />
-            </Pressable>
-            </View>
-
-            <Text style={styles.modalText}>Modifier le titre</Text>
-
                   
 
-    <View style={styles.mainBody}>
-   
+    <View style={styles.container}>
+        <View style={styles.modalView}>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <Image
+                    style={styles.close}
+                    source={require(`../../../assets/icons/close.png`)}
+                  />
+                </TouchableOpacity>
+
+
+                <View style={styles.text}>
+            <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+                 Changer le nombre de place(s)
+            </Text>
     {
         
         experience && ( 
             <Text key={experience.id}>
                 <Text key={experience.title}></Text>
 
-                <ScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{
-            justifyContent: 'center',
-            alignContent: 'center',
-            }}>
-    <KeyboardAvoidingView enabled>
+                <View style={styles.SectionStyle}>
+          <SelectDropdown
+          style={styles.input}
+                  data={[
+                    { hours: "1 place ", data: 1 },
+                    { hours: "2 places", data: 2 },
+                    { hours: "3 places", data: 3 },
+                    { hours: "4 places", data: 4 },
+                    { hours: "5 places", data: 5 },
+                    { hours: "6 places", data: 6 },
+                    { hours: "7 places", data: 7 },
+                    { hours: "8 places", data: 8 },
+                    { hours: "9 places", data: 9 },
+                    { hours: "10 places", data: 10 },
+                    { hours: "11 places", data: 11 },
+                    { hours: "12 places", data: 12 },
+                    { hours: "13 places", data: 12 },
+                    { hours: "14 places", data: 12 },
+                    { hours: "15 places", data: 12 },
+                  ]}
+                  onSelect={(selectedItem) => {
+                    setSpots(selectedItem.data);
+                  }}
+                  // value={selectedItem.data}
+                  defaultButtonText={"Nombres de places"}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem.data;
+                  }}
+                  rowTextForSelection={(item, index) => item.hours}
+                  buttonStyle={styles.dropdownNumber}
+                />
+              </View>
 
-    <View style={styles.SectionStyle}>
-
-    <NumberPlease
-              digits={[
-                { id: "spots", label: "Disponibilité (s)", min: 0, max: 15 },
-              ]}
-              values={spots}
-              onChange={(values) => setSpots(values)}
-              style={{}}
-              buttonStyle={styles.number}
-            />
-    </View>
-
-        <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>MODIFIER</Text>
-        </TouchableOpacity>
-    </KeyboardAvoidingView>
-    </ScrollView>
+                    <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => handleSubmitButton()}
+                  >
+                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
+                  </TouchableOpacity>
+ 
      </Text> )
     
     
       }
-</View>
+      </View>
+          </View>
           
           </View>
-        </View>
+
       </Modal>
   
     </View>
@@ -122,15 +127,13 @@ console.log('hh')
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: 22,
-   
-    borderRadius: 20,
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
+
   },
-  
   modalView: {
     margin: 20,
     marginLeft: 10,
@@ -142,85 +145,43 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "center",
     backgroundColor: "white",
+    
   },
-  
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+  image: {
+    padding: 20,
+  },
+  icon: {
+    width: 72,
+    height: 72,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+  text: {
+    backgroundColor: "#f2f2f2",
+    padding: 15,
+    borderRadius: 10,
+    flexDirection:'column'
+    
   },
 
-  close: {
-    alignSelf: "flex-end",
-    height: 24,
-    width: 24,
-    margin: 5,
+  buttonStyle: {
+    backgroundColor: "#f14d53",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    justifyContent: "center",
+    width: 100,
   },
 
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }, 
-
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: "#A3DEF8",
-    alignContent: 'center',
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
+  input: {
+    marginBottom: 20,
+    marginTop: 20
 },
 
 SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
-},
-
-buttonStyle: {
-    backgroundColor: 'black',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: 'white',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
-},
-
-buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
-},
-
-inputStyle: {
-    flex: 1,
-    color: 'black',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: 'black',
-},
-
-
-successTextStyle: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 18,
-    padding: 30,
+  flexDirection: "row",
+  marginLeft: 35,
+  marginRight: 35,
 },
 });
 

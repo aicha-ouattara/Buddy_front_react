@@ -48,7 +48,7 @@ const pickImage = async () => {
           style={styles.buttonOpen}
           onPress={() => setModalVisible(true)}
         >
-        <Image style={{ width: 15, height: 15, marginLeft: 10 }} source={require('../../../assets/edit.png')}  />
+        <Image style={{ width: 10, height: 10}} source={require('../../../assets/edit.png')}  />
       </Pressable>
 
   
@@ -107,7 +107,7 @@ const pickImage = async () => {
                     style={styles.buttonStyle}
                     onPress={() => handleSubmitButtonLieu()}
                   >
-                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
+                    <Text>ENVOYER</Text>
                   </TouchableOpacity>
                   </View>
 
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
       borderRadius: 30,
       justifyContent: "center",
       marginTop: 20,
+      width: 100
     },
   
     plus: {
