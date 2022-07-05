@@ -118,6 +118,7 @@ function AddScreen({ navigation }) {
         flex: 1,
         justifyContent: "center",
         alignContent: "center",
+        backgroundColor: "#f14d53",
       }}
     >
       <KeyboardAvoidingView enabled>
@@ -139,11 +140,12 @@ function AddScreen({ navigation }) {
           >
             <Text
               style={{
-                marginTop: 8,
+                // marginTop: 8,
                 fontSize: 20,
                 fontWeight: "bold",
                 justifyContent: "center",
                 alignItems: "center",
+                color: "white",
               }}
             >
               Deviens un local buddy !
@@ -185,7 +187,7 @@ function AddScreen({ navigation }) {
               <View
                 style={{
                   backgroundColor: "#f14d53",
-                  padding: 40,
+                  // padding: 40,
                   borderRadius: 10,
                   flex: 1,
                   alignItems: "center",
@@ -239,35 +241,39 @@ function AddScreen({ navigation }) {
                 onChange={(values) => setSpots(values)}
                 buttonStyle={styles.number}
               /> */}
-                <SelectDropdown
-                  data={[
-                    { hours: "1 place ", data: 1 },
-                    { hours: "2 places", data: 2 },
-                    { hours: "3 places", data: 3 },
-                    { hours: "4 places", data: 4 },
-                    { hours: "5 places", data: 5 },
-                    { hours: "6 places", data: 6 },
-                    { hours: "7 places", data: 7 },
-                    { hours: "8 places", data: 8 },
-                    { hours: "9 places", data: 9 },
-                    { hours: "10 places", data: 10 },
-                    { hours: "11 places", data: 11 },
-                    { hours: "12 places", data: 12 },
-                    { hours: "13 places", data: 12 },
-                    { hours: "14 places", data: 12 },
-                    { hours: "15 places", data: 12 },
-                  ]}
-                  onSelect={(selectedItem) => {
-                    setSpots(selectedItem.data);
-                  }}
-                  // value={selectedItem.data}
-                  defaultButtonText={"Nombres de places"}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    return selectedItem.data;
-                  }}
-                  rowTextForSelection={(item, index) => item.hours}
-                  buttonStyle={styles.dropdownNumber}
-                />
+                <View style={styles.dropdownNumberss}>
+                  <SelectDropdown
+                    data={[
+                      { hours: "1 place ", data: 1 },
+                      { hours: "2 places", data: 2 },
+                      { hours: "3 places", data: 3 },
+                      { hours: "4 places", data: 4 },
+                      { hours: "5 places", data: 5 },
+                      { hours: "6 places", data: 6 },
+                      { hours: "7 places", data: 7 },
+                      { hours: "8 places", data: 8 },
+                      { hours: "9 places", data: 9 },
+                      { hours: "10 places", data: 10 },
+                      { hours: "11 places", data: 11 },
+                      { hours: "12 places", data: 12 },
+                      { hours: "13 places", data: 12 },
+                      { hours: "14 places", data: 12 },
+                      { hours: "15 places", data: 12 },
+                    ]}
+                    onSelect={(selectedItem) => {
+                      setSpots(selectedItem.data);
+                    }}
+                    // value={selectedItem.data}
+                    defaultButtonText={"Nombres de places"}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                      return selectedItem.data;
+                    }}
+                    rowTextForSelection={(item, index) => item.hours}
+                    buttonStyle={styles.dropdownNumber}
+                    buttonTextStyle={styles.text}
+                    rowStyle={styles.dropdown4RowStyle}
+                  />
+                </View>
 
                 <View style={styles.SectionStyle}>
                   <TextInput
@@ -283,24 +289,29 @@ function AddScreen({ navigation }) {
                     blurOnSubmit={false}
                   />
                 </View>
-                <SelectDropdown
-                  data={[
-                    { hours: "< 1", data: 1 },
-                    { hours: "1-2 heures", data: 2 },
-                    { hours: "demie journée", data: 12 },
-                    { hours: "journée", data: 24 },
-                  ]}
-                  onSelect={(selectedItem) => {
-                    setDuration(selectedItem.data);
-                  }}
-                  // value={selectedItem.data}
-                  defaultButtonText={"Durée"}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    return selectedItem.data;
-                  }}
-                  rowTextForSelection={(item, index) => item.hours}
-                  buttonStyle={styles.dropdown}
-                />
+                <View style={styles.dropdownNumbers}>
+                  <SelectDropdown
+                    data={[
+                      { hours: "< 1", data: 1 },
+                      { hours: "1-2 heures", data: 2 },
+                      { hours: "demie journée", data: 12 },
+                      { hours: "journée", data: 24 },
+                    ]}
+                    onSelect={(selectedItem) => {
+                      setDuration(selectedItem.data);
+                    }}
+                    // value={selectedItem.data}
+                    defaultButtonText={"Durée"}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                      return selectedItem.data;
+                    }}
+                    rowTextForSelection={(item, index) => item.hours}
+                    // buttonStyle={styles.dropdown}
+                    buttonStyle={styles.dropdownNumber}
+                    buttonTextStyle={styles.text}
+                    rowStyle={styles.dropdown4RowStyle}
+                  />
+                </View>
                 {errortext != "" && (
                   <Text style={styles.errorTextStyle}>{errortext}</Text>
                 )}
@@ -326,12 +337,19 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 1,
     borderRadius: 30,
-    paddingLeft: 85,
-    paddingRight: 85,
+    paddingLeft: 120,
+    paddingRight: 120,
+    height: 50,
+    marginTop: 15,
+  },
+  dropdown1RowStyle: {
+    backgroundColor: "#EFEFEF",
+    borderBottomColor: "#f14d53",
   },
   textArea: {
-    height: 100,
-    justifyContent: "flex-start",
+    // justifyContent: "flex-start",
+    // fontSize: 18,
+    marginTop: 10,
   },
   number: {
     backgroundColor: "black",
@@ -350,12 +368,40 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   dropdownNumber: {
+    // borderColor: "white",
+    // borderWidth: 1,
+    // borderRadius: 30,
+    // height: 35,
+    // marginTop: 15,
+    backgroundColor: "transparent",
+  },
+  text: {
+    color: "white",
+    fontSize: 14,
+  },
+  dropdown4RowStyle: {},
+  dropdownNumbers: {
     borderColor: "white",
     borderWidth: 1,
     borderRadius: 30,
-    height: 35,
+    // height: 35,
     marginTop: 15,
-    backgroundColor: "transparent",
+    paddingLeft: 65,
+    paddingRight: 65,
+    marginBottom: 10,
+
+    // backgroundColor: "transparent",
+  },
+  dropdownNumberss: {
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 30,
+    // height: 35,
+    marginTop: 15,
+    paddingLeft: 65,
+    paddingRight: 65,
+
+    // backgroundColor: "transparent",
   },
   plus: {
     fontSize: 30,
@@ -364,13 +410,16 @@ const styles = StyleSheet.create({
     backgroundColor: 0,
   },
   camera: {
-    backgroundColor: "#f14d53",
-    borderRadius: 10,
-    paddingBottom: 10,
-    paddingTop: 10,
-    marginTop: 5,
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 30,
+    paddingBottom: 15,
+    paddingTop: 15,
+    marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: 35,
+    marginRight: 35,
   },
   inputStyle: {
     flex: 1,
@@ -382,6 +431,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 30,
     borderColor: "white",
+    // fontSize: 18,
+    textAlign: "center",
   },
   buttonStyle: {
     backgroundColor: "black",
@@ -393,22 +444,22 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
-    marginBottom: 25,
+    // marginBottom: 25,
   },
   buttonTextStyle: {
     color: "white",
     paddingVertical: 10,
     fontSize: 16,
-    paddingLeft: 80,
-    paddingRight: 80,
+    paddingLeft: 130,
+    paddingRight: 130,
   },
   SectionStyle: {
     flexDirection: "row",
-    height: 40,
+    height: 50,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
-    margin: 10,
+    // margin: 10,
   },
   errorTextStyle: {
     color: "white",
