@@ -350,6 +350,7 @@ const styles = StyleSheet.create({
     // justifyContent: "flex-start",
     // fontSize: 18,
     marginTop: 10,
+    fontSize: 16,
   },
   number: {
     backgroundColor: "black",
@@ -377,7 +378,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontSize: 14,
+    fontSize: 14.6,
   },
   dropdown4RowStyle: {},
   dropdownNumbers: {
@@ -431,6 +432,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 30,
     borderColor: "white",
+    fontSize: 16,
+
     // fontSize: 18,
     textAlign: "center",
   },
