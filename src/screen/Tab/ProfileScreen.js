@@ -32,10 +32,7 @@ import BiographyModal from "../../components/user/BiographyModal";
 import PhoneModal from "../../components/user/PhoneModal";
 import PasswordModal from "../../components/user/PasswordModal";
 import InteractionStatusModal from "../../components/user/InteractionStatusModal";
-// import AvatarModal from "../../components/user/AvatarModal";
 import Loading from "../../components/Loading";
-import SelectDropdown from "react-native-select-dropdown";
-import InteractionModal from "../../components/user/InteractionModal";
 import AvatarModal from "../../components/user/AvatarModal";
 
 
@@ -185,7 +182,7 @@ function Profile({ navigation, route }) {
         />
       </TabScreen>
 
-      <TabScreen label="Interactions">
+      <TabScreen label="Connexions">
         <AllInteractions user={user} navigation={navigation} />
       </TabScreen>
 
@@ -291,36 +288,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible, route }) {
 function AllInteractions({ navigation, user, route, fetchUser }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
-  const [open, setOpen] = useState(false);
-  const [accepted, setAccepted] = useState();
-  const { token, idUser } = useSelector(authState);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // const fetchUser = () => {
-  //   genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
-  //     .then((json) => json.json())
-  //     .then((data) => setUser(data))
-  //     .catch((error) => console.error(error))
-  //     .finally(() => setIsLoading(false));
-  // };
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   fetchUser();
-  // }, [route]);
-
-//   const handleSubmitButton = () => {
-    
-//     const body = JSON.stringify({
-//       "accepted": accepted
-//     })
-//     PatchWithTokenBody(`${API_URL}/interests/${interest.id}`, 'PATCH', token, body) 
-//     .then(json => { console.log(json); } ) 
-//     .catch((error) => {console.error("error" , error)})
-//     fetchUser();
-//     setOpenPhone(false)
-
-// };
   
 
   return isLoading ? (
@@ -331,15 +299,25 @@ function AllInteractions({ navigation, user, route, fetchUser }) {
       <ScrollView>
         <View>
           {user.experiences &&
-            user.experiences.map((experience) =>
+            user.experiences.map(
+              (experience) =>
               experience.interests.map((interest) => (
                 <View style={styles.box} key={interest.id} >
               
 
                   <View style={styles.blocText}>
-                   <Text>  <Text style={{ fontWeight: "bold" }}>{interest.title}</Text> |  <Text>{new Date(interest.date).toLocaleDateString()}</Text> </Text>
+                    
+                  <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("Experience", { id: experience.id });
+                      }}
+                    >
+                  
+                   <Text>  <Text style={{ fontWeight: "bold" }}>{experience.title}</Text> |  <Text>{new Date(interest.date).toLocaleDateString()}</Text> </Text>
                    <Text>{interest.message}</Text>
                    <Text>{interest.user.telephone}</Text>
+                  
+                   </TouchableOpacity>
                   </View>
 
                   <View style={styles.blocActions}>
@@ -348,6 +326,8 @@ function AllInteractions({ navigation, user, route, fetchUser }) {
                         navigation.navigate("User", { id: interest.user.id });
                       }}
                     >
+                   
+                 
                       <Text>{interest.user.id}</Text>
                       <Avatar.Image
                         style={styles.avatar}
@@ -358,67 +338,11 @@ function AllInteractions({ navigation, user, route, fetchUser }) {
                     </TouchableOpacity>
 
                     <View>
-                     
-                     
-                        {/* <View>
-                        <TouchableOpacity onPress={ () => setOpen(true)}>
-                        <Image style={{ height: 15, width: 15 }} source={require("../../../assets/edit.png")} /> 
-                     </TouchableOpacity> 
-           
-                 {open && <InteractionModal handleSubmitButton = {handleSubmitButton} open = {open} setOpen= {setOpen} accepted={accepted} setAccepted={setAccepted} user={user} interest={interest}/>}
-                     </View>
-                        */}
-                 
+                  
 
-           
-          
-
-{/* <Modal
-    presentationStyle="overFullScreen"
-    animationType="fade"
-    transparent={true}
-    visible={open}
-  >
-    <View style={styles.container}>
-      <View style={styles.modalView}>
-      <TouchableOpacity onPress={() => setOpen(false)}>
-                  <Image
-                    style={styles.close}
-                    source={require(`../../../assets/icons/close.png`)}
-                  />
-                </TouchableOpacity>
-              
-                <View style={styles.text}>
-                  <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
-                  Change ton login ici !
-                  </Text>
-                  <SelectDropdown
-              data={[
-                { status: "Accepter", data: 2 },
-                { status: "Refuser", data: 1}
-          
-              ]}
-              onSelect={(selectedItem) => {
-                setAccepted(selectedItem.data);
-              }}
-              defaultButtonText='Modifie le statut'
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem.status;
-              }}
-              rowTextForSelection={(item, index) => item.status}
-              buttonStyle={styles.dropdown}
-            />
-                  <TouchableOpacity
-                    style={styles.buttonStyle}
-                    onPress={() => handleSubmitButton()}
-                  >
-                    <Text style={{ color: "#FFFFFF" }}>ENVOYER</Text>
-                  </TouchableOpacity>
-                </View>
-       
-      </View>
-    </View>
-  </Modal> */}
+                    {interest.accepted == 0 && (
+                       <InteractionStatusModal interest={interest} experience={experience}/>
+                      )}
 
                       {interest.accepted == 1 && (
                         <Image

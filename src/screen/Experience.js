@@ -396,12 +396,12 @@ const handleSubmitButtonLieu = () => {
 
             <View style={{flexDirection:'row'}}>
               <Text>durée : {experience.duration} </Text>
-              {editableModal && <DureeModal experience={experience} />}
+              {editableModal && <DureeModal experience={experience} fetchExperience={fetchExperience}/>}
             </View>
 
             <View style={{flexDirection:'row'}}>
                 <Text>{experience.spots} place(s)</Text>
-                {editableModal && <SpotsModal experience={experience} />}
+                {editableModal && <SpotsModal experience={experience}  fetchExperience={fetchExperience}/>}
             </View>
              
             </View>

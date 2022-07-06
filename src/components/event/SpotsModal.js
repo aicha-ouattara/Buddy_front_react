@@ -8,7 +8,7 @@ import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 import SelectDropdown from "react-native-select-dropdown";
 
-function SpotsModal ({navigation, experience}) {
+function SpotsModal ({navigation, experience, fetchExperience}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [user, setUser] = useState(0);

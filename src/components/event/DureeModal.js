@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { genericFetchWithToken } from '../../api/fetchApiWithToken';
 import {PatchWithTokenBody} from '../../api/fetchApiWithTokenBody';
 
-function DureeModal ({navigation, experience}) {
+function DureeModal ({navigation, experience, fetchExperience}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [user, setUser] = useState(0);
   const [duration, setDuration] = useState();
   const { token, idUser } = useSelector(authState);
+
   const handleSubmitButton = () => {
     
     const body = JSON.stringify({

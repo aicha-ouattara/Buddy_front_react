@@ -23,6 +23,7 @@ const BlocExperience = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
   const { token, idUser } = useSelector(authState);
+  
 
   useEffect(() => {
     experience?.interests &&
