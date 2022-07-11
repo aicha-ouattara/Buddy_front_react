@@ -34,7 +34,7 @@ export default function Nav() {
               name="Protected"
               component={ProtectedScreen}
               options={{
-                headerLeft: null,
+                headerBackVisible: false,
                 headerTitle: () => (
                   <View
                     style={{

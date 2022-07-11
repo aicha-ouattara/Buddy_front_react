@@ -122,16 +122,7 @@ function AddScreen({ navigation }) {
       }}
     >
       <KeyboardAvoidingView enabled>
-        <View
-          style={
-            {
-              // flex: 1,
-              // alignItems: "center",
-              // justifyContent: "center",
-              // backgroundColor: "#f14d53",
-            }
-          }
-        >
+        <View>
           <View
             style={{
               justifyContent: "center",
