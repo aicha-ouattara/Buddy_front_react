@@ -342,6 +342,7 @@ const styles = StyleSheet.create({
     // fontSize: 18,
     marginTop: 10,
     fontSize: 16,
+    color: "white",
   },
   number: {
     backgroundColor: "black",
