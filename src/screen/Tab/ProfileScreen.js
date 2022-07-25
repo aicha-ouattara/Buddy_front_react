@@ -58,30 +58,30 @@ function Profile({ navigation, route }) {
   }, [route]);
 
   // SUPPRESSION EXPERIENCE
-  const deleteId = (id, interestLength) => {
-    if (interestLength != 0) {
-      const bodyExperience = JSON.stringify({
-        visible: false,
-        archive: true,
-      });
-      PatchWithTokenBody(
-        `${API_URL}/experiences/${id}`,
-        "PATCH",
-        token,
-        bodyExperience
-      )
-        .then((json) => json.json())
-        .catch((error) => console.error(error));
-      fetchUser();
-      console.log("expérience archivée !");
-    }
+  // const deleteId = (experience, interestLength) => {
+  //   if (interestLength != 0) {
+  //     const bodyExperience = JSON.stringify({
+  //       visible: 0,
+  //       archive: 1
+  //     });
+  //     PatchWithTokenBody(
+  //       `${API_URL}/experiences/${experience.id}`,
+  //       "PATCH",
+  //       token,
+  //       bodyExperience
+  //     )
+  //       .then((json) => json.json())
+  //       .catch((error) => console.error(error));
+  //     fetchUser();
+  //     console.log("expérience archivée !");
+  //   }
 
-    if (interestLength == 0) {
-      genericFetchWithToken(`${API_URL}/experiences/${id}`, "DELETE", token);
-      fetchUser();
-      console.log("expérience supprimée !");
-    }
-  };
+  //   if (interestLength == 0) {
+  //     genericFetchWithToken(`${API_URL}/experiences/${experience.id}`, "DELETE", token);
+  //     fetchUser();
+  //     console.log("expérience supprimée !");
+  //   }
+  // };
 
   //POSSIBLITÉMODIFICATION VISIBILITÉ EXPÉRIENCE
 
@@ -170,10 +170,10 @@ function Profile({ navigation, route }) {
            handleVisible(experience);
             fetchUser();
           }}
-          deleteId={(id, interestLength) => {
-            deleteId(id, interestLength);
-            fetchUser();
-          }}
+          // deleteId={(experience, interestLength) => {
+          //   deleteId(experience, interestLength);
+          //   fetchUser();
+          // }}
           handleStateExperience={(interest) => {
             handleStateExperience(interest);
             fetchUser();
@@ -198,9 +198,55 @@ function Profile({ navigation, route }) {
 
 
 //TOUTES LES EXPERIENCES
-function AllExperiences({ navigation, user, deleteId, handleVisible, route }) {
+function AllExperiences({ navigation, handleVisible, route }) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(0);
+  const { token, idUser } = useSelector(authState);
+ 
+
+  //CONNEXION À L'UTILISATEUR PRÉCIS
+
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUser();
+  }, [route]);
+
+
+  const deleteId = (experience) => {
+    // if (interestLength != 0) {
+    //   const bodyExperience = JSON.stringify({
+    //     visible: 0,
+    //     archive: 1
+    //   });
+    //   PatchWithTokenBody(
+    //     `${API_URL}/experiences/${experience.id}`,
+    //     "PATCH",
+    //     token,
+    //     bodyExperience
+    //   )
+    //     .then((json) => json.json())
+    //     .catch((error) => console.error(error));
+    //   fetchUser();
+    //   console.log("expérience archivée !");
+    // }
+
+    // if (interestLength == 0) {
+      genericFetchWithToken(`${API_URL}/experiences/${experience.id}`, "DELETE", token);
+      fetchUser();
+      console.log("expérience supprimée !");
+    // }
+  };
+
   
 
   return (
@@ -255,6 +301,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible, route }) {
                       {experience && experience.visible == 0 && (
                         <TouchableOpacity
                           onPress={() => handleVisible(experience)}
+                       
                         >
                           <Image
                             style={{ width: 25, height: 25 }}
@@ -263,9 +310,9 @@ function AllExperiences({ navigation, user, deleteId, handleVisible, route }) {
                         </TouchableOpacity>
                       )}
 
-                      <Text
-                        onClick={() =>
-                          deleteId(experience.id, experience.interests.length)
+                      <TouchableOpacity
+                        onPress={() =>
+                          deleteId(experience)
                         }
                         key={experience.id}
                       >
@@ -273,7 +320,7 @@ function AllExperiences({ navigation, user, deleteId, handleVisible, route }) {
                           style={{ width: 25, height: 25 }}
                           source={require("../../../assets/trashcan.png")}
                         />
-                      </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 )
@@ -291,6 +338,8 @@ function AllInteractions({ navigation, user, route, fetchUser }) {
 
   
 
+  
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -303,45 +352,52 @@ function AllInteractions({ navigation, user, route, fetchUser }) {
               (experience) =>
               experience.interests.map((interest) => (
                 <View style={styles.box} key={interest.id} >
-              
-
-                  <View style={styles.blocText}>
                     
-                  <TouchableOpacity
+              <TouchableOpacity
+                      style={styles.blocExperience}
                       onPress={() => {
-                        navigation.navigate("Experience", { id: experience.id });
+                        navigation.navigate("Experience", {
+                          id: experience.id,
+                        });
                       }}
                     >
-                  
+                        <Image
+                        style={styles.experiencePicture}
+                        source={
+                          { uri: experience.image } ??
+                          require(`../../../assets/exemple_ville.jpeg`)
+                        }
+                      />
+                    <View style={styles.blocText}>
+                  <Text>{experience.title}</Text>
+                 
                    <Text>  <Text style={{ fontWeight: "bold" }}>{experience.title}</Text> |  <Text>{new Date(interest.date).toLocaleDateString()}</Text> </Text>
                    <Text>{interest.message}</Text>
                    <Text>{interest.user.telephone}</Text>
-                  
-                   </TouchableOpacity>
                   </View>
-
+                   </TouchableOpacity>
+                
+                      
                   <View style={styles.blocActions}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate("User", { id: interest.user.id });
-                      }}
-                    >
+                  <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("User", { id: user.id, name: user.login });
+              }}
+            >
                    
-                 
-                      <Text>{interest.user.id}</Text>
-                      <Avatar.Image
-                        style={styles.avatar}
-                        size={24}
-                        color="white"
-                        source={require("../../../assets/profil.png")}
-                      />
+                   <Avatar.Image
+                style={styles.avatar}
+                size={24}
+                color="white"
+                source={{ uri: user.avatar } ?? require("../../../assets/profil.png")}
+              />
                     </TouchableOpacity>
 
                     <View>
                   
 
                     {interest.accepted == 0 && (
-                       <InteractionStatusModal interest={interest} experience={experience}/>
+                       <InteractionStatusModal interest={interest} experience={experience} />
                       )}
 
                       {interest.accepted == 1 && (

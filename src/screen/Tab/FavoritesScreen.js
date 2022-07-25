@@ -25,10 +25,52 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
 
 
-function FavoritesScreen({ navigation, route }) {
+function FavoritesScreen({ navigation }) {
+
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
   const { token, idUser } = useSelector(authState);
+
+  return (
+  
+ 
+    <Tabs style={{ backgroundColor: "white" }}>
+      <TabScreen label="BucketList">
+        <BucketList
+          navigation={navigation}
+        />
+      </TabScreen>
+
+      <TabScreen label="ToDoNow">
+        <ToDoNow
+          user={user}
+          navigation={navigation}
+        />
+      </TabScreen>
+    </Tabs>
+  );
+}
+
+function BucketList({ navigation, route }) {
+  const goTo = useTabNavigation();
+  const index = useTabIndex();
+  const [experiences, setExperiences] = useState([]);
+  const { token, idUser } = useSelector(authState);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(0);
+
+  const fetchExperiences = () => {
+    genericFetchWithToken(`${API_URL}/experiences?visible=true`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setExperiences(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchExperiences();
+  }, []);
 
   const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
@@ -41,216 +83,235 @@ function FavoritesScreen({ navigation, route }) {
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
-  }, []);
+  }, [route]);
 
-  const deleteId = (id) => {
-    genericFetchWithToken(`${API_URL}/interests/${id}`, "DELETE", token);
-    fetchUser();
-    console.log("intéret supprimé !");
+  const deleteId = (interest) => {
+   
+    genericFetchWithToken(
+      `${API_URL}/interests/${interest.id}`,
+      "DELETE",
+      token
+    ),
+      fetchUser();
+      console.log('suppression')
+     
   };
 
-  return (
-  
- 
-    <Tabs style={{ backgroundColor: "white" }}>
-      <TabScreen label="BucketList">
-        <BucketList
-          user={user}
-          navigation={navigation}
-          deleteId={(id) => {
-            deleteId(id);
-            fetchUser();
-          }}
-        />
-      </TabScreen>
 
-      <TabScreen label="ToDoNow">
-        <ToDoNow
-          user={user}
-          navigation={navigation}
-          deleteId={(id) => {
-            deleteId(id);
-            fetchUser();
-          }}
-        />
-      </TabScreen>
-    </Tabs>
-  );
-}
-
-function BucketList({ navigation, user, deleteId }) {
-  const goTo = useTabNavigation();
-  const index = useTabIndex();
-  const encodedBase64 = user.avatar;
-
-  return (
-    <View style={styles.container}>
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <View  style={styles.container}>
       <ScrollView>
         <View>
-          {user.interests
-            ? user.interests.map(
+          {experiences &&
+          experiences.map((experience) =>
+            experience.interests.map(
                 (interest) =>
+                interest.user === `/api/users/${idUser}` &&
                   interest.plan == 0 && (
                     <>
-                      <View style={styles.box} key={interest.id} >
-                      <View style={styles.views}>
-                      <TouchableOpacity
-                            style={styles.blocExperience}
-                            onPress={() => {
-                              navigation.navigate("Experience", {
-                                id: experience.id,
-                              });
-                            }}
-                          />
-                             <TouchableOpacity
-                            onClick={() => deleteId(interest.id)}
-                            key={interest.id}
-                          >
-                            <Image
-                              style={{ width: 40, height: 40 }}
-                              source={require("../../../assets/icons/bucket-red.png")}
-                            />
-                          </TouchableOpacity>
-            </View>
-                        <View style={styles.blocText}>
-                          <Text style={{ fontWeight: "bold" }}>
-                            {interest.title}
-                          </Text>
-                        
-                        
-                            <Text style={{ fontWeight: "bold" }}>
-                              {new Date(interest.date).toLocaleDateString()}
-                            </Text>
-                     
-                       
-                        </View>
+                  <View style={styles.box} key={interest.id}>
+      <TouchableOpacity
+        style={styles.blocExperience}
+        onPress={() => {
+          navigation.navigate("Experience", {
+            id: experience.id,
+            name: experience.title,
+          });
+        }}
+      >
+        <Image
+          style={styles.experiencePicture}
+          source={
+            { uri: experience.image } ?? require(`../../../assets/exemple_ville.jpeg`)
+          }
+        />
+        <View style={styles.blocText}>
+          <Text>
+            <Text style={{ fontWeight: "bold" }}>{experience.title}</Text>
+            <Text> | </Text>
+            <Text style={{ fontStyle: "italic" }}>{experience.location}</Text>
+          </Text>
+          <Text numberOfLines={3}>{experience.content}</Text>
+        </View>
+      </TouchableOpacity>
 
-                        <View style={styles.blocActions}>
-                        <TouchableOpacity
-                            onPress={() => {
-                              navigation.navigate("User", { id: interest.user.id });
-                            }}
-                          >
-                           
-                           <Avatar.Image
-                        style={styles.avatar}
-                        size={24}
-                        color="white"
-                        source={require("../../../assets/profil.png")}
-                      />
-                      
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            style={styles.blocExperience}
-                            onPress={() => {
-                              navigation.navigate("Experience", {
-                                id: experience.id,
-                              });
-                            }}
-                          />
-                      
-                        
-                        </View>
-                      </View>
+    
+        <View
+          style={[
+            styles.blocActions,
+            { justifyContent: "space-between" },
+          ]}
+        >
+     
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("User", { id: experience.user.id, name: experience.user.login });
+              }}
+            >
+              <Avatar.Image
+                style={styles.avatar}
+                size={24}
+                color="white"
+                source={{ uri: experience.user.avatar } ?? require("../../../assets/profil.png")}
+              />
+            </TouchableOpacity>
+          
+       
+                    <TouchableOpacity
+                        onClick={() =>
+                          deleteId(interest)
+                        }
+                        key={interest.id}
+                      >
+              <Image style={{ width: 25, height: 25, marginTop: 10 }} source={require("../../../assets/icons/bucket-red.png")}
+                              />
+               </TouchableOpacity> 
+     
+        </View>
+   
+
+    </View>
                     </>
                   )
-              )
-            : null}
+              ))
+          }
         </View>
       </ScrollView>
     </View>
   );
 }
 
-function ToDoNow({ navigation, user, deleteId }) {
+function ToDoNow({ navigation, route}) {
   const goTo = useTabNavigation();
   const index = useTabIndex();
+  const [experiences, setExperiences] = useState([]);
+  const { token, idUser } = useSelector(authState);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(0);
+
+  const fetchExperiences = () => {
+    genericFetchWithToken(`${API_URL}/experiences?visible=true`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setExperiences(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchExperiences();
+  }, []);
+
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUser();
+  }, [route]);
+
+
+
 
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View>
-          {user.interests
-            ? user.interests.map(
+      <View>
+          {experiences &&
+          experiences.map((experience) =>
+            experience.interests.map(
                 (interest) =>
+                interest.user === `/api/users/${idUser}` &&
                   interest.plan == 1 && (
                     <>
-                      <View style={styles.box} key={interest.id} >
-                      <View style={styles.views}>
-                      <TouchableOpacity
-                            style={styles.blocExperience}
-                            onPress={() => {
-                              navigation.navigate("Experience", {
-                                id: experience.id,
-                              });
-                            }}
-                          />
-                          <TouchableOpacity
-                            onClick={() => deleteId(interest.id)}
-                            key={interest.id}
-                          >
-                            <Image
-                              style={{ width: 40, height: 40 }}
-                              source={require("../../../assets/icons/now-red.png")}
-                            />
-                          </TouchableOpacity>
-                        </View>
+                  <View style={styles.box} key={interest.id}>
+      <TouchableOpacity
+        style={styles.blocExperience}
+        onPress={() => {
+          navigation.navigate("Experience", {
+            id: experience.id,
+            name: experience.title,
+          });
+        }}
+      >
+        <Image
+          style={styles.experiencePicture}
+          source={
+            { uri: experience.image } ?? require(`../../../assets/exemple_ville.jpeg`)
+          }
+        />
+        <View style={styles.blocText}>
+          <Text>
+            <Text style={{ fontWeight: "bold" }}>{experience.title}</Text>
+            <Text> | </Text>
+            <Text style={{ fontStyle: "italic" }}>{experience.location}</Text>
+          </Text>
+          <Text numberOfLines={3}>{experience.content}</Text>
+        </View>
+      </TouchableOpacity>
 
-                        <View style={styles.blocText}>
-                          <Text style={{ fontWeight: "bold" }}>
-                            {interest.title}
-                          </Text>
-                          <Text style={{ fontWeight: "bold" }}>
-                            {new Date(interest.date).toLocaleDateString()}
-                          </Text>
-                          <Text>{interest.message}</Text>
-                      
-                        </View>
-
-                        <View style={styles.blocActions}>
-                        <TouchableOpacity
-                            onPress={() => {
-                              navigation.navigate("User", { id: interest.user.id });
-                            }}
-                          >
-                            <Avatar.Image
-                        style={styles.avatar}
-                        size={24}
-                        color="white"
-                        source={require("../../../assets/profil.png")}
-                      />
-                      
-                          </TouchableOpacity>
-                      
-                          <TouchableOpacity>
+    
+        <View
+          style={[
+            styles.blocActions,
+            { justifyContent: "space-between" },
+          ]}
+        >
+     
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("User", { id: experience.user.id, name: experience.user.login });
+              }}
+            >
+              <Avatar.Image
+                style={styles.avatar}
+                size={24}
+                color="white"
+                source={{ uri: experience.user.avatar } ?? require("../../../assets/profil.png")}
+              />
+            </TouchableOpacity>
+          
+            <TouchableOpacity  key={interest.id}>
                             {interest.accepted == 0 ? (
                               <Image
-                                style={{ width: 25, height: 25 }}
+                              style={{ width: 25, height: 25, marginTop: 10 }} 
                                 source={require("../../../assets/attente.png")}
                               />
                             ) : null}
 
                             {interest.accepted == 1 ? (
                               <Image
-                                style={{ width: 25, height: 25 }}
+                              style={{ width: 25, height: 25, marginTop: 10 }} 
                                 source={require("../../../assets/refused.png")}
                               />
                             ) : null}
 
                             {interest.accepted == 2 ? (
                               <Image
-                                style={{ width: 25, height: 25 }}
+                              style={{ width: 25, height: 25, marginTop: 10 }} 
                                 source={require("../../../assets/accepted.png")}
                               />
                             ) : null}
                           </TouchableOpacity>
-                        </View>
-                      </View>
+     
+        </View>
+   
+
+    </View>
                     </>
                   )
-              )
-            : null}
+              ))
+          }
         </View>
+                          
+            
       </ScrollView>
     </View>
   );
@@ -258,11 +319,8 @@ function ToDoNow({ navigation, user, deleteId }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignContent: "center",
-    backgroundColor: "#f2f2f2",
+    marginTop: 10,
+    marginBottom: 10,
   },
 
   blocExperience: {
@@ -270,7 +328,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  box: {
+ box: {
     flexDirection: "row",
     borderRadius: 10,
     backgroundColor: "white",
@@ -280,7 +338,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 6,
     elevation: 5,
-    justifyContent: "space-between",
   },
 
   blocActions: {

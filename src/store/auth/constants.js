@@ -3,6 +3,7 @@ export const initialState = {
   isLoggedIn: false,
   isLoaded: false,
   idUser: null,
+  myLogin: null
 };
 
 export const sliceName = "auth";

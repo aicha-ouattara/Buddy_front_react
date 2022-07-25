@@ -30,6 +30,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
       state.token = null;
       state.idUser = null;
+      state.myLogin = null;
     },
   },
   extraReducers: (builder) => {
@@ -39,6 +40,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.idUser = jwt_decode(state.token).id;
+      state.myLogin = jwt_decode(state.token).username;
     });
   },
 });
