@@ -1,32 +1,52 @@
-import React from 'react';
-import { SafeAreaView, TouchableOpacity, View, FlatList, StyleSheet, Text, ImageBackground } from 'react-native';
+import React from "react";
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  ImageBackground,
+} from "react-native";
 
 function ContainerCityCarrousel({ experiences, navigation }) {
-
   //group experiences by locations
   function groupBy(objectArray, property) {
-    return Object.entries(objectArray.reduce(function (acc, obj) {
-      let key = obj[property]
-      if (!acc[key]) {
-        acc[key] = []
-      }
-      acc[key].push(obj)
-      return acc
-    }, {}))
+    return Object.entries(
+      objectArray.reduce(function (acc, obj) {
+        let key = obj[property];
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+      }, {})
+    );
   }
-  const locationsTemporary = groupBy(experiences, 'location')
+  const locationsTemporary = groupBy(experiences, "location");
+  console.log(locationsTemporary);
   const locations = locationsTemporary.sort(function (a, b) {
     return b[1].length - a[1].length;
   });
 
+  // console.log(locations);
+
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item} onPress={() => {
-      navigation.navigate('Search', {
-        screen: 'Protected',
-        location: item[0],
-      })
-    }}>
-      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 20 }} source={require('../../assets/exemple_vill.jpeg')} resizeMode="cover" >
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => {
+        navigation.navigate("Search", {
+          screen: "Protected",
+          location: item[0],
+        });
+      }}
+    >
+      <ImageBackground
+        style={styles.image}
+        imageStyle={{ borderRadius: 20 }}
+        source={require("../../assets/exemple_vill.jpeg")}
+        resizeMode="cover"
+      >
         <View style={styles.blocText}>
           <View style={styles.text}>
             <Text style={styles.title}>{item[0]}</Text>
@@ -36,7 +56,6 @@ function ContainerCityCarrousel({ experiences, navigation }) {
       </ImageBackground>
     </TouchableOpacity>
   );
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,9 +67,9 @@ function ContainerCityCarrousel({ experiences, navigation }) {
           return index.toString();
         }}
       />
-    </SafeAreaView>)
+    </SafeAreaView>
+  );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -66,9 +85,9 @@ const styles = StyleSheet.create({
   },
   blocText: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
     flex: 1,
@@ -77,10 +96,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   text: {
-    backgroundColor: '#fde2e1',
+    backgroundColor: "#fde2e1",
     padding: 10,
-    textAlign: 'center'
-  }
+    textAlign: "center",
+  },
 });
 
 export default ContainerCityCarrousel;
