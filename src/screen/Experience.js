@@ -30,7 +30,7 @@ import moment from "moment";
 
 const Experience = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const { token, idUser } = useSelector(authState);
+  const { token, idUser, myLogin } = useSelector(authState);
   const [experience, setExperience] = useState([]);
   const [liked, setLiked] = useState(false);
   const [superLiked, setSuperLiked] = useState(false);
@@ -45,6 +45,8 @@ const Experience = ({ route, navigation }) => {
   const [openTitle, setOpenTitle] = useState(false);
   const [openContent, setOpenContent] = useState(false);
   const [openLieu, setOpenLieu] = useState(false);
+  const[user, setUser] = useState(0);
+
 
   const fetchExperience = () => {
     genericFetchWithToken(
@@ -62,6 +64,16 @@ const Experience = ({ route, navigation }) => {
     setIsLoading(true);
     fetchExperience();
   }, []);
+
+  const fetchUser = () => {
+    genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
+      .then((json) => json.json())
+      .then((data) => setUser(data))
+      .catch((error) => console.error(error))
+
+  };
+
+
 
   useEffect(() => {
     experience &&
@@ -184,13 +196,22 @@ const Experience = ({ route, navigation }) => {
           }, 2000);
         }
 
+
         if (content.length != 0) {
-          const bodyInterest = JSON.stringify({
-            plan: true,
-            experience: `api/experiences/${experience.id}`,
-            title: experience.title,
-            message: content,
-          });
+          fetchUser()
+          if(user != null && user != undefined ){
+            const bodyInterest = JSON.stringify({
+              plan: true,
+              experience: `api/experiences/${experience.id}`,
+              title: experience.title,
+              message: content,
+              login: '2',
+              telephone: '00000' 
+  
+            });
+         
+        
+        
           if (liked === false) {
             genericFetchWithTokenBody(
               `${API_URL}/interests`,
@@ -231,6 +252,7 @@ const Experience = ({ route, navigation }) => {
           setSuperLiked(true);
           setFormOpen(false);
         }
+      }
       } else {
         console.log("Cannot like your own experiences");
         setModalVisible(true);

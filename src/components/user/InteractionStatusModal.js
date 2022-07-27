@@ -12,25 +12,19 @@ const InteractionStatusModal = (interest, experience) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [accepted, setAccepted] = useState();
-  const { token, idUser } = useSelector(authState);
-  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(0);
+  const { token, idUser } = useSelector(authState);
+
 
   const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
       .then((json) => json.json())
       .then((data) => setUser(data))
       .catch((error) => console.error(error))
-      .finally(() => setIsLoading(false));
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetchUser();
-  });
 
   const handleSubmitButton = () => {
-    
     const body = JSON.stringify({
       "accepted": accepted
     })
@@ -38,9 +32,10 @@ const InteractionStatusModal = (interest, experience) => {
     .then(json => { console.log(json); } ) 
     .catch((error) => {console.error("error" , error)})
     fetchUser();
-    setOpenPhone(false)
-
 };
+
+
+
 
 return (
   <View>
@@ -80,12 +75,12 @@ return (
               </TouchableOpacity>
               <View style={styles.text}>
           <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
-               Change la durée de ton expérience !
+               Accepte / Refuse une connexion !
           </Text>
  
-  { experience && ( 
-          <Text key={experience.id}>
-              <Text key={experience.title}></Text>
+  { interest && ( 
+          <Text key={interest.id}>
+            
 
             
 
@@ -176,6 +171,7 @@ buttonStyle: {
   borderRadius: 30,
   justifyContent: "center",
   width: 100,
+  
 },
 
 input: {
