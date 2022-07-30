@@ -32,13 +32,21 @@ function UserScreen({ navigation, route }) {
       .catch((error) => console.error(error))
       .finally(() => setIsLoading(false));
 
-      setIsMe(route.params.id === idUser);
+    setIsMe(route.params.id === idUser);
   };
 
   useEffect(() => {
     setIsLoading(true);
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoading(true);
+      fetchUser();
+    });
+    return unsubscribe;
+  }, [navigation, token]);
 
   useEffect(() => {
     setIsLoading(true);

@@ -45,8 +45,7 @@ const Experience = ({ route, navigation }) => {
   const [openTitle, setOpenTitle] = useState(false);
   const [openContent, setOpenContent] = useState(false);
   const [openLieu, setOpenLieu] = useState(false);
-  const[user, setUser] = useState(0);
-
+  const [user, setUser] = useState(0);
 
   const fetchExperience = () => {
     genericFetchWithToken(
@@ -65,15 +64,20 @@ const Experience = ({ route, navigation }) => {
     fetchExperience();
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoading(true);
+      fetchExperience();
+    });
+    return unsubscribe;
+  }, [navigation, token]);
+
   const fetchUser = () => {
     genericFetchWithToken(`${API_URL}/users/${idUser}`, "GET", token)
       .then((json) => json.json())
       .then((data) => setUser(data))
-      .catch((error) => console.error(error))
-
+      .catch((error) => console.error(error));
   };
-
-
 
   useEffect(() => {
     experience &&
@@ -196,63 +200,59 @@ const Experience = ({ route, navigation }) => {
           }, 2000);
         }
 
-
         if (content.length != 0) {
-          fetchUser()
-          if(user != null && user != undefined ){
+          fetchUser();
+          if (user != null && user != undefined) {
             const bodyInterest = JSON.stringify({
               plan: true,
               experience: `api/experiences/${experience.id}`,
               title: experience.title,
               message: content,
-              login: '2',
-              telephone: '00000' 
-  
+              login: "2",
+              telephone: "00000",
             });
-         
-        
-        
-          if (liked === false) {
-            genericFetchWithTokenBody(
-              `${API_URL}/interests`,
-              "POST",
-              token,
-              bodyInterest
-            )
-              .then((json) => json.json())
-              .then((data) => {
-                setInterestId(data.id),
-                  console.log(
-                    `superliked ${experience.id} - interest ${data.id} created - by user ${idUser}`
-                  );
-              })
-              .catch((error) => console.error(error));
+
+            if (liked === false) {
+              genericFetchWithTokenBody(
+                `${API_URL}/interests`,
+                "POST",
+                token,
+                bodyInterest
+              )
+                .then((json) => json.json())
+                .then((data) => {
+                  setInterestId(data.id),
+                    console.log(
+                      `superliked ${experience.id} - interest ${data.id} created - by user ${idUser}`
+                    );
+                })
+                .catch((error) => console.error(error));
+            }
+            if (liked === true) {
+              PatchWithTokenBody(
+                `${API_URL}/interests/${interestId}`,
+                "PATCH",
+                token,
+                bodyInterest
+              )
+                .then((json) => json.json())
+                .then((data) => {
+                  setInterestId(data.id),
+                    console.log(
+                      `superliked ${experience.id} - interest ${data.id} created - by user ${idUser}`
+                    );
+                })
+                .catch((error) => console.error(error));
+            }
+            setModalVisible(true);
+            setModalType("superliked");
+            setTimeout(() => {
+              setModalVisible(false);
+            }, 2000);
+            setSuperLiked(true);
+            setFormOpen(false);
           }
-          if (liked === true) {
-            PatchWithTokenBody(
-              `${API_URL}/interests/${interestId}`,
-              "PATCH",
-              token,
-              bodyInterest
-            )
-              .then((json) => json.json())
-              .then((data) => {
-                setInterestId(data.id),
-                  console.log(
-                    `superliked ${experience.id} - interest ${data.id} created - by user ${idUser}`
-                  );
-              })
-              .catch((error) => console.error(error));
-          }
-          setModalVisible(true);
-          setModalType("superliked");
-          setTimeout(() => {
-            setModalVisible(false);
-          }, 2000);
-          setSuperLiked(true);
-          setFormOpen(false);
         }
-      }
       } else {
         console.log("Cannot like your own experiences");
         setModalVisible(true);
@@ -274,42 +274,64 @@ const Experience = ({ route, navigation }) => {
   }, [experience]);
 
   const handleSubmitButtonTitle = () => {
-    
     const body = JSON.stringify({
-      "title": title
-    })
-    PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, body) 
-    .then(json => { console.log(json); } ) 
-    .catch((error) => {console.error("error" , error)})
+      title: title,
+    });
+    PatchWithTokenBody(
+      `${API_URL}/experiences/${experience.id}`,
+      "PATCH",
+      token,
+      body
+    )
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.error("error", error);
+      });
     fetchExperience();
-    setOpenTitle(false)
-};
+    setOpenTitle(false);
+  };
 
-const handleSubmitButtonContent = () => {
-    
-  const body = JSON.stringify({
-    "content": content
-  })
-  PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, body) 
-  .then(json => { console.log(json); } ) 
-  .catch((error) => {console.error("error" , error)})
-  fetchExperience();
-  setOpenContent(false)
-};
+  const handleSubmitButtonContent = () => {
+    const body = JSON.stringify({
+      content: content,
+    });
+    PatchWithTokenBody(
+      `${API_URL}/experiences/${experience.id}`,
+      "PATCH",
+      token,
+      body
+    )
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.error("error", error);
+      });
+    fetchExperience();
+    setOpenContent(false);
+  };
 
-const handleSubmitButtonLieu = () => {
-    
-  const body = JSON.stringify({
-    "location": location
-  })
-  PatchWithTokenBody(`${API_URL}/experiences/${experience.id}`, 'PATCH', token, body) 
-  .then(json => { console.log(json); } ) 
-  .catch((error) => {console.error("error" , error)})
-  fetchExperience();
-  setOpenLieu(false)
-};
-
-
+  const handleSubmitButtonLieu = () => {
+    const body = JSON.stringify({
+      location: location,
+    });
+    PatchWithTokenBody(
+      `${API_URL}/experiences/${experience.id}`,
+      "PATCH",
+      token,
+      body
+    )
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.error("error", error);
+      });
+    fetchExperience();
+    setOpenLieu(false);
+  };
 
   // console.log("image", experience.image);
   const encodedBase64 = experience?.image;
@@ -342,20 +364,27 @@ const handleSubmitButtonLieu = () => {
                   flexDirection: "row",
                 }}
               >
-              
-                  <Text style={styles.title}>{experience.title}</Text>
-                  {experience &&
-                  experience?.user?.id === idUser &&
+                <Text style={styles.title}>{experience.title}</Text>
+                {experience && experience?.user?.id === idUser && (
                   <View>
-                  <TouchableOpacity onPress={ () => setOpenTitle(true)}>
-                  <Image style={{ height: 10, width: 10 }}source={require("../../assets/edit.png")} /> 
-                </TouchableOpacity> 
-                      {openTitle && <TitleModal handleSubmitButtonTitle = {handleSubmitButtonTitle} openTitle= {openTitle} setOpenTitle= {setOpenTitle} title={title} setTitle={setTitle} experience={experience}/>}
+                    <TouchableOpacity onPress={() => setOpenTitle(true)}>
+                      <Image
+                        style={{ height: 10, width: 10 }}
+                        source={require("../../assets/edit.png")}
+                      />
+                    </TouchableOpacity>
+                    {openTitle && (
+                      <TitleModal
+                        handleSubmitButtonTitle={handleSubmitButtonTitle}
+                        openTitle={openTitle}
+                        setOpenTitle={setOpenTitle}
+                        title={title}
+                        setTitle={setTitle}
+                        experience={experience}
+                      />
+                    )}
                   </View>
-                  }
-               
-            
-          
+                )}
 
                 <View style={styles.blocActions}>
                   <TouchableOpacity
@@ -371,19 +400,29 @@ const handleSubmitButtonLieu = () => {
                 </View>
               </View>
               <View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text>{experience.location}</Text>
+                  {experience && experience?.user?.id === idUser && (
+                    <View>
+                      <TouchableOpacity onPress={() => setOpenLieu(true)}>
+                        <Image
+                          style={{ height: 10, width: 10 }}
+                          source={require("../../assets/edit.png")}
+                        />
+                      </TouchableOpacity>
 
-              <View style={{flexDirection:'row'}}>
-                      <Text>{experience.location}</Text>
-                      {experience &&
-                      experience?.user?.id === idUser &&
-                      <View>
-                      <TouchableOpacity onPress={ () => setOpenLieu(true)}>
-                          <Image style={{ height: 10, width: 10 }} source={require("../../assets/edit.png")} /> 
-                      </TouchableOpacity> 
-
-                    {openLieu && <LieuModal handleSubmitButtonLieu = {handleSubmitButtonLieu} openLieu= {openLieu} setOpenLieu= {setOpenLieu} location={location} setLocation={setLocation} experience={experience}/>}
-            </View>
-                      }
+                      {openLieu && (
+                        <LieuModal
+                          handleSubmitButtonLieu={handleSubmitButtonLieu}
+                          openLieu={openLieu}
+                          setOpenLieu={setOpenLieu}
+                          location={location}
+                          setLocation={setLocation}
+                          experience={experience}
+                        />
+                      )}
+                    </View>
+                  )}
                 </View>
 
                 <Text>
@@ -416,41 +455,60 @@ const handleSubmitButtonLieu = () => {
               </TouchableOpacity>
               <Text>{experience.reviews.length} commentaire.s</Text>
 
-            <View style={{flexDirection:'row'}}>
-              <Text>durée : {experience.duration} </Text>
-              {editableModal && <DureeModal experience={experience} fetchExperience={fetchExperience}/>}
-            </View>
+              <View style={{ flexDirection: "row" }}>
+                <Text>durée : {experience.duration} </Text>
+                {editableModal && (
+                  <DureeModal
+                    experience={experience}
+                    fetchExperience={fetchExperience}
+                  />
+                )}
+              </View>
 
-            <View style={{flexDirection:'row'}}>
+              <View style={{ flexDirection: "row" }}>
                 <Text>{experience.spots} place(s)</Text>
-                {editableModal && <SpotsModal experience={experience}  fetchExperience={fetchExperience}/>}
-            </View>
-             
+                {editableModal && (
+                  <SpotsModal
+                    experience={experience}
+                    fetchExperience={fetchExperience}
+                  />
+                )}
+              </View>
             </View>
             <Divider />
             <View style={styles.views}>
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    textAlign: "justify",
+                    paddingBottom: 10,
+                  }}
+                >
+                  {experience.content}
+                </Text>
 
-              <View style={{flexDirection:'row'}}>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      textAlign: "justify",
-                      paddingBottom: 10,
-                    }}
-                  >
-                    {experience.content}
-                  </Text>
-
-                    {experience &&
-                      experience?.user?.id === idUser &&
+                {experience && experience?.user?.id === idUser && (
                   <View>
-                    <TouchableOpacity onPress={ () => setOpenContent(true)}>
-                        <Image style={{ height: 10, width: 10 }} source={require("../../assets/edit.png")} /> 
-                    </TouchableOpacity> 
+                    <TouchableOpacity onPress={() => setOpenContent(true)}>
+                      <Image
+                        style={{ height: 10, width: 10 }}
+                        source={require("../../assets/edit.png")}
+                      />
+                    </TouchableOpacity>
 
-                    {openContent && <ContentModal handleSubmitButtonContent = {handleSubmitButtonContent} openContent= {openContent} setOpenContent= {setOpenContent} content={content} setContent={setContent} experience={experience}/>}
+                    {openContent && (
+                      <ContentModal
+                        handleSubmitButtonContent={handleSubmitButtonContent}
+                        openContent={openContent}
+                        setOpenContent={setOpenContent}
+                        content={content}
+                        setContent={setContent}
+                        experience={experience}
+                      />
+                    )}
                   </View>
-                      }
+                )}
               </View>
               <Divider />
             </View>

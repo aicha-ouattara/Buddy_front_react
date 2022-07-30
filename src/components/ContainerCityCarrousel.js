@@ -24,12 +24,9 @@ function ContainerCityCarrousel({ experiences, navigation }) {
     );
   }
   const locationsTemporary = groupBy(experiences, "location");
-  console.log(locationsTemporary);
   const locations = locationsTemporary.sort(function (a, b) {
     return b[1].length - a[1].length;
   });
-
-  // console.log(locations);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity

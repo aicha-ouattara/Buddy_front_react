@@ -1,10 +1,11 @@
 import * as React from "react";
+import { LogBox } from "react-native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { persistor, store } from "./src/store/index";
 import Nav from "./src/navigation/nav";
-
+LogBox.ignoreAllLogs(true);
 const theme = {
   ...DefaultTheme,
   roundness: 2,
